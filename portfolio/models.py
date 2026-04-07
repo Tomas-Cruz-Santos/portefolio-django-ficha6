@@ -137,11 +137,11 @@ class TFC(models.Model):
         (5, "Perfeito"),
     ]
 
-   titulo = models.CharField(max_length=300)
+    titulo = models.CharField(max_length=300)
     autor = models.CharField(max_length=200, blank=True)
     curso = models.CharField(max_length=200, blank=True)
     resumo = models.TextField(blank=True)
-    rating = models.IntegerField(choices=RATING_CHOICES, null=True, blank=True)
+    rating = models.IntegerField(choices=CLASSIFICACAO_CHOICES, null=True, blank=True)
     orientador = models.CharField(max_length=200, blank=True)
     email = models.EmailField(blank=True)
     palavras_chave = models.CharField(max_length=300, blank=True)
