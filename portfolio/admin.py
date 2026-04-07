@@ -11,18 +11,17 @@ from .models import (
 class LicenciaturaAdmin(admin.ModelAdmin):
     list_display = ("nome", "regime", "ano_inicio", "ano_fim", "ects", "media")
     search_fields = ("nome", "regime")
-    list_filter = ("ano_inicio",)
 
 
 @admin.register(Docente)
 class DocenteAdmin(admin.ModelAdmin):
-    list_display = ("nome", "area_especializacao", "linkedin")
+    list_display = ("nome", "area_especializacao", "linkedin", "foto")
     search_fields = ("nome", "area_especializacao")
 
 
 @admin.register(UnidadeCurricular)
 class UnidadeCurricularAdmin(admin.ModelAdmin):
-    list_display = ("nome", "ano_curricular", "semestre", "licenciatura")
+    list_display = ("nome", "ano_curricular", "semestre", "dificuldade", "avaliacao", "licenciatura")
     search_fields = ("nome",)
     list_filter = ("ano_curricular", "semestre", "licenciatura")
     filter_horizontal = ("docentes",)
@@ -37,22 +36,15 @@ class TecnologiaAdmin(admin.ModelAdmin):
 
 @admin.register(Projeto)
 class ProjetoAdmin(admin.ModelAdmin):
-    list_display = ("nome", "uc", "data_inicio", "data_fim", "link_github")
+    list_display = ("nome", "descricao", "data_inicio", "data_fim", "link_github", "uc")
     search_fields = ("nome", "descricao")
     list_filter = ("uc",)
     filter_horizontal = ("tecnologias",)
 
 
-@admin.register(TFC)
-class TFCAdmin(admin.ModelAdmin):
-    list_display = ("titulo", "autor", "ano", "classificacao")
-    search_fields = ("titulo", "autor")
-    list_filter = ("ano",)
-
-
 @admin.register(Competencia)
 class CompetenciaAdmin(admin.ModelAdmin):
-    list_display = ("nome", "tipo", "nivel")
+    list_display = ("nome", "tipo", "nivel", "descricao")
     search_fields = ("nome", "descricao")
     list_filter = ("tipo", "nivel")
     filter_horizontal = ("tecnologias",)
@@ -60,13 +52,20 @@ class CompetenciaAdmin(admin.ModelAdmin):
 
 @admin.register(Formacao)
 class FormacaoAdmin(admin.ModelAdmin):
-    list_display = ("nome", "instituicao", "data_inicio", "data_fim")
+    list_display = ("nome", "instituicao", "carga_horaria", "data_inicio", "data_fim", "certificado")
     search_fields = ("nome", "instituicao")
     filter_horizontal = ("tecnologias",)
 
 
+@admin.register(TFC)
+class TFCAdmin(admin.ModelAdmin):
+    list_display = ("titulo", "autor", "ano", "classificacao", "relatorio", "licenciatura")
+    search_fields = ("titulo", "autor")
+    list_filter = ("ano", "licenciatura")
+
+
 @admin.register(MakingOf)
 class MakingOfAdmin(admin.ModelAdmin):
-    list_display = ("entidade", "data")
-    search_fields = ("descricao", "erros", "correcoes")
-    list_filter = ("data",)
+    list_display = ("entidade", "data", "descricao", "erros", "correcoes", "fotos")
+    search_fields = ("entidade", "descricao", "erros", "correcoes")
+    list_filter = ("entidade", "data")
