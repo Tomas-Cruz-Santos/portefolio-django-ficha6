@@ -137,18 +137,29 @@ class TFC(models.Model):
         (5, "Perfeito"),
     ]
 
-    titulo = models.CharField(max_length=300)
+   titulo = models.CharField(max_length=300)
     autor = models.CharField(max_length=200, blank=True)
-    ano = models.IntegerField()
-    classificacao = models.IntegerField(choices=CLASSIFICACAO_CHOICES, null=True, blank=True)
-    relatorio = models.URLField(blank=True)
+    curso = models.CharField(max_length=200, blank=True)
+    resumo = models.TextField(blank=True)
+    rating = models.IntegerField(choices=RATING_CHOICES, null=True, blank=True)
+    orientador = models.CharField(max_length=200, blank=True)
+    email = models.EmailField(blank=True)
+    palavras_chave = models.CharField(max_length=300, blank=True)
+    areas = models.CharField(max_length=300, blank=True)
+    imagem = models.ImageField(upload_to="tfcs/", blank=True, null=True)
 
-    licenciatura = models.ForeignKey(
-        Licenciatura, on_delete=models.CASCADE, related_name="tfcs"
+    tecnologias = models.ManyToManyField(
+        Tecnologia, blank=True, related_name="tfcs"
     )
 
-    def __str__(self):
-        return f"{self.titulo} ({self.ano})"
+    licenciatura = models.ForeignKey(
+        Licenciatura,
+        on_delete=models.CASCADE,
+        related_name="tfcs"
+    )
+
+    def _str_(self):
+        return self.titulo
 
     class Meta:
         verbose_name_plural = "TFCs"
