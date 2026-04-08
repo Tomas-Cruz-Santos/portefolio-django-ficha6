@@ -144,8 +144,8 @@ class TFC(models.Model):
     rating = models.IntegerField(choices=CLASSIFICACAO_CHOICES, null=True, blank=True)
     orientador = models.CharField(max_length=200, blank=True)
     email = models.EmailField(blank=True)
-    palavras_chave = models.CharField(max_length=300, blank=True)
-    areas = models.CharField(max_length=300, blank=True)
+    palavras_chave = models.CharField(max_length=300, null=True, blank=True)
+    areas = models.CharField(max_length=300, null=True, blank=True)
     imagem = models.ImageField(upload_to="tfcs/", blank=True, null=True)
 
     tecnologias = models.ManyToManyField(
@@ -158,7 +158,7 @@ class TFC(models.Model):
         related_name="tfcs"
     )
 
-    def _str_(self):
+    def __str__(self):
         return self.titulo
 
     class Meta:

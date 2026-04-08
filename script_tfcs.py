@@ -1,51 +1,54 @@
-import json
-import os
-from django.conf import settings
-from django.core.management.base import BaseCommand
-
 import os
 import django
+import json
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 django.setup()
 
-from portfolio.models import TFC
+from django.conf import settings
+from portfolio.models import TFC, Licenciatura
 
+path = os.path.join(settings.BASE_DIR, 'data', 'tfcs_2025.json')
 
-class Command(BaseCommand):
-    help = 'Carrega TFCs do JSON'
+if not os.path.exists(path):
+    print("Ficheiro JSON não encontrado!")
+    exit()
 
-    def handle(self, *args, **kwargs):
-        path = os.path.join(settings.BASE_DIR, 'data', 'tfcs_2025.json')
+with open(path, encoding='utf-8') as f:
+    dados = json.load(f)
 
-        if not os.path.exists(path):
-            self.stdout.write(self.style.ERROR('Ficheiro JSON não encontrado!'))
-            return
+licenciatura, _ = Licenciatura.objects.get_or_create(
+    nome="Engenharia Informática",
+    defaults={"ano_inicio": 2022}
+)
 
-        with open(path, encoding='utf-8') as f:
-            dados = json.load(f)
+count = 0
 
-        count = 0
+for item in dados:
+    titulo = item.get('titulo')
 
-        for item in dados:
-            titulo = item.get('titulo')
+    if not titulo:
+        continue
 
-            if not titulo:
-                continue
+    tfc, created = TFC.objects.get_or_create(
+        titulo=titulo,
+        defaults={
+            'autor': item.get('autor'),
+            'curso': item.get('curso'),
+            'resumo': item.get('resumo'),
+            'rating': item.get('rating'),
+            'orientador': item.get('orientador'),
+            'email': item.get('email'),
+            'palavras_chave': item.get('palavras_chave'),
+            'areas': item.get('areas'),
+            'licenciatura': licenciatura
+        }
+    )
 
-            tfc, created = TFC.objects.get_or_create(
-                titulo=titulo,
-                defaults={
-                    'autor': item.get('autor'),
-                    'ano': item.get('ano'),
-                    'descricao': item.get('descricao', ''),
-                }
-            )
+    if created:
+        count += 1
+        print(f"Criado: {titulo}")
+    else:
+        print(f"Já existe: {titulo}")
 
-            if created:
-                count += 1
-                self.stdout.write(self.style.SUCCESS(f"Criado: {titulo}"))
-            else:
-                self.stdout.write(self.style.WARNING(f"Já existe: {titulo}"))
-
-        self.stdout.write(self.style.SUCCESS(f'\nTotal de novos TFCs: {count}'))
+print(f"\nTotal de novos TFCs: {count}")
