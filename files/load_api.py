@@ -15,7 +15,7 @@ courses = [
   6634, #lcid
 ]
 
-course = 12      # LIG (informatica de gestao)
+course = 12      # informatica de gestao
 
 for language in ['PT', 'ENG']:
 

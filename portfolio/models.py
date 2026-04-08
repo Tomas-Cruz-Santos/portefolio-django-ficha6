@@ -66,7 +66,7 @@ class Tecnologia(models.Model):
     categoria = models.CharField(max_length=100, blank=True)
     logo = models.ImageField(upload_to="tecnologias/", blank=True, null=True)
     url = models.URLField(blank=True)
-    preferencia = models.IntegerField(null=True, blank=True)  # ex: 1 a 5
+    preferencia = models.IntegerField(null=True, blank=True)  
 
     def __str__(self):
         return self.nome
