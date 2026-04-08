@@ -46,7 +46,14 @@ class UnidadeCurricular(models.Model):
         Docente, blank=True, related_name="ucs"
     )
 
-    def __str__(self):
+    objetivos = models.TextField(blank=True)
+    programa = models.TextField(blank=True)
+    metodologia = models.TextField(blank=True)
+    bibliografia = models.TextField(blank=True)
+    natureza = models.CharField(max_length=50, blank=True)
+    descricao = models.TextField(blank=True)
+
+    def __str__(self):  
         return self.nome
 
     class Meta:
