@@ -2,6 +2,13 @@ import json
 import os
 from django.conf import settings
 from django.core.management.base import BaseCommand
+
+import os
+import django
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
+django.setup()
+
 from portfolio.models import TFC
 
 
@@ -11,7 +18,6 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         path = os.path.join(settings.BASE_DIR, 'data', 'tfcs_2025.json')
 
-        # Verificar se o ficheiro existe
         if not os.path.exists(path):
             self.stdout.write(self.style.ERROR('Ficheiro JSON não encontrado!'))
             return
@@ -24,7 +30,6 @@ class Command(BaseCommand):
         for item in dados:
             titulo = item.get('titulo')
 
-            # Ignorar registos sem título (evita lixo na BD)
             if not titulo:
                 continue
 
