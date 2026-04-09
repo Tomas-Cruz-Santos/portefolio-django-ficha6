@@ -46,7 +46,7 @@ class ProjetoAdmin(admin.ModelAdmin):
 
 @admin.register(TFC)
 class TFCAdmin(admin.ModelAdmin):
-    list_display = ("titulo", "autor", "curso", "orientador", "rating")
+    list_display = ("titulo", "autor", "curso", "rating")
     search_fields = ("titulo", "autor", "orientador", "palavras_chave", "areas")
     list_filter = ("rating", "licenciatura")
     filter_horizontal = ("tecnologias",)

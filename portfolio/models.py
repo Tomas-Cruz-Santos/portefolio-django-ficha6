@@ -149,7 +149,7 @@ class TFC(models.Model):
     curso = models.CharField(max_length=200, blank=True)
     resumo = models.TextField(blank=True)
     rating = models.IntegerField(choices=CLASSIFICACAO_CHOICES, null=True, blank=True)
-    orientador = models.CharField(max_length=200, blank=True)
+    orientador =  models.ManyToManyField(Docente, blank=True)
     email = models.EmailField(blank=True)
     palavras_chave = models.CharField(max_length=300, null=True, blank=True)
     areas = models.CharField(max_length=300, null=True, blank=True)

@@ -6,7 +6,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 django.setup()
 
 from django.conf import settings
-from portfolio.models import TFC, Licenciatura
+from portfolio.models import TFC, Licenciatura, Docente
 
 path = os.path.join(settings.BASE_DIR, 'data', 'tfcs_2025.json')
 
@@ -37,13 +37,24 @@ for item in dados:
             'curso': item.get('curso'),
             'resumo': item.get('resumo'),
             'rating': item.get('rating'),
-            'orientador': item.get('orientador'),
             'email': item.get('email'),
             'palavras_chave': item.get('palavras_chave'),
             'areas': item.get('areas'),
             'licenciatura': licenciatura
         }
     )
+
+    orientador_str = item.get('orientador', '')
+
+    nomes = [n.strip() for n in orientador_str.split(';') if n.strip()]    # orientador como prof (bd)
+
+    docentes_objs = []
+
+    for nome in nomes:
+        docente, _ = Docente.objects.get_or_create(nome=nome)
+        docentes_objs.append(docente)
+
+    tfc.orientador.set(docentes_objs)
 
     if created:
         count += 1
