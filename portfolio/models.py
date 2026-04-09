@@ -8,7 +8,7 @@ class Licenciatura(models.Model):
     ano_fim = models.IntegerField(null=True, blank=True)
     ects = models.IntegerField(null=True, blank=True)
     descricao = models.TextField(blank=True)
-    
+
     def __str__(self):
         return self.nome
 
@@ -32,7 +32,7 @@ class Docente(models.Model):
 
 class UnidadeCurricular(models.Model):
     nome = models.CharField(max_length=200)
-    descricao = models.TextField(blank=True)
+    apresentacao = models.TextField(blank=True)
     semestre = models.IntegerField()
     ano_curricular = models.IntegerField()
     ects = models.IntegerField(null=True, blank=True)
