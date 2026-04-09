@@ -82,7 +82,7 @@ class Projeto(models.Model):
     link_github = models.URLField(blank=True)
     descricao = models.TextField(blank=True)
     foto = models.ImageField(upload_to="projetos/", blank=True, null=True)
-    video = models.URLField(blank=True)
+    video = models.URLField(blank=True, null=True)
 
     uc = models.ForeignKey(
         UnidadeCurricular, on_delete=models.CASCADE, related_name="projetos"
