@@ -32,11 +32,12 @@ class Docente(models.Model):
 
 class UnidadeCurricular(models.Model):
     nome = models.CharField(max_length=200)
-    avaliacao = models.TextField(blank=True)
-    dificuldade = models.IntegerField(null=True, blank=True)
+    descricao = models.TextField(blank=True)
     semestre = models.IntegerField()
     ano_curricular = models.IntegerField()
-    foto = models.ImageField(upload_to="ucs/", blank=True, null=True)
+    ects = models.IntegerField(null=True, blank=True)
+    cod_curso = models.IntegerField(null=True, blank=True)
+    cod_uc = models.IntegerField(null=True, blank=True)
 
     licenciatura = models.ForeignKey(
         Licenciatura, on_delete=models.CASCADE, related_name="ucs"
@@ -51,14 +52,13 @@ class UnidadeCurricular(models.Model):
     metodologia = models.TextField(blank=True)
     bibliografia = models.TextField(blank=True)
     natureza = models.CharField(max_length=50, blank=True)
-    descricao = models.TextField(blank=True)
 
     def __str__(self):  
         return self.nome
 
     class Meta:
         verbose_name_plural = "Unidades Curriculares"
-
+        ordering = ["ano_curricular", "semestre", "nome"]
 
 class Tecnologia(models.Model):
     nome = models.CharField(max_length=100)

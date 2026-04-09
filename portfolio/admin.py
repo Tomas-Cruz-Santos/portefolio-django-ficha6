@@ -21,8 +21,8 @@ class DocenteAdmin(admin.ModelAdmin):
 
 @admin.register(UnidadeCurricular)
 class UnidadeCurricularAdmin(admin.ModelAdmin):
-    list_display = ("nome", "licenciatura", "ano_curricular", "semestre", "dificuldade", "natureza")
-    search_fields = ("nome",)
+    list_display = ("nome", "licenciatura", "ano_curricular", "semestre", "natureza", "cod_uc")
+    search_fields = ("nome", "cod_uc")
     list_filter = ("licenciatura", "ano_curricular", "semestre", "natureza")
     filter_horizontal = ("docentes",)
     autocomplete_fields = ("licenciatura",)
