@@ -7,8 +7,8 @@ class Licenciatura(models.Model):
     ano_inicio = models.IntegerField()
     ano_fim = models.IntegerField(null=True, blank=True)
     ects = models.IntegerField(null=True, blank=True)
-    media = models.FloatField(null=True, blank=True)
-
+    descricao = models.TextField(blank=True)
+    
     def __str__(self):
         return self.nome
 

@@ -9,7 +9,7 @@ from .models import (
 
 @admin.register(Licenciatura)
 class LicenciaturaAdmin(admin.ModelAdmin):
-    list_display = ("nome", "regime", "ano_inicio", "ano_fim", "ects", "media")
+    list_display = ("nome", "regime", "ano_inicio", "ano_fim", "ects")
     search_fields = ("nome", "regime")
 
 
