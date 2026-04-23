@@ -1,0 +1,23 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<h2>{{ docente.nome }}</h2>
+
+<p>{{ docente.area_especializacao }}</p>
+
+{% if docente.linkedin %}
+    <a href="{{ docente.linkedin }}">LinkedIn</a>
+{% endif %}
+
+{% if docente.foto %}
+    <img src="{{ docente.foto.url }}" width="200">
+{% endif %}
+
+<h3>UCs</h3>
+<ul>
+    {% for uc in docente.ucs.all %}
+        <li>{{ uc.nome }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

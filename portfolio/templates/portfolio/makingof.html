@@ -1,0 +1,15 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<h2>Making Of</h2>
+
+<ul>
+    {% for m in makingofs %}
+        <li>
+            <a href="{% url 'makingof_detail' m.id %}">
+                {{ m.entidade }} - {{ m.data }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

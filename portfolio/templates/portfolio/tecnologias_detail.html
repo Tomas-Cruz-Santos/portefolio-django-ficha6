@@ -1,0 +1,23 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<h2>{{ tecnologia.nome }}</h2>
+
+<p><strong>Tipo:</strong> {{ tecnologia.tipo }}</p>
+<p><strong>Categoria:</strong> {{ tecnologia.categoria }}</p>
+
+{% if tecnologia.logo %}
+    <img src="{{ tecnologia.logo.url }}" width="150">
+{% endif %}
+
+{% if tecnologia.url %}
+    <a href="{{ tecnologia.url }}">Website</a>
+{% endif %}
+
+<h3>Projetos</h3>
+<ul>
+    {% for p in tecnologia.projetos.all %}
+        <li>{{ p.nome }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

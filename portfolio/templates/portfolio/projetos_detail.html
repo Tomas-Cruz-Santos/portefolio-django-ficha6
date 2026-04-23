@@ -1,0 +1,23 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<h2>{{ projeto.nome }}</h2>
+
+<p>{{ projeto.descricao }}</p>
+
+{% if projeto.link_github %}
+    <a href="{{ projeto.link_github }}">GitHub</a>
+{% endif %}
+
+{% if projeto.foto %}
+    <img src="{{ projeto.foto.url }}" width="300">
+{% endif %}
+
+<h3>Tecnologias</h3>
+<ul>
+    {% for t in projeto.tecnologias.all %}
+        <li>{{ t.nome }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

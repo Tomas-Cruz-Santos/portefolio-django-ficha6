@@ -1,0 +1,15 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<h2>Unidades Curriculares</h2>
+
+<ul>
+    {% for uc in ucs %}
+        <li>
+            <a href="{% url 'uc_detail' uc.id %}">
+                {{ uc.nome }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

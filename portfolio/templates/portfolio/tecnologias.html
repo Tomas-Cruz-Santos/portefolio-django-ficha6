@@ -1,0 +1,15 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<h2>Tecnologias</h2>
+
+<ul>
+    {% for t in tecnologias %}
+        <li>
+            <a href="{% url 'tecnologias_detail' t.id %}">
+                {{ t.nome }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

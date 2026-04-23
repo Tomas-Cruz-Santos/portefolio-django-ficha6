@@ -1,0 +1,19 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<h2>{{ formacao.nome }}</h2>
+
+<p><strong>Instituição:</strong> {{ formacao.instituicao }}</p>
+<p><strong>Carga horária:</strong> {{ formacao.carga_horaria }}</p>
+
+{% if formacao.certificado %}
+    <a href="{{ formacao.certificado.url }}">Ver certificado</a>
+{% endif %}
+
+<h3>Tecnologias</h3>
+<ul>
+    {% for t in formacao.tecnologias.all %}
+        <li>{{ t.nome }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

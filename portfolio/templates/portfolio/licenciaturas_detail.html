@@ -1,0 +1,19 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<h2>{{ licenciatura.nome }}</h2>
+
+<p><strong>Regime:</strong> {{ licenciatura.regime }}</p>
+<p><strong>Anos:</strong> {{ licenciatura.ano_inicio }} - {{ licenciatura.ano_fim }}</p>
+<p><strong>ECTS:</strong> {{ licenciatura.ects }}</p>
+
+<p>{{ licenciatura.descricao }}</p>
+
+<h3>Unidades Curriculares</h3>
+<ul>
+    {% for uc in licenciatura.ucs.all %}
+        <li>{{ uc.nome }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

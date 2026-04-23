@@ -1,4 +1,4 @@
-<!-- templates/escola/cursos.html -->    
+<!-- templates/escola/alunos.html -->    
 
 {% extends "escola/base.html" %}
     
@@ -8,11 +8,8 @@
 <section>
     {% for aluno in alunos %}
     <article>
-    <!-- cada curso é um article, 
-     com um header com o nome do curso e do professor, 
-     e uma section com a lista de cursos-->
         <header>
-            <h3>{{ aluno.nome }}</h3>
+            <h3>{{ aluno }}</h3>
         </header>
 
         <section>
@@ -20,9 +17,11 @@
             <ul>
                 {% for curso in aluno.cursos.all %}
                     <li>
-                       <a href="{% url 'curso' curso.id%}"> {{ curso }} </a>
+                        <a href="{% url 'curso' curso.id %}">
+                        {{ curso }}
+                        </a>
                     </li>
-                {% endfor %}
+               {% endfor %}
             </ul>
         </section>
     </article>

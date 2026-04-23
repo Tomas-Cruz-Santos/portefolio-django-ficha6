@@ -1,0 +1,25 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<h2>{{ uc.nome }}</h2>
+
+<p><strong>Semestre:</strong> {{ uc.semestre }}</p>
+<p><strong>Ano:</strong> {{ uc.ano_curricular }}</p>
+
+<p>{{ uc.apresentacao }}</p>
+
+<h3>Docentes</h3>
+<ul>
+    {% for d in uc.docentes.all %}
+        <li>{{ d.nome }}</li>
+    {% endfor %}
+</ul>
+
+<h3>Projetos</h3>
+<ul>
+    {% for p in uc.projetos.all %}
+        <li>{{ p.nome }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

@@ -1,0 +1,1094 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Portfólio Académico{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ═══════════════════════════════════════════════
+           DESIGN SYSTEM — TOKENS & VARIÁVEIS GLOBAIS
+        ═══════════════════════════════════════════════ */
+        :root {
+            --primary:        #2563eb;
+            --primary-light:  #3b82f6;
+            --primary-glow:   rgba(37, 99, 235, 0.25);
+            --accent:         #06b6d4;   /* ciano vibrante */
+            --accent-2:       #8b5cf6;   /* violeta como destaque secundário */
+            --dark:           #0a0f1e;
+            --dark-2:         #0f172a;
+            --dark-3:         #1e293b;
+            --surface:        #141b2d;
+            --surface-2:      #1a2440;
+            --border:         rgba(255,255,255,0.07);
+            --text-primary:   #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted:     #475569;
+            --light-bg:       #f8fafc;
+            --font-display:   'Syne', sans-serif;
+            --font-body:      'DM Sans', sans-serif;
+            --radius:         12px;
+            --radius-lg:      20px;
+            --shadow-glow:    0 0 40px rgba(37, 99, 235, 0.15);
+            --transition:     all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ═══════════════════════════════════════════════
+           RESET & BASE
+        ═══════════════════════════════════════════════ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--dark);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════════════════════════════════════
+           FUNDO ANIMADO — MALHA DE GRADIENTE + PARTÍCULAS
+        ═══════════════════════════════════════════════ */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% -10%, rgba(37,99,235,0.18) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 110%, rgba(6,182,212,0.12) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 60% at 50% 50%, rgba(139,92,246,0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Grade geométrica subtil no fundo */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Garante que o conteúdo fica por cima dos efeitos de fundo */
+        nav, main, footer { position: relative; z-index: 1; }
+
+        /* ═══════════════════════════════════════════════
+           NAVBAR — GLASSMORPHISM PREMIUM
+        ═══════════════════════════════════════════════ */
+        .navbar {
+            background: rgba(10, 15, 30, 0.75);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border);
+            padding: 0.85rem 0;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 15, 30, 0.95);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.4), 0 1px 0 var(--border);
+        }
+
+        .navbar-brand {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.5px;
+            color: var(--text-primary) !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .brand-text { line-height: 1; }
+        .brand-text span {
+            display: block;
+            font-size: 0.6rem;
+            font-family: var(--font-body);
+            font-weight: 400;
+            color: var(--text-secondary);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 1px;
+        }
+
+        .nav-link {
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: var(--text-secondary) !important;
+            padding: 0.45rem 0.85rem !important;
+            border-radius: 8px;
+            transition: var(--transition);
+            position: relative;
+            letter-spacing: 0.01em;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 16px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+            transition: transform 0.25s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--text-primary) !important;
+            background: rgba(255,255,255,0.06);
+        }
+
+        .nav-link:hover::before,
+        .nav-link.active::before {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        /* Dropdown estilizado */
+        .dropdown-menu {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), var(--shadow-glow);
+            padding: 0.5rem;
+            min-width: 200px;
+            animation: dropIn 0.2s ease;
+        }
+
+        @keyframes dropIn {
+            from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .dropdown-item {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.55rem 0.85rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .dropdown-item i { width: 16px; color: var(--primary-light); }
+
+        .dropdown-item:hover {
+            background: rgba(37,99,235,0.15);
+            color: var(--text-primary);
+        }
+
+        .dropdown-divider { border-color: var(--border); margin: 0.35rem 0.5rem; }
+
+        .navbar-toggler {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.4rem 0.65rem;
+        }
+
+        .navbar-toggler:focus { box-shadow: 0 0 0 3px var(--primary-glow); }
+        .navbar-toggler-icon { filter: invert(1); }
+
+        /* Indicador de página activa via Django block */
+        .nav-active-indicator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            margin-left: 4px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: 0.6; transform: scale(0.8); }
+        }
+
+        /* ═══════════════════════════════════════════════
+           MENSAGENS FLASH (Django messages framework)
+        ═══════════════════════════════════════════════ */
+        .messages-wrapper {
+            position: fixed;
+            top: 80px;
+            right: 1.5rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            max-width: 360px;
+        }
+
+        .toast-msg {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.9rem 1.1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-size: 0.875rem;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        .toast-msg.success { border-left: 3px solid #10b981; }
+        .toast-msg.error   { border-left: 3px solid #ef4444; }
+        .toast-msg.warning { border-left: 3px solid #f59e0b; }
+        .toast-msg.info    { border-left: 3px solid var(--primary-light); }
+
+        .toast-icon { font-size: 1rem; margin-top: 1px; flex-shrink: 0; }
+        .toast-msg.success .toast-icon { color: #10b981; }
+        .toast-msg.error   .toast-icon { color: #ef4444; }
+        .toast-msg.warning .toast-icon { color: #f59e0b; }
+        .toast-msg.info    .toast-icon { color: var(--primary-light); }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            margin-left: auto;
+            padding: 0;
+            font-size: 0.9rem;
+            line-height: 1;
+            flex-shrink: 0;
+            transition: color 0.2s;
+        }
+        .toast-close:hover { color: var(--text-primary); }
+
+        /* ═══════════════════════════════════════════════
+           BREADCRUMBS — NAVEGAÇÃO CONTEXTUAL
+        ═══════════════════════════════════════════════ */
+        .breadcrumb-bar {
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid var(--border);
+            padding: 0.65rem 0;
+        }
+
+        .breadcrumb {
+            margin: 0;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .breadcrumb-item { color: var(--text-muted); }
+        .breadcrumb-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .breadcrumb-item a:hover { color: var(--primary-light); }
+        .breadcrumb-item.active { color: var(--text-primary); }
+
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: '/';
+            color: var(--text-muted);
+        }
+
+        /* ═══════════════════════════════════════════════
+           MAIN CONTENT
+        ═══════════════════════════════════════════════ */
+        main {
+            flex: 1;
+            padding: 2.5rem 0 4rem;
+        }
+
+        /* Cabeçalho de página reutilizável */
+        .page-header {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-header h2 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            color: var(--text-primary);
+            line-height: 1.15;
+        }
+
+        .page-header h2 .text-accent { color: var(--accent); }
+
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 0.4rem;
+            max-width: 520px;
+        }
+
+        /* Cartões genéricos do portfólio */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: rgba(37,99,235,0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3), var(--shadow-glow);
+        }
+
+        .card-body { padding: 1.5rem; }
+        .card-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1.05rem;
+        }
+        .card-text { color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6; }
+
+        /* Badges de estado/tecnologia */
+        .badge-tech {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(37,99,235,0.15);
+            color: var(--primary-light);
+            border: 1px solid rgba(37,99,235,0.3);
+            border-radius: 6px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Botões customizados */
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 0.65rem 1.4rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: var(--transition);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            text-decoration: none;
+            box-shadow: 0 4px 20px var(--primary-glow);
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(37,99,235,0.45);
+            color: #fff;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.6rem 1.2rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: var(--transition);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            text-decoration: none;
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.15);
+            color: var(--text-primary);
+        }
+
+        /* ═══════════════════════════════════════════════
+           BARRA DE PROGRESSO DE SCROLL
+        ═══════════════════════════════════════════════ */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            z-index: 9998;
+            width: 0%;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 8px var(--primary-glow);
+        }
+
+        /* ═══════════════════════════════════════════════
+           BOTÃO VOLTAR AO TOPO
+        ═══════════════════════════════════════════════ */
+        #back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 44px;
+            height: 44px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            color: var(--text-secondary);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: var(--transition);
+            z-index: 900;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        #back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #back-to-top:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+            box-shadow: 0 8px 25px var(--primary-glow);
+        }
+
+        /* ═══════════════════════════════════════════════
+           FOOTER — PREMIUM & INFORMATIVO
+        ═══════════════════════════════════════════════ */
+        footer {
+            background: var(--dark-2);
+            border-top: 1px solid var(--border);
+            padding: 3rem 0 2rem;
+            margin-top: auto;
+        }
+
+        .footer-brand {
+            font-family: var(--font-display);
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-desc {
+            color: var(--text-muted);
+            font-size: 0.825rem;
+            line-height: 1.6;
+            max-width: 260px;
+        }
+
+        .footer-heading {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 0.5rem; }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .footer-links a:hover { color: var(--primary-light); }
+        .footer-links a i { font-size: 0.75rem; }
+
+        .footer-divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 2rem 0 1.5rem;
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .footer-copy a { color: var(--primary-light); text-decoration: none; }
+
+        .footer-socials { display: flex; gap: 0.6rem; }
+        .social-btn {
+            width: 36px;
+            height: 36px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.875rem;
+        }
+        .social-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Tag de tecnologia no footer */
+        .stack-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.2rem 0.55rem;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin: 0.15rem;
+        }
+        .stack-tag i { font-size: 0.65rem; }
+
+        /* ═══════════════════════════════════════════════
+           ANIMAÇÕES DE ENTRADA (IntersectionObserver)
+        ═══════════════════════════════════════════════ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ═══════════════════════════════════════════════
+           UTILITÁRIOS EXTRA
+        ═══════════════════════════════════════════════ */
+        h2 { font-family: var(--font-display); font-weight: 700; color: var(--text-primary); }
+        h3 { font-family: var(--font-display); font-weight: 600; color: var(--text-primary); }
+
+        a { color: var(--primary-light); }
+
+        ::selection { background: var(--primary-glow); color: var(--text-primary); }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--dark); }
+        ::-webkit-scrollbar-thumb { background: var(--dark-3); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* Loader de página */
+        #page-loader {
+            position: fixed;
+            inset: 0;
+            background: var(--dark);
+            z-index: 99999;
+            display: grid;
+            place-items: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        #page-loader.hidden { opacity: 0; visibility: hidden; }
+
+        .loader-ring {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ═══════════════════════════════════════════════
+           CONTENT LIST — estilo automático para listas
+           de links dentro do main (ex: Licenciaturas)
+        ═══════════════════════════════════════════════ */
+
+        /* Remove bullets e padding nativos */
+        main ul { list-style: none; padding: 0; margin: 0; }
+
+        /* Cada <li> que contenha apenas um <a> vira um card clicável */
+        main ul li {
+            margin-bottom: 0.6rem;
+        }
+
+        main ul li a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.1rem 1.4rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Barra colorida à esquerda no hover */
+        main ul li a::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--primary), var(--accent));
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.25s ease;
+            border-radius: 0 2px 2px 0;
+        }
+
+        /* Seta animada à direita */
+        main ul li a::after {
+            content: '→';
+            color: var(--text-muted);
+            font-size: 1rem;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        main ul li a:hover {
+            background: var(--surface-2);
+            border-color: rgba(37, 99, 235, 0.35);
+            color: var(--text-primary);
+            transform: translateX(4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25), var(--shadow-glow);
+        }
+
+        main ul li a:hover::before { transform: scaleY(1); }
+        main ul li a:hover::after  { color: var(--primary-light); transform: translateX(4px); }
+
+        /* Layout em grelha para listas maiores (classe opt-in) */
+        .list-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .list-grid li { margin: 0; }
+
+        /* Variante compacta (classe opt-in) */
+        .list-compact li a {
+            padding: 0.75rem 1.1rem;
+            font-size: 0.875rem;
+        }
+
+        /* Número sequencial automático (classe opt-in) */
+        .list-numbered { counter-reset: item-counter; }
+        .list-numbered li { counter-increment: item-counter; }
+        .list-numbered li a::before {
+            content: counter(item-counter, decimal-leading-zero);
+            position: static;
+            width: auto; height: auto;
+            background: none;
+            transform: none;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            flex-shrink: 0;
+            order: -1;
+            border-radius: 0;
+            transition: color 0.2s;
+        }
+        .list-numbered li a:hover::before { color: var(--primary-light); }
+
+        /* ═══════════════════════════════════════════════
+           EMPTY STATE — quando não há dados
+        ═══════════════════════════════════════════════ */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+        .empty-state i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+            opacity: 0.4;
+        }
+        .empty-state p { font-size: 0.95rem; }
+
+        /* Responsividade extra */
+        @media (max-width: 768px) {
+            main { padding: 1.5rem 0 3rem; }
+            .page-header { flex-direction: column; align-items: flex-start; }
+            footer { padding: 2rem 0 1.5rem; }
+            #back-to-top { bottom: 1rem; right: 1rem; }
+            .list-grid { grid-template-columns: 1fr; }
+            main ul li a { transform: none !important; }
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- Loader de página -->
+    <div id="page-loader"><div class="loader-ring"></div></div>
+
+    <!-- Barra de progresso de scroll -->
+    <div id="scroll-progress"></div>
+
+    <!-- ═══════════════════════════════════════════════
+         NAVBAR
+    ═══════════════════════════════════════════════ -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+                <div class="brand-text">
+                    PORTEFÓLIO
+                    <span>Académico</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Alternar navegação">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+                    <li class="nav-item">
+                        <a class="nav-link {% block nav_licenciaturas %}{% endblock %}" href="{% url 'licenciaturas' %}">
+                            <i class="fas fa-university me-1 fa-xs opacity-50"></i>Licenciaturas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block nav_docentes %}{% endblock %}" href="{% url 'docentes' %}">
+                            <i class="fas fa-chalkboard-teacher me-1 fa-xs opacity-50"></i>Docentes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block nav_ucs %}{% endblock %}" href="{% url 'ucs' %}">
+                            <i class="fas fa-book-open me-1 fa-xs opacity-50"></i>Unidades Curriculares
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block nav_projetos %}{% endblock %}" href="{% url 'projetos' %}">
+                            <i class="fas fa-code-branch me-1 fa-xs opacity-50"></i>Projetos
+                        </a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-ellipsis-h me-1 fa-xs opacity-50"></i>Mais
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'tecnologias' %}">
+                                    <i class="fas fa-microchip"></i>Tecnologias
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'tfcs' %}">
+                                    <i class="fas fa-file-alt"></i>TFCs
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'formacoes' %}">
+                                    <i class="fas fa-certificate"></i>Formações
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Separador visual -->
+                    <li class="nav-item d-none d-lg-block">
+                        <span style="width:1px;height:20px;background:var(--border);display:block;margin:0 0.5rem;"></span>
+                    </li>
+
+                    <!-- Botão de pesquisa rápida -->
+                    <li class="nav-item">
+                        <button id="search-trigger" class="btn-ghost" style="border-radius:10px;padding:0.4rem 0.85rem;">
+                            <i class="fas fa-search fa-xs"></i>
+                            <span class="d-none d-xl-inline" style="font-size:0.8rem;color:var(--text-muted);margin-left:0.5rem;">Pesquisar...</span>
+                            <kbd class="d-none d-xl-inline" style="font-size:0.65rem;background:var(--surface-2);color:var(--text-muted);border:1px solid var(--border);border-radius:4px;padding:1px 5px;margin-left:0.4rem;">⌘K</kbd>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════
+         BREADCRUMBS (opcional por página)
+    ═══════════════════════════════════════════════ -->
+    {% block breadcrumbs %}{% endblock %}
+
+    <!-- ═══════════════════════════════════════════════
+         MENSAGENS FLASH DJANGO
+    ═══════════════════════════════════════════════ -->
+    {% if messages %}
+    <div class="messages-wrapper" id="messages-wrapper">
+        {% for message in messages %}
+        <div class="toast-msg {{ message.tags }}" role="alert">
+            <i class="toast-icon fas
+                {% if message.tags == 'success' %}fa-check-circle
+                {% elif message.tags == 'error' %}fa-times-circle
+                {% elif message.tags == 'warning' %}fa-exclamation-triangle
+                {% else %}fa-info-circle{% endif %}"></i>
+            <span>{{ message }}</span>
+            <button class="toast-close" onclick="this.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- ═══════════════════════════════════════════════
+         CONTEÚDO PRINCIPAL
+    ═══════════════════════════════════════════════ -->
+    <main>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════
+         FOOTER
+    ═══════════════════════════════════════════════ -->
+    <footer>
+        <div class="container">
+            <div class="row g-4">
+                <!-- Coluna de apresentação -->
+                <div class="col-lg-4">
+                    <div class="footer-brand">
+                        <i class="fas fa-graduation-cap me-2" style="color:var(--primary-light);"></i>PORTEFÓLIO
+                    </div>
+                    <p class="footer-desc">
+                        Registo académico de projetos, unidades curriculares e competências desenvolvidas ao longo do percurso universitário.
+                    </p>
+                    <div class="mt-3">
+                        <span class="stack-tag"><i class="fab fa-python"></i>Python</span>
+                        <span class="stack-tag"><i class="fab fa-js"></i>JavaScript</span>
+                        <span class="stack-tag"><i class="fab fa-html5"></i>HTML5</span>
+                        <span class="stack-tag" style="color:var(--accent);border-color:rgba(6,182,212,0.2);">Django</span>
+                    </div>
+                </div>
+
+                <!-- Navegação rápida -->
+                <div class="col-6 col-lg-2 offset-lg-1">
+                    <div class="footer-heading">Académico</div>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'licenciaturas' %}"><i class="fas fa-chevron-right"></i>Licenciaturas</a></li>
+                        <li><a href="{% url 'docentes' %}"><i class="fas fa-chevron-right"></i>Docentes</a></li>
+                        <li><a href="{% url 'ucs' %}"><i class="fas fa-chevron-right"></i>Unid. Curriculares</a></li>
+                        <li><a href="{% url 'formacoes' %}"><i class="fas fa-chevron-right"></i>Formações</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-lg-2">
+                    <div class="footer-heading">Trabalhos</div>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'projetos' %}"><i class="fas fa-chevron-right"></i>Projetos</a></li>
+                        <li><a href="{% url 'tfcs' %}"><i class="fas fa-chevron-right"></i>TFCs</a></li>
+                        <li><a href="{% url 'tecnologias' %}"><i class="fas fa-chevron-right"></i>Tecnologias</a></li>
+                    </ul>
+                </div>
+
+                <!-- Estatísticas rápidas -->
+                <div class="col-lg-3">
+                    <div class="footer-heading">Destaques</div>
+                    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                        {% block footer_stats %}
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0.8rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
+                            <span style="font-size:0.8rem;color:var(--text-secondary);"><i class="fas fa-code me-2" style="color:var(--primary-light);"></i>Projetos</span>
+                            <span style="font-family:var(--font-display);font-weight:700;font-size:0.95rem;color:var(--text-primary);">–</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0.8rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
+                            <span style="font-size:0.8rem;color:var(--text-secondary);"><i class="fas fa-book me-2" style="color:var(--accent);"></i>Unid. Curriculares</span>
+                            <span style="font-family:var(--font-display);font-weight:700;font-size:0.95rem;color:var(--text-primary);">–</span>
+                        </div>
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+
+            <hr class="footer-divider">
+
+            <div class="footer-bottom">
+                <p class="footer-copy">
+                    © 2026 Portfólio Académico &mdash; Desenvolvido com
+                    <i class="fas fa-heart" style="color:#ef4444;margin:0 2px;"></i>
+                    em <a href="https://www.djangoproject.com/" target="_blank" rel="noopener">Django</a>
+                </p>
+                <div class="footer-socials">
+                    <a href="#" class="social-btn" title="GitHub" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="social-btn" title="LinkedIn" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="mailto:#" class="social-btn" title="Email" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botão voltar ao topo -->
+    <button id="back-to-top" title="Voltar ao topo" aria-label="Voltar ao topo">
+        <i class="fas fa-chevron-up" style="font-size:0.8rem;"></i>
+    </button>
+
+    <!-- ═══════════════════════════════════════════════
+         SCRIPTS
+    ═══════════════════════════════════════════════ -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    (function () {
+        'use strict';
+
+        /* ── Loader de página ── */
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('page-loader');
+            if (loader) {
+                setTimeout(() => loader.classList.add('hidden'), 300);
+            }
+        });
+
+        /* ── Barra de progresso de scroll ── */
+        const progressBar = document.getElementById('scroll-progress');
+        function updateProgress() {
+            const scrolled = document.documentElement.scrollTop;
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            progressBar.style.width = max > 0 ? (scrolled / max * 100) + '%' : '0%';
+        }
+
+        /* ── Navbar: efeito ao fazer scroll ── */
+        const navbar = document.querySelector('.navbar');
+        const backBtn = document.getElementById('back-to-top');
+
+        function onScroll() {
+            const y = window.scrollY;
+            updateProgress();
+            navbar.classList.toggle('scrolled', y > 60);
+            backBtn.classList.toggle('visible', y > 400);
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        /* ── Botão voltar ao topo ── */
+        backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        /* ── Auto-dismiss das mensagens flash (5s) ── */
+        const toasts = document.querySelectorAll('.toast-msg');
+        toasts.forEach((t, i) => {
+            setTimeout(() => {
+                t.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                t.style.opacity = '0';
+                t.style.transform = 'translateX(30px)';
+                setTimeout(() => t.remove(), 400);
+            }, 4000 + i * 400);
+        });
+
+        /* ── Animações de entrada com IntersectionObserver ── */
+        const revealEls = document.querySelectorAll('.reveal');
+        if (revealEls.length > 0) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('visible');
+                        observer.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+            revealEls.forEach(el => observer.observe(el));
+        }
+
+        /* ── Atalho de teclado ⌘K / Ctrl+K para pesquisa ── */
+        document.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('search-trigger')?.click();
+            }
+        });
+
+        /* ── Marca o link activo com base no URL actual ── */
+        const currentPath = window.location.pathname;
+        document.querySelectorAll('.nav-link:not(.dropdown-toggle)').forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+
+    })();
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

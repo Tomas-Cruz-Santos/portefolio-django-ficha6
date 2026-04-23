@@ -1,0 +1,15 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<h2>TFCs</h2>
+
+<ul>
+    {% for t in tfcs %}
+        <li>
+            <a href="{% url 'tfcs_detail' t.id %}">
+                {{ t.titulo }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

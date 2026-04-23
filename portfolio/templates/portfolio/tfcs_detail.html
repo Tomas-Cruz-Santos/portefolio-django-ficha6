@@ -1,0 +1,25 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<h2>{{ tfc.titulo }}</h2>
+
+<p><strong>Autor:</strong> {{ tfc.autor }}</p>
+<p><strong>Curso:</strong> {{ tfc.curso }}</p>
+<p>{{ tfc.resumo }}</p>
+
+<p><strong>Classificação:</strong> {{ tfc.get_rating_display }}</p>
+
+<h3>Orientadores</h3>
+<ul>
+    {% for d in tfc.orientador.all %}
+        <li>{{ d.nome }}</li>
+    {% endfor %}
+</ul>
+
+<h3>Tecnologias</h3>
+<ul>
+    {% for t in tfc.tecnologias.all %}
+        <li>{{ t.nome }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

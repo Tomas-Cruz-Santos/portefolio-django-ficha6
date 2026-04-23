@@ -1,0 +1,16 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<h2>{{ makingof.get_entidade_display }}</h2>
+
+<p><strong>Data:</strong> {{ makingof.data }}</p>
+
+<p><strong>Descrição:</strong> {{ makingof.descricao }}</p>
+<p><strong>Erros:</strong> {{ makingof.erros }}</p>
+<p><strong>Correções:</strong> {{ makingof.correcoes }}</p>
+
+{% if makingof.fotos %}
+    <img src="{{ makingof.fotos.url }}" width="300">
+{% endif %}
+
+{% endblock %}
