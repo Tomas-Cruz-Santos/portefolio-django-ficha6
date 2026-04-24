@@ -658,104 +658,151 @@
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* ═══════════════════════════════════════════════
-           CONTENT LIST — estilo automático para listas
-           de links dentro do main (ex: Licenciaturas)
+           CONTENT LIST — grelha de cartões automática
+           para qualquer <ul> dentro do main
         ═══════════════════════════════════════════════ */
 
-        /* Remove bullets e padding nativos */
-        main ul { list-style: none; padding: 0; margin: 0; }
-
-        /* Cada <li> que contenha apenas um <a> vira um card clicável */
-        main ul li {
-            margin-bottom: 0.6rem;
+        /* Remove bullets nativos e organiza em grelha */
+        main ul {
+            list-style: none;
+            padding: 0; margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
         }
 
+        main ul li { margin: 0; }
+
+        /* Cada <li><a> vira um cartão com avatar de iniciais */
         main ul li a {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            padding: 1.1rem 1.4rem;
+            text-align: center;
+            gap: 0.75rem;
+            padding: 1.6rem 1.2rem 1.3rem;
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: var(--radius);
+            border-radius: var(--radius-lg);
             color: var(--text-primary);
             text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
+            font-weight: 600;
+            font-size: 0.9rem;
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+            height: 100%;
         }
 
-        /* Barra colorida à esquerda no hover */
+        /* Reflexo de gradiente subtil no topo do cartão */
         main ul li a::before {
             content: '';
             position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, var(--primary), var(--accent));
-            transform: scaleY(0);
-            transform-origin: bottom;
-            transition: transform 0.25s ease;
-            border-radius: 0 2px 2px 0;
+            top: 0; left: 0; right: 0;
+            height: 60px;
+            background: linear-gradient(180deg, rgba(37,99,235,0.07) 0%, transparent 100%);
+            pointer-events: none;
         }
 
-        /* Seta animada à direita */
+        /* Avatar com as iniciais do texto do link */
         main ul li a::after {
-            content: '→';
-            color: var(--text-muted);
-            font-size: 1rem;
-            transition: var(--transition);
+            content: attr(data-initial);
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #fff;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            order: -1;
             flex-shrink: 0;
+            box-shadow: 0 6px 20px rgba(37,99,235,0.3);
+            transition: var(--transition);
         }
 
         main ul li a:hover {
-            background: var(--surface-2);
-            border-color: rgba(37, 99, 235, 0.35);
+            border-color: rgba(37, 99, 235, 0.45);
+            transform: translateY(-5px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.3), var(--shadow-glow);
             color: var(--text-primary);
-            transform: translateX(4px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.25), var(--shadow-glow);
         }
 
-        main ul li a:hover::before { transform: scaleY(1); }
-        main ul li a:hover::after  { color: var(--primary-light); transform: translateX(4px); }
-
-        /* Layout em grelha para listas maiores (classe opt-in) */
-        .list-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 0.75rem;
+        main ul li a:hover::after {
+            transform: scale(1.08);
+            box-shadow: 0 10px 28px rgba(37,99,235,0.45);
         }
 
-        .list-grid li { margin: 0; }
-
-        /* Variante compacta (classe opt-in) */
-        .list-compact li a {
-            padding: 0.75rem 1.1rem;
-            font-size: 0.875rem;
-        }
-
-        /* Número sequencial automático (classe opt-in) */
-        .list-numbered { counter-reset: item-counter; }
-        .list-numbered li { counter-increment: item-counter; }
-        .list-numbered li a::before {
-            content: counter(item-counter, decimal-leading-zero);
-            position: static;
-            width: auto; height: auto;
-            background: none;
-            transform: none;
-            font-family: var(--font-display);
-            font-size: 0.75rem;
-            font-weight: 700;
+        /* Seta "ver mais" no fundo do cartão */
+        main ul li a .arrow-hint {
+            font-size: 0.72rem;
             color: var(--text-muted);
-            letter-spacing: 0.05em;
-            flex-shrink: 0;
-            order: -1;
-            border-radius: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-top: auto;
             transition: color 0.2s;
         }
-        .list-numbered li a:hover::before { color: var(--primary-light); }
+
+        main ul li a:hover .arrow-hint { color: var(--primary-light); }
+
+        /* ── Variante: lista simples horizontal (classe opt-in) ──
+           Usar em listas curtas tipo Licenciaturas               */
+        .list-rows {
+            display: flex !important;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .list-rows li a {
+            flex-direction: row !important;
+            text-align: left !important;
+            padding: 1rem 1.3rem !important;
+            align-items: center !important;
+            height: auto !important;
+        }
+
+        .list-rows li a::before {
+            display: none;
+        }
+
+        .list-rows li a::after {
+            content: '→' !important;
+            width: auto !important; height: auto !important;
+            background: none !important;
+            border-radius: 0 !important;
+            font-size: 1rem !important;
+            font-weight: 400 !important;
+            color: var(--text-muted) !important;
+            box-shadow: none !important;
+            margin-left: auto;
+            order: 1;
+        }
+
+        .list-rows li a:hover::after {
+            transform: translateX(4px) !important;
+            color: var(--primary-light) !important;
+        }
+
+        /* ── Variante: lista compacta (classe opt-in) ── */
+        .list-compact {
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
+            gap: 0.6rem !important;
+        }
+
+        .list-compact li a {
+            padding: 1rem 0.9rem 0.9rem !important;
+            font-size: 0.8rem !important;
+        }
+
+        .list-compact li a::after {
+            width: 38px !important;
+            height: 38px !important;
+            font-size: 1rem !important;
+        }
 
         /* ═══════════════════════════════════════════════
            EMPTY STATE — quando não há dados
@@ -1083,6 +1130,14 @@
         document.querySelectorAll('.nav-link:not(.dropdown-toggle)').forEach(link => {
             if (link.getAttribute('href') === currentPath) {
                 link.classList.add('active');
+            }
+        });
+
+        /* ── Injeta data-initial nos links de lista para o avatar CSS ── */
+        document.querySelectorAll('main ul li a').forEach(link => {
+            if (!link.dataset.initial) {
+                const text = link.textContent.trim();
+                link.dataset.initial = text.charAt(0).toUpperCase();
             }
         });
 
