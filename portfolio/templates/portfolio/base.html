@@ -325,6 +325,7 @@
 
 <main><div class="container">{% block content %}{% endblock %}</div></main>
 
+{% block footer %}
 <footer>
     <div class="container">
         <div class="row g-4">
@@ -381,10 +382,11 @@
         </div>
         <hr class="footer-divider">
         <div class="footer-bottom" style="justify-content:center;text-align:center;">
-            <p class="footer-copy">© 2026 Portfólio Académico &mdash; Desenvolvido com <i class="fas fa-heart" style="color:#ef4444;margin:0 2px;"></i> em <a href="https://www.djangoproject.com/" target="_blank" rel="noopener">Django</a></p>
+            <p class="footer-copy">© 2026 Portfólio Académico</p></i> em <a href="https://www.djangoproject.com/" target="_blank" rel="noopener">Django</a></p>
         </div>
     </div>
 </footer>
+{% endblock %}
 
 <button id="back-to-top" title="Voltar ao topo" aria-label="Voltar ao topo"><i class="fas fa-chevron-up" style="font-size:.8rem;"></i></button>
 

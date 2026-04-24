@@ -20,22 +20,6 @@
         margin: 0 auto 2rem;
     }
 
-    .hero-avatar-placeholder {
-        width: 180px;
-        height: 180px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--pri), var(--acc));
-        border: 3px solid rgba(37,99,235,.4);
-        box-shadow: 0 0 40px rgba(37,99,235,.25);
-        display: grid;
-        place-items: center;
-        margin: 0 auto 2rem;
-        font-family: var(--fd);
-        font-weight: 800;
-        font-size: 3.5rem;
-        color: #fff;
-    }
-
     .hero-name {
         font-family: var(--fd);
         font-weight: 800;
@@ -91,58 +75,12 @@
     }
     .stat-label { color: var(--ts); font-size: .8rem; margin-top: .25rem; }
 
-    .section-title-home {
-        font-family: var(--fd);
-        font-weight: 700;
-        font-size: 1.4rem;
-        margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: .6rem;
-    }
-    .section-title-home i { color: var(--pri-l); }
-
-    .recent-card {
-        background: var(--sf);
-        border: 1px solid var(--bd);
-        border-radius: var(--rl);
-        overflow: hidden;
-        transition: var(--tr);
-        text-decoration: none;
-        display: block;
-        height: 100%;
-    }
-    .recent-card:hover {
-        border-color: rgba(37,99,235,.4);
-        transform: translateY(-4px);
-        box-shadow: 0 16px 40px rgba(0,0,0,.3), var(--glow);
-    }
-    .recent-card-img {
-        width: 100%;
-        height: 130px;
-        object-fit: cover;
-        background: var(--sf2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .recent-card-body { padding: 1rem 1.25rem; }
-    .recent-card-title { font-family: var(--fd); font-weight: 700; font-size: .95rem; color: var(--tp); margin-bottom: .4rem; }
-    .recent-card-uc { font-size: .75rem; color: var(--ts); margin-bottom: .6rem; }
-
-    .divider-line {
-        border: none;
-        border-top: 1px solid var(--bd);
-        margin: 3rem 0;
-    }
-
     .navbar { display: none !important; }
 
     @keyframes float {
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-8px); }
     }
-    .hero-avatar-placeholder { animation: float 4s ease-in-out infinite; }
 </style>
 {% endblock %}
 
@@ -152,36 +90,31 @@
 <div class="hero">
     <div style="width:100%;text-align:center;">
 
-        <!-- Avatar -->
         {% load static %}
         <img class="hero-avatar" src="{% static 'portfolio/foto_perfil.jpg' %}" alt="Tomás Santos">
 
-        <!-- Nome e role -->
-        <div class="hero-name">Tomás Santos</div>
+        <div class="hero-name">Portfólio Académico</div>
         <div class="hero-role">
-            <i class="fas fa-graduation-cap me-2"></i>Estudante de Informática de Gestão
+            <i class="fas fa-graduation-cap me-2"></i>Tomás Santos
         </div>
 
-        <!-- Descrição -->
         <p class="hero-desc">
             Sou um estudante de Informática de Gestão apaixonado por cálculos, números e estratégia de negócio.
             Com competências em desenvolvimento, como programação e análise de dados, procuro uma oportunidade
             desafiante onde possa aplicar o meu raciocínio analítico para otimizar processos de gestão.
         </p>
 
-        <!-- Badges de tech -->
         <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem;">
             <span class="badge-tech"><i class="fab fa-python"></i>Python</span>
-            <span class="badge-tech"><i class="fab fa-js"></i>JavaScript</span>
+            <span class="badge-tech"><i class="fab fa-java"></i>Java</span>
             <span class="badge-tech" style="background:rgba(6,182,212,.15);color:var(--acc);border-color:rgba(6,182,212,.3);">Django</span>
             <span class="badge-tech">SQL</span>
             <span class="badge-tech">C</span>
             <span class="badge-tech">Kotlin</span>
         </div>
 
-        <!-- Botões de acção -->
         <div class="hero-actions">
-            <a href="{% url 'projetos' %}" class="btn-primary-custom" style="font-size:1rem;padding:.75rem 2rem;">
+            <a href="{% url 'licenciaturas' %}" class="btn-primary-custom" style="font-size:1rem;padding:.75rem 2rem;">
                 <i class="fas fa-rocket"></i>Ver Portfólio
             </a>
             <a href="https://github.com/Tomas-Cruz-Santos" target="_blank" rel="noopener" class="btn-ghost" style="font-size:.9rem;">
@@ -193,8 +126,6 @@
         </div>
     </div>
 </div>
-
-<hr class="divider-line">
 
 <!-- ── ESTATÍSTICAS ── -->
 <div class="row g-3 mb-5">
@@ -224,121 +155,6 @@
     </div>
 </div>
 
-<!-- ── PROJETOS RECENTES ── -->
-{% if projetos_recentes %}
-<div class="section-title-home">
-    <i class="fas fa-fire"></i>Projetos Recentes
-</div>
-<div class="row g-3 mb-5">
-    {% for p in projetos_recentes %}
-    <div class="col-md-4">
-        <a href="{% url 'projetos_detail' p.id %}" class="recent-card">
-            {% if p.foto %}
-                <img src="{{ p.foto.url }}" alt="{{ p.nome }}" class="recent-card-img" style="display:block;">
-            {% else %}
-                <div class="recent-card-img">
-                    <i class="fas fa-code-branch" style="font-size:2rem;color:var(--pri-l);opacity:.3;"></i>
-                </div>
-            {% endif %}
-            <div class="recent-card-body">
-                <div class="recent-card-title">{{ p.nome }}</div>
-                {% if p.uc %}<div class="recent-card-uc"><i class="fas fa-book-open me-1" style="color:var(--acc);"></i>{{ p.uc.nome }}</div>{% endif %}
-                <div style="display:flex;flex-wrap:wrap;gap:.3rem;">
-                    {% for t in p.tecnologias.all|slice:":3" %}
-                    <span class="badge-tech" style="font-size:.68rem;">{{ t.nome }}</span>
-                    {% endfor %}
-                </div>
-            </div>
-        </a>
-    </div>
-    {% endfor %}
-</div>
-{% endif %}
-
-<!-- ── NAVEGAÇÃO RÁPIDA ── -->
-<div class="section-title-home">
-    <i class="fas fa-compass"></i>Explorar
-</div>
-<div class="row g-3">
-    {% for item in ""|ljust:"6" %}{% endfor %}
-    <div class="col-6 col-md-4">
-        <a href="{% url 'licenciaturas' %}" style="text-decoration:none;">
-            <div class="stat-card" style="text-align:left;display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;">
-                <div style="width:40px;height:40px;border-radius:10px;background:rgba(37,99,235,.15);display:grid;place-items:center;flex-shrink:0;">
-                    <i class="fas fa-university" style="color:var(--pri-l);"></i>
-                </div>
-                <div>
-                    <div style="font-family:var(--fd);font-weight:700;font-size:.9rem;">Licenciaturas</div>
-                    <div style="font-size:.75rem;color:var(--ts);">Cursos académicos</div>
-                </div>
-            </div>
-        </a>
-    </div>
-    <div class="col-6 col-md-4">
-        <a href="{% url 'ucs' %}" style="text-decoration:none;">
-            <div class="stat-card" style="text-align:left;display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;">
-                <div style="width:40px;height:40px;border-radius:10px;background:rgba(6,182,212,.15);display:grid;place-items:center;flex-shrink:0;">
-                    <i class="fas fa-book-open" style="color:var(--acc);"></i>
-                </div>
-                <div>
-                    <div style="font-family:var(--fd);font-weight:700;font-size:.9rem;">Unid. Curriculares</div>
-                    <div style="font-size:.75rem;color:var(--ts);">Cadeiras e conteúdos</div>
-                </div>
-            </div>
-        </a>
-    </div>
-    <div class="col-6 col-md-4">
-        <a href="{% url 'docentes' %}" style="text-decoration:none;">
-            <div class="stat-card" style="text-align:left;display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;">
-                <div style="width:40px;height:40px;border-radius:10px;background:rgba(139,92,246,.15);display:grid;place-items:center;flex-shrink:0;">
-                    <i class="fas fa-chalkboard-teacher" style="color:var(--acc2);"></i>
-                </div>
-                <div>
-                    <div style="font-family:var(--fd);font-weight:700;font-size:.9rem;">Docentes</div>
-                    <div style="font-size:.75rem;color:var(--ts);">Professores e orientadores</div>
-                </div>
-            </div>
-        </a>
-    </div>
-    <div class="col-6 col-md-4">
-        <a href="{% url 'tecnologias' %}" style="text-decoration:none;">
-            <div class="stat-card" style="text-align:left;display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;">
-                <div style="width:40px;height:40px;border-radius:10px;background:rgba(37,99,235,.15);display:grid;place-items:center;flex-shrink:0;">
-                    <i class="fas fa-microchip" style="color:var(--pri-l);"></i>
-                </div>
-                <div>
-                    <div style="font-family:var(--fd);font-weight:700;font-size:.9rem;">Tecnologias</div>
-                    <div style="font-size:.75rem;color:var(--ts);">Ferramentas e linguagens</div>
-                </div>
-            </div>
-        </a>
-    </div>
-    <div class="col-6 col-md-4">
-        <a href="{% url 'tfcs' %}" style="text-decoration:none;">
-            <div class="stat-card" style="text-align:left;display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;">
-                <div style="width:40px;height:40px;border-radius:10px;background:rgba(6,182,212,.15);display:grid;place-items:center;flex-shrink:0;">
-                    <i class="fas fa-file-alt" style="color:var(--acc);"></i>
-                </div>
-                <div>
-                    <div style="font-family:var(--fd);font-weight:700;font-size:.9rem;">TFCs</div>
-                    <div style="font-size:.75rem;color:var(--ts);">Trabalhos finais de curso</div>
-                </div>
-            </div>
-        </a>
-    </div>
-    <div class="col-6 col-md-4">
-        <a href="{% url 'formacoes' %}" style="text-decoration:none;">
-            <div class="stat-card" style="text-align:left;display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;">
-                <div style="width:40px;height:40px;border-radius:10px;background:rgba(139,92,246,.15);display:grid;place-items:center;flex-shrink:0;">
-                    <i class="fas fa-certificate" style="color:var(--acc2);"></i>
-                </div>
-                <div>
-                    <div style="font-family:var(--fd);font-weight:700;font-size:.9rem;">Formações</div>
-                    <div style="font-size:.75rem;color:var(--ts);">Certificados e cursos</div>
-                </div>
-            </div>
-        </a>
-    </div>
-</div>
-
 {% endblock %}
+
+{% block footer %}{% endblock %}
