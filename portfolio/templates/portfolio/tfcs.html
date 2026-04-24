@@ -1,15 +1,54 @@
 {% extends "portfolio/base.html" %}
 
-{% block content %}
-<h2>TFCs</h2>
+{% block extra_css %}
+<style>
+    #searchInput:focus {
+        border-color: rgba(37, 99, 235, 0.5);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        background: rgba(255,255,255,0.08);
+    }
+    #searchInput::placeholder { color: #475569; }
+</style>
+{% endblock %}
 
-<ul>
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2>Trabalhos Finais <span class="text-accent">de Curso</span></h2>
+        <p>Lista de TFCs do percurso académico.</p>
+    </div>
+</div>
+
+<input type="text" id="searchInput" placeholder="Pesquisar TFC..."
+       style="padding:10px 14px; width:320px; margin-bottom:1.5rem;
+              background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
+              border-radius:10px; color:#f1f5f9; font-size:0.875rem; outline:none;">
+
+{% if tfcs %}
+<ul id="tfcsList">
     {% for t in tfcs %}
-        <li>
-            <a href="{% url 'tfcs_detail' t.id %}">
-                {{ t.titulo }}
-            </a>
-        </li>
+    <li><a href="{% url 'tfcs_detail' t.id %}">{{ t.titulo }}</a></li>
     {% endfor %}
 </ul>
+{% else %}
+<div class="empty-state">
+    <i class="fas fa-file-alt"></i>
+    <p>Nenhum TFC registado.</p>
+</div>
+{% endif %}
+
+{% block extra_js %}
+<script>
+    const input = document.getElementById("searchInput");
+    const items = document.querySelectorAll("#tfcsList li");
+
+    input.addEventListener("keyup", function() {
+        const filter = input.value.toLowerCase();
+        items.forEach(item => {
+            item.style.display = item.innerText.toLowerCase().includes(filter) ? "" : "none";
+        });
+    });
+</script>
+{% endblock %}
+
 {% endblock %}

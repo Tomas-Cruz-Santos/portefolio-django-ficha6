@@ -1,15 +1,55 @@
 {% extends "portfolio/base.html" %}
+{% block nav_ucs %}active{% endblock %}
+
+{% block extra_css %}
+<style>
+    #searchInput:focus {
+        border-color: rgba(37, 99, 235, 0.5);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        background: rgba(255,255,255,0.08);
+    }
+    #searchInput::placeholder { color: #475569; }
+</style>
+{% endblock %}
 
 {% block content %}
-<h2>Unidades Curriculares</h2>
+<div class="page-header">
+    <div>
+        <h2>Unidades <span class="text-accent">Curriculares</span></h2>
+        <p>Lista de unidades curriculares do percurso académico.</p>
+    </div>
+</div>
 
-<ul>
+<input type="text" id="searchInput" placeholder="Pesquisar unidade curricular..."
+       style="padding:10px 14px; width:320px; margin-bottom:1.5rem;
+              background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
+              border-radius:10px; color:#f1f5f9; font-size:0.875rem; outline:none;">
+
+{% if ucs %}
+<ul id="ucsList">
     {% for uc in ucs %}
-        <li>
-            <a href="{% url 'uc_detail' uc.id %}">
-                {{ uc.nome }}
-            </a>
-        </li>
+    <li><a href="{% url 'uc_detail' uc.id %}">{{ uc.nome }}</a></li>
     {% endfor %}
 </ul>
+{% else %}
+<div class="empty-state">
+    <i class="fas fa-book-open"></i>
+    <p>Nenhuma unidade curricular registada.</p>
+</div>
+{% endif %}
+
+{% block extra_js %}
+<script>
+    const input = document.getElementById("searchInput");
+    const items = document.querySelectorAll("#ucsList li");
+
+    input.addEventListener("keyup", function() {
+        const filter = input.value.toLowerCase();
+        items.forEach(item => {
+            item.style.display = item.innerText.toLowerCase().includes(filter) ? "" : "none";
+        });
+    });
+</script>
+{% endblock %}
+
 {% endblock %}

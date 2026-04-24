@@ -2,13 +2,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.shortcuts import redirect  # <- adicionar
+from django.shortcuts import redirect
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("escola/", include("escola.urls")),
     path("portfolio/", include("portfolio.urls")),
-    path("", lambda request: redirect('licenciaturas')),  # <- adicionar
+    path("", lambda request: redirect('/portfolio/')),  # ← redireciona para a home
 ]
 
 if settings.DEBUG:

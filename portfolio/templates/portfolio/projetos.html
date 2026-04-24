@@ -1,15 +1,85 @@
 {% extends "portfolio/base.html" %}
+{% block nav_projetos %}active{% endblock %}
 
 {% block content %}
-<h2>Projetos</h2>
+<div class="page-header">
+    <div>
+        <h2>Projetos <span class="text-accent">Académicos</span></h2>
+        <p>Trabalhos desenvolvidos ao longo do percurso universitário.</p>
+    </div>
+    <span style="font-family:var(--fd);font-size:.85rem;color:var(--ts);">
+        <i class="fas fa-layer-group me-1" style="color:var(--pri-l);"></i>{{ projetos|length }} projeto{{ projetos|length|pluralize:"s" }}
+    </span>
+</div>
 
-<ul>
+{% if projetos %}
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;">
     {% for p in projetos %}
-        <li>
-            <a href="{% url 'projetos_detail' p.id %}">
-                {{ p.nome }}
-            </a>
-        </li>
+    <a href="{% url 'projetos_detail' p.id %}" style="text-decoration:none;">
+        <div class="card" style="height:100%;cursor:pointer;">
+
+            <!-- Imagem / placeholder -->
+            <div style="width:100%;height:160px;overflow:hidden;position:relative;border-radius:var(--rl) var(--rl) 0 0;background:var(--sf2);">
+                {% if p.foto %}
+                    <img src="{{ p.foto.url }}" alt="{{ p.nome }}"
+                         style="width:100%;height:100%;object-fit:cover;transition:transform .4s ease;">
+                {% else %}
+                    <div style="width:100%;height:100%;display:grid;place-items:center;background:linear-gradient(135deg,var(--sf) 0%,var(--sf2) 100%);">
+                        <i class="fas fa-code-branch" style="font-size:2.5rem;color:var(--pri-l);opacity:.4;"></i>
+                    </div>
+                {% endif %}
+                <!-- Badge UC -->
+                {% if p.uc %}
+                <span style="position:absolute;top:.75rem;left:.75rem;background:rgba(10,15,30,.8);backdrop-filter:blur(8px);border:1px solid var(--bd);border-radius:6px;padding:.2rem .6rem;font-size:.7rem;color:var(--ts);">
+                    <i class="fas fa-book-open me-1" style="color:var(--acc);"></i>{{ p.uc.nome|truncatechars:25 }}
+                </span>
+                {% endif %}
+            </div>
+
+            <div class="card-body" style="display:flex;flex-direction:column;gap:.75rem;">
+                <div>
+                    <h3 class="card-title" style="font-size:1rem;margin-bottom:.35rem;">{{ p.nome }}</h3>
+                    {% if p.descricao %}
+                    <p class="card-text" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
+                        {{ p.descricao }}
+                    </p>
+                    {% endif %}
+                </div>
+
+                <!-- Tecnologias -->
+                {% if p.tecnologias.all %}
+                <div style="display:flex;flex-wrap:wrap;gap:.35rem;">
+                    {% for t in p.tecnologias.all|slice:":4" %}
+                    <span class="badge-tech" style="font-size:.7rem;">{{ t.nome }}</span>
+                    {% endfor %}
+                    {% if p.tecnologias.count > 4 %}
+                    <span class="badge-tech" style="font-size:.7rem;background:rgba(139,92,246,.15);color:var(--acc2);border-color:rgba(139,92,246,.3);">+{{ p.tecnologias.count|add:"-4" }}</span>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- Rodapé -->
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:.5rem;border-top:1px solid var(--bd);">
+                    <div style="display:flex;gap:.6rem;">
+                        {% if p.link_github %}
+                        <span style="font-size:.75rem;color:var(--ts);"><i class="fab fa-github me-1"></i>GitHub</span>
+                        {% endif %}
+
+                    </div>
+                    {% if p.data_inicio %}
+                    <span style="font-size:.7rem;color:var(--tm);">{{ p.data_inicio|date:"Y" }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </a>
     {% endfor %}
-</ul>
+</div>
+
+{% else %}
+<div class="empty-state">
+    <i class="fas fa-code-branch"></i>
+    <p>Nenhum projeto registado.</p>
+</div>
+{% endif %}
 {% endblock %}

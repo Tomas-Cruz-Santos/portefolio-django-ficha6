@@ -356,29 +356,32 @@
                 </ul>
             </div>
             <div class="col-lg-3">
-                <div class="footer-heading">Destaques</div>
-                <div style="display:flex;flex-direction:column;gap:.6rem;">
-                    {% block footer_stats %}
-                    <div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem .8rem;background:var(--sf);border:1px solid var(--bd);border-radius:8px;">
-                        <span style="font-size:.8rem;color:var(--ts);"><i class="fas fa-code me-2" style="color:var(--pri-l);"></i>Projetos</span>
-                        <span style="font-family:var(--fd);font-weight:700;font-size:.95rem;">–</span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem .8rem;background:var(--sf);border:1px solid var(--bd);border-radius:8px;">
-                        <span style="font-size:.8rem;color:var(--ts);"><i class="fas fa-book me-2" style="color:var(--acc);"></i>Unid. Curriculares</span>
-                        <span style="font-family:var(--fd);font-weight:700;font-size:.95rem;">–</span>
-                    </div>
-                    {% endblock %}
+                <div class="footer-heading">Contacto</div>
+                <div style="display:flex;flex-direction:column;gap:.75rem;">
+                    <a href="https://github.com/Tomas-Cruz-Santos" target="_blank" rel="noopener"
+                       style="display:flex;align-items:center;gap:.75rem;padding:.7rem 1rem;background:var(--sf);border:1px solid var(--bd);border-radius:8px;text-decoration:none;color:var(--ts);font-size:.85rem;transition:var(--tr);"
+                       onmouseover="this.style.borderColor='rgba(37,99,235,.4)';this.style.color='#f1f5f9'"
+                       onmouseout="this.style.borderColor='rgba(255,255,255,.07)';this.style.color='#94a3b8'">
+                        <i class="fab fa-github" style="color:var(--tp);font-size:1rem;width:18px;"></i>GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/tomás-santos-44155a32b/" target="_blank" rel="noopener"
+                       style="display:flex;align-items:center;gap:.75rem;padding:.7rem 1rem;background:var(--sf);border:1px solid var(--bd);border-radius:8px;text-decoration:none;color:var(--ts);font-size:.85rem;transition:var(--tr);"
+                       onmouseover="this.style.borderColor='rgba(37,99,235,.4)';this.style.color='#f1f5f9'"
+                       onmouseout="this.style.borderColor='rgba(255,255,255,.07)';this.style.color='#94a3b8'">
+                        <i class="fab fa-linkedin-in" style="color:#0a66c2;font-size:1rem;width:18px;"></i>LinkedIn
+                    </a>
+                    <a href="mailto:tomas.cruz.santos08@gmail.com"
+                       style="display:flex;align-items:center;gap:.75rem;padding:.7rem 1rem;background:var(--sf);border:1px solid var(--bd);border-radius:8px;text-decoration:none;color:var(--ts);font-size:.85rem;transition:var(--tr);"
+                       onmouseover="this.style.borderColor='rgba(37,99,235,.4)';this.style.color='#f1f5f9'"
+                       onmouseout="this.style.borderColor='rgba(255,255,255,.07)';this.style.color='#94a3b8'">
+                        <i class="fas fa-envelope" style="color:#ef4444;font-size:1rem;width:18px;"></i>Email
+                    </a>
                 </div>
             </div>
         </div>
         <hr class="footer-divider">
-        <div class="footer-bottom">
+        <div class="footer-bottom" style="justify-content:center;text-align:center;">
             <p class="footer-copy">© 2026 Portfólio Académico &mdash; Desenvolvido com <i class="fas fa-heart" style="color:#ef4444;margin:0 2px;"></i> em <a href="https://www.djangoproject.com/" target="_blank" rel="noopener">Django</a></p>
-            <div class="footer-socials">
-                <a href="#" class="social-btn" title="GitHub" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                <a href="#" class="social-btn" title="LinkedIn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                <a href="mailto:#" class="social-btn" title="Email" aria-label="Email"><i class="fas fa-envelope"></i></a>
-            </div>
         </div>
     </div>
 </footer>

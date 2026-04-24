@@ -2,6 +2,17 @@ from django.shortcuts import render, get_object_or_404
 from .models import Licenciatura, Docente, UnidadeCurricular, Tecnologia, Projeto, TFC, Competencia, Formacao
 from .models import MakingOf
 
+# -------- HOME --------
+def home_view(request):
+    context = {
+        'num_projetos': Projeto.objects.count(),
+        'num_ucs': UnidadeCurricular.objects.count(),
+        'num_tecnologias': Tecnologia.objects.count(),
+        'num_formacoes': Formacao.objects.count(),
+        'projetos_recentes': Projeto.objects.select_related('uc').prefetch_related('tecnologias').order_by('-data_inicio')[:3],
+    }
+    return render(request, 'portfolio/home.html', context)
+
 def licenciaturas_view(request):
     licenciaturas = Licenciatura.objects.prefetch_related('ucs', 'tfcs').all()
     return render(request, 'portfolio/licenciaturas.html', {'licenciaturas': licenciaturas})
@@ -35,10 +46,8 @@ def formacoes_view(request):
     return render(request, 'portfolio/formacoes.html', {'formacoes': formacoes})
 
 # -------- LICENCIATURA --------
-
 def licenciaturas_detail_view(request, lic_id):
     licenciatura = get_object_or_404(Licenciatura, id=lic_id)
-    # 3. Nome do template igual ao que tens na pasta (segundo a tua imagem)
     return render(request, 'portfolio/licenciaturas_detail.html', {'licenciatura': licenciatura})
 
 # -------- DOCENTE --------
