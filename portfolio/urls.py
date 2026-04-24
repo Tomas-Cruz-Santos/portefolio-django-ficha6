@@ -15,7 +15,7 @@ urlpatterns = [
     # DETAILS
     path('licenciaturas/<int:lic_id>/', views.licenciaturas_detail_view, name='licenciaturas_detail'),
     path('docentes/<int:doc_id>/', views.docentes_detail_view, name='docentes_detail'),
-    path('ucs/<int:uc_id>/', views.uc_detail_view, name='ucs_detail'), # corrigido
+    path('uc/<int:uc_id>/', views.uc_detail_view, name='uc_detail'), # corrigido
     path('tecnologias/<int:tec_id>/', views.tecnologias_detail_view, name='tecnologias_detail'),
     path('projetos/<int:proj_id>/', views.projetos_detail_view, name='projetos_detail'),
     path('tfcs/<int:tfc_id>/', views.tfcs_detail_view, name='tfcs_detail'), # corrigido

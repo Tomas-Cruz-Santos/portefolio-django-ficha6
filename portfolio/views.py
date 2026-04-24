@@ -12,7 +12,7 @@ def docentes_view(request):
 
 def ucs_view(request):
     ucs = UnidadeCurricular.objects.select_related('licenciatura').prefetch_related('docentes', 'projetos').all()
-    return render(request, 'portfolio/ucs.html', {'ucs': ucs})
+    return render(request, 'portfolio/uc.html', {'ucs': ucs})
 
 def tecnologias_view(request):
     tecnologias = Tecnologia.objects.all()
@@ -35,8 +35,7 @@ def formacoes_view(request):
     return render(request, 'portfolio/formacoes.html', {'formacoes': formacoes})
 
 # -------- LICENCIATURA --------
-# 1. Nome da função com 's' para bater com o urls.py
-# 2. Argumento 'lic_id' para bater com o <int:lic_id> do urls.py
+
 def licenciaturas_detail_view(request, lic_id):
     licenciatura = get_object_or_404(Licenciatura, id=lic_id)
     # 3. Nome do template igual ao que tens na pasta (segundo a tua imagem)
