@@ -1,23 +1,123 @@
 {% extends "portfolio/base.html" %}
+{% block nav_docentes %}active{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumb-bar">
+    <div class="container">
+        <nav class="breadcrumb">
+            <span class="breadcrumb-item"><a href="{% url 'docentes' %}"><i class="fas fa-chalkboard-teacher me-1"></i>Docentes</a></span>
+            <span class="breadcrumb-item active">{{ docente.nome }}</span>
+        </nav>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-avatar {
+        width:120px; height:120px; border-radius:50%; object-fit:cover;
+        border:3px solid rgba(37,99,235,.4);
+        box-shadow:0 0 30px rgba(37,99,235,.2);
+    }
+    .profile-avatar-placeholder {
+        width:120px; height:120px; border-radius:50%;
+        background:linear-gradient(135deg,var(--pri),var(--acc));
+        border:3px solid rgba(37,99,235,.4);
+        display:grid; place-items:center;
+        font-family:var(--fd); font-weight:800; font-size:2.5rem; color:#fff;
+        box-shadow:0 0 30px rgba(37,99,235,.2);
+    }
+    .info-card { background:var(--sf); border:1px solid var(--bd); border-radius:var(--r); padding:1.25rem 1.5rem; }
+    .info-row { display:flex; align-items:center; gap:.75rem; padding:.55rem 0; border-bottom:1px solid var(--bd); font-size:.875rem; }
+    .info-row:last-child { border-bottom:none; }
+    .info-row i { width:18px; color:var(--pri-l); flex-shrink:0; }
+    .info-label { color:var(--ts); min-width:120px; }
+    .info-value { color:var(--tp); font-weight:500; }
+    .section-title { font-family:var(--fd); font-weight:700; font-size:1rem; color:var(--tp); margin-bottom:1rem; display:flex; align-items:center; gap:.5rem; }
+    .section-title i { color:var(--pri-l); }
+    .uc-chip {
+        display:flex; align-items:center; gap:.6rem;
+        background:var(--sf); border:1px solid var(--bd); border-radius:8px;
+        padding:.6rem 1rem; font-size:.85rem; color:var(--ts);
+        text-decoration:none; transition:var(--tr);
+    }
+    .uc-chip:hover { border-color:rgba(37,99,235,.4); color:var(--tp); background:rgba(37,99,235,.08); }
+</style>
+{% endblock %}
 
 {% block content %}
-<h2>{{ docente.nome }}</h2>
+<div class="row g-4">
 
-<p>{{ docente.area_especializacao }}</p>
+    <!-- Coluna esquerda — perfil -->
+    <div class="col-lg-4">
+        <div class="info-card" style="text-align:center;padding:2rem 1.5rem;margin-bottom:1.25rem;">
+            {% if docente.foto %}
+                <img src="{{ docente.foto.url }}" alt="{{ docente.nome }}" class="profile-avatar" style="margin:0 auto 1.25rem;display:block;">
+            {% else %}
+                <div class="profile-avatar-placeholder" style="margin:0 auto 1.25rem;">{{ docente.nome|first|upper }}</div>
+            {% endif %}
+            <h2 style="font-size:1.3rem;margin-bottom:.35rem;">{{ docente.nome }}</h2>
+            {% if docente.area_especializacao %}
+            <p style="color:var(--acc);font-size:.85rem;font-weight:600;">{{ docente.area_especializacao }}</p>
+            {% endif %}
+        </div>
 
-{% if docente.linkedin %}
-    <a href="{{ docente.linkedin }}">LinkedIn</a>
-{% endif %}
+        <!-- Informações -->
+        <div class="info-card" style="margin-bottom:1.25rem;">
+            <div class="section-title"><i class="fas fa-info-circle"></i>Informações</div>
+            {% if docente.area_especializacao %}
+            <div class="info-row">
+                <i class="fas fa-tag"></i>
+                <span class="info-label">Área</span>
+                <span class="info-value">{{ docente.area_especializacao }}</span>
+            </div>
+            {% endif %}
+            <div class="info-row">
+                <i class="fas fa-book-open"></i>
+                <span class="info-label">UCs</span>
+                <span class="info-value">{{ docente.ucs.count }}</span>
+            </div>
+        </div>
 
-{% if docente.foto %}
-    <img src="{{ docente.foto.url }}" width="200">
-{% endif %}
+        <!-- Botões -->
+        <div style="display:flex;flex-direction:column;gap:.6rem;">
+            {% if docente.linkedin %}
+            <a href="{{ docente.linkedin }}" target="_blank" rel="noopener" class="btn-primary-custom" style="justify-content:center;">
+                <i class="fab fa-linkedin-in"></i>Ver LinkedIn
+            </a>
+            {% endif %}
+            <a href="{% url 'docentes' %}" class="btn-ghost" style="justify-content:center;">
+                <i class="fas fa-arrow-left"></i>Voltar aos Docentes
+            </a>
+        </div>
+    </div>
 
-<h3>UCs</h3>
-<ul>
-    {% for uc in docente.ucs.all %}
-        <li>{{ uc.nome }}</li>
-    {% endfor %}
-</ul>
+    <!-- Coluna direita — UCs -->
+    <div class="col-lg-8">
+        <div class="section-title" style="font-size:1.1rem;margin-bottom:1.25rem;">
+            <i class="fas fa-book-open"></i>Unidades Curriculares
+            <span style="font-size:.8rem;color:var(--ts);font-weight:400;margin-left:.5rem;">({{ docente.ucs.count }})</span>
+        </div>
 
+        {% if docente.ucs.all %}
+        <div style="display:flex;flex-direction:column;gap:.6rem;">
+            {% for uc in docente.ucs.all %}
+            <a href="{% url 'uc_detail' uc.id %}" class="uc-chip">
+                <i class="fas fa-book-open" style="color:var(--acc);flex-shrink:0;"></i>
+                <div style="flex:1;">
+                    <div style="font-weight:600;color:var(--tp);font-size:.875rem;">{{ uc.nome }}</div>
+                    <div style="font-size:.75rem;color:var(--ts);">{{ uc.ano_curricular }}º Ano · Semestre {{ uc.semestre }}{% if uc.ects %} · {{ uc.ects }} ECTS{% endif %}</div>
+                </div>
+                <i class="fas fa-chevron-right" style="color:var(--tm);font-size:.75rem;"></i>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state" style="padding:2rem;">
+            <i class="fas fa-book-open"></i>
+            <p>Sem unidades curriculares associadas.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

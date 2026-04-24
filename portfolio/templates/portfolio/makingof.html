@@ -1,15 +1,41 @@
 {% extends "portfolio/base.html" %}
+{% block nav_makingof %}active{% endblock %}
 
 {% block content %}
-<h2>Making Of</h2>
+<div class="page-header">
+    <div>
+        <h2>Making <span class="text-accent">Of</span></h2>
+        <p>Acompanhamento da evolução do projeto e decisões do modelo de dados.</p>
+    </div>
+</div>
 
-<ul>
+<div class="timeline" style="position: relative; padding: 20px 0;">
+    <div style="position: absolute; left: 30px; top: 0; bottom: 0; width: 2px; background: var(--bd);"></div>
+
     {% for m in makingofs %}
-        <li>
-            <a href="{% url 'makingof_detail' m.id %}">
-                {{ m.entidade }} - {{ m.data }}
-            </a>
-        </li>
+    <div class="timeline-item" style="position: relative; margin-bottom: 30px; padding-left: 70px;">
+        <div style="position: absolute; left: 21px; top: 10px; width: 20px; height: 20px; border-radius: 50%; background: var(--pri-l); border: 4px solid var(--sf); box-shadow: 0 0 10px var(--pri);"></div>
+        
+        <div class="card shadow-sm h-100" style="border-left: 4px solid var(--pri-l);">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h3 style="font-size: 1.1rem; color: var(--acc); margin: 0;">{{ m.get_entidade_display }}</h3>
+                    <span class="badge bg-dark text-muted">{{ m.data|date:"d/m/Y" }}</span>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--ts);">{{ m.descricao|truncatechars:150 }}</p>
+                <a href="{% url 'makingof_detail' m.id %}" class="btn-ghost btn-sm">
+                    <i class="fas fa-search-plus me-1"></i> Ver detalhes e correções
+                </a>
+            </div>
+        </div>
+    </div>
     {% endfor %}
-</ul>
+</div>
+
+{% if not makingofs %}
+<div class="empty-state">
+    <i class="fas fa-tools"></i>
+    <p>Ainda não registou os momentos do desenvolvimento no Admin.</p>
+</div>
+{% endif %}
 {% endblock %}

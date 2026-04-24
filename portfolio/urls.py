@@ -14,6 +14,8 @@ urlpatterns = [
     path('tfcs/', views.tfcs_view, name='tfcs'),
     path('competencias/', views.competencias_view, name='competencias'),
     path('formacoes/', views.formacoes_view, name='formacoes'),
+    path('makingof/', views.makingof_view, name='makingof'), 
+    
 
     # DETAILS
     path('licenciaturas/<int:lic_id>/', views.licenciaturas_detail_view, name='licenciaturas_detail'),
@@ -25,4 +27,5 @@ urlpatterns = [
     path('competencias/<int:comp_id>/', views.competencias_detail_view, name='competencias_detail'),
     path('formacoes/<int:form_id>/', views.formacoes_detail_view, name='formacoes_detail'),
     path('makingof/<int:makingof_id>/', views.makingof_detail_view, name='makingof_detail'),
+
 ]

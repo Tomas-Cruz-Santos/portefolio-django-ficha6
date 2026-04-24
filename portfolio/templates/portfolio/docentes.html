@@ -1,37 +1,64 @@
 {% extends "portfolio/base.html" %}
-
 {% block nav_docentes %}active{% endblock %}
 
 {% block extra_css %}
 <style>
-    #searchInput:focus {
-        border-color: rgba(37, 99, 235, 0.5);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        background: rgba(255,255,255,0.08);
+    #searchInput:focus { border-color:rgba(37,99,235,.5); box-shadow:0 0 0 3px rgba(37,99,235,.15); background:rgba(255,255,255,.08); }
+    #searchInput::placeholder { color:#475569; }
+    .docente-card {
+        background:var(--sf); border:1px solid var(--bd); border-radius:var(--rl);
+        padding:1.5rem 1rem; display:flex; flex-direction:column; align-items:center;
+        text-align:center; gap:.75rem; text-decoration:none; color:var(--tp);
+        transition:var(--tr); height:100%;
     }
-    #searchInput::placeholder { color: #475569; }
+    .docente-card:hover { border-color:rgba(37,99,235,.4); transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,.3),var(--glow); color:var(--tp); }
+    .docente-avatar {
+        width:64px; height:64px; border-radius:50%; object-fit:cover;
+        border:2px solid rgba(37,99,235,.3); flex-shrink:0;
+    }
+    .docente-avatar-placeholder {
+        width:64px; height:64px; border-radius:50%;
+        background:linear-gradient(135deg,var(--pri),var(--acc));
+        display:grid; place-items:center; font-family:var(--fd);
+        font-weight:800; font-size:1.4rem; color:#fff; flex-shrink:0;
+    }
+    .docente-name { font-family:var(--fd); font-weight:700; font-size:.9rem; line-height:1.3; }
+    .docente-area { font-size:.75rem; color:var(--ts); }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="page-header">
     <div>
-        <h2>Docentes</h2>
+        <h2>Docentes <span class="text-accent">Académicos</span></h2>
         <p>Lista de docentes do percurso académico.</p>
     </div>
+    <span style="font-family:var(--fd);font-size:.85rem;color:var(--ts);">
+        <i class="fas fa-chalkboard-teacher me-1" style="color:var(--pri-l);"></i>{{ docentes|length }} docente{{ docentes|length|pluralize:"s" }}
+    </span>
 </div>
 
 <input type="text" id="searchInput" placeholder="Pesquisar docente..."
-       style="padding:10px 14px; width:300px; margin-bottom:1.5rem;
-              background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
-              border-radius:10px; color:#f1f5f9; font-size:0.875rem; outline:none;">
+       style="padding:10px 14px;width:320px;margin-bottom:1.5rem;
+              background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+              border-radius:10px;color:#f1f5f9;font-size:.875rem;outline:none;">
 
 {% if docentes %}
-<ul id="docentesList">
+<div id="docentesList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;">
     {% for d in docentes %}
-    <li><a href="{% url 'docentes_detail' d.id %}">{{ d.nome }}</a></li>
+    <a href="{% url 'docentes_detail' d.id %}" class="docente-card">
+        {% if d.foto %}
+            <img src="{{ d.foto.url }}" alt="{{ d.nome }}" class="docente-avatar">
+        {% else %}
+            <div class="docente-avatar-placeholder">{{ d.nome|first|upper }}</div>
+        {% endif %}
+        <div class="docente-name">{{ d.nome }}</div>
+        {% if d.area_especializacao %}
+        <div class="docente-area"><i class="fas fa-tag me-1"></i>{{ d.area_especializacao }}</div>
+        {% endif %}
+    </a>
     {% endfor %}
-</ul>
+</div>
 {% else %}
 <div class="empty-state">
     <i class="fas fa-chalkboard-teacher"></i>
@@ -42,15 +69,13 @@
 {% block extra_js %}
 <script>
     const input = document.getElementById("searchInput");
-    const items = document.querySelectorAll("#docentesList li");
-
+    const cards = document.querySelectorAll("#docentesList a");
     input.addEventListener("keyup", function() {
         const filter = input.value.toLowerCase();
-        items.forEach(item => {
-            item.style.display = item.innerText.toLowerCase().includes(filter) ? "" : "none";
+        cards.forEach(card => {
+            card.style.display = card.innerText.toLowerCase().includes(filter) ? "" : "none";
         });
     });
 </script>
 {% endblock %}
-
 {% endblock %}

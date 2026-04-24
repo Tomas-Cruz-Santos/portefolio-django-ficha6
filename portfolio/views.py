@@ -45,6 +45,13 @@ def formacoes_view(request):
     formacoes = Formacao.objects.prefetch_related('tecnologias').all()
     return render(request, 'portfolio/formacoes.html', {'formacoes': formacoes})
 
+def makingof_view(request):
+    # Ordenamos por data para mostrar a evolução cronológica do trabalho
+    makingofs = MakingOf.objects.all().order_by('data')
+    return render(request, 'portfolio/makingof.html', {'makingofs': makingofs})
+
+
+
 # -------- LICENCIATURA --------
 def licenciaturas_detail_view(request, lic_id):
     licenciatura = get_object_or_404(Licenciatura, id=lic_id)
