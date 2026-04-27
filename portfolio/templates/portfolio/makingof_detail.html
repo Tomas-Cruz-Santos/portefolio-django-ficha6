@@ -1,16 +1,111 @@
 {% extends "portfolio/base.html" %}
 
+{% block breadcrumbs %}
+<div class="breadcrumb-bar">
+    <div class="container">
+        <nav class="breadcrumb">
+            <span class="breadcrumb-item"><a href="/">Início</a></span>
+            <span class="breadcrumb-item"><a href="{% url 'makingof' %}">Making Of</a></span>
+            <span class="breadcrumb-item active">{{ makingof.get_entidade_display }}</span>
+        </nav>
+    </div>
+</div>
+{% endblock %}
+
 {% block content %}
-<h2>{{ makingof.get_entidade_display }}</h2>
 
-<p><strong>Data:</strong> {{ makingof.data }}</p>
+<!-- Cabeçalho -->
+<div class="page-header reveal">
+    <div>
+        <h2>{{ makingof.get_entidade_display }}</h2>
+        <p><i class="fas fa-calendar-alt me-1" style="color:var(--acc);"></i>{{ makingof.data|date:"d \d\e F \d\e Y" }}</p>
+    </div>
+    <a href="{% url 'makingof' %}" class="btn-ghost">
+        <i class="fas fa-arrow-left"></i>Voltar
+    </a>
+</div>
 
-<p><strong>Descrição:</strong> {{ makingof.descricao }}</p>
-<p><strong>Erros:</strong> {{ makingof.erros }}</p>
-<p><strong>Correções:</strong> {{ makingof.correcoes }}</p>
+<div class="row g-4">
 
-{% if makingof.fotos %}
-    <img src="{{ makingof.fotos.url }}" width="300">
-{% endif %}
+    <!-- Coluna principal -->
+    <div class="col-lg-8">
 
+        {% if makingof.descricao %}
+        <div class="reveal" style="background:var(--sf); border:1px solid var(--bd); border-radius:var(--rl); padding:1.5rem; margin-bottom:1.5rem;">
+            <div style="display:flex; align-items:center; gap:.6rem; margin-bottom:1rem;">
+                <span style="width:32px; height:32px; border-radius:8px; background:rgba(37,99,235,.15); display:grid; place-items:center;">
+                    <i class="fas fa-align-left" style="color:var(--pri-l); font-size:.8rem;"></i>
+                </span>
+                <h3 style="font-size:1rem; margin:0;">Descrição</h3>
+            </div>
+            <p style="color:var(--ts); font-size:.9rem; line-height:1.8; margin:0;">{{ makingof.descricao }}</p>
+        </div>
+        {% endif %}
+
+        {% if makingof.erros %}
+        <div class="reveal" style="background:var(--sf); border:1px solid rgba(239,68,68,.25); border-radius:var(--rl); padding:1.5rem; margin-bottom:1.5rem;">
+            <div style="display:flex; align-items:center; gap:.6rem; margin-bottom:1rem;">
+                <span style="width:32px; height:32px; border-radius:8px; background:rgba(239,68,68,.12); display:grid; place-items:center;">
+                    <i class="fas fa-bug" style="color:#f87171; font-size:.8rem;"></i>
+                </span>
+                <h3 style="font-size:1rem; margin:0; color:#f87171;">Erros Encontrados</h3>
+            </div>
+            <p style="color:var(--ts); font-size:.9rem; line-height:1.8; margin:0;">{{ makingof.erros }}</p>
+        </div>
+        {% endif %}
+
+        {% if makingof.correcoes %}
+        <div class="reveal" style="background:var(--sf); border:1px solid rgba(16,185,129,.25); border-radius:var(--rl); padding:1.5rem; margin-bottom:1.5rem;">
+            <div style="display:flex; align-items:center; gap:.6rem; margin-bottom:1rem;">
+                <span style="width:32px; height:32px; border-radius:8px; background:rgba(16,185,129,.12); display:grid; place-items:center;">
+                    <i class="fas fa-check-circle" style="color:#34d399; font-size:.8rem;"></i>
+                </span>
+                <h3 style="font-size:1rem; margin:0; color:#34d399;">Correções Aplicadas</h3>
+            </div>
+            <p style="color:var(--ts); font-size:.9rem; line-height:1.8; margin:0;">{{ makingof.correcoes }}</p>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <!-- Coluna lateral -->
+    <div class="col-lg-4">
+
+        {% if makingof.fotos %}
+        <div class="reveal" style="background:var(--sf); border:1px solid var(--bd); border-radius:var(--rl); overflow:hidden; margin-bottom:1.5rem;">
+            <img src="{{ makingof.fotos.url }}" alt="Making Of" style="width:100%; display:block; object-fit:cover;">
+            <div style="padding:.75rem 1rem;">
+                <p style="color:var(--tm); font-size:.75rem; margin:0;"><i class="fas fa-image me-1"></i>Imagem de apoio</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="reveal" style="background:var(--sf); border:1px solid var(--bd); border-radius:var(--rl); padding:1.25rem;">
+            <div style="font-family:var(--fd); font-weight:700; font-size:.75rem; text-transform:uppercase; letter-spacing:.1em; color:var(--tm); margin-bottom:1rem;">Informação</div>
+            <div style="display:flex; flex-direction:column; gap:.75rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="color:var(--tm); font-size:.8rem;">Entidade</span>
+                    <span class="badge-tech">{{ makingof.get_entidade_display }}</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="color:var(--tm); font-size:.8rem;">Data</span>
+                    <span style="color:var(--ts); font-size:.8rem;">{{ makingof.data|date:"d/m/Y" }}</span>
+                </div>
+                {% if makingof.erros %}
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="color:var(--tm); font-size:.8rem;">Erros</span>
+                    <span style="color:#f87171; font-size:.8rem;"><i class="fas fa-circle" style="font-size:.5rem;"></i> Registados</span>
+                </div>
+                {% endif %}
+                {% if makingof.correcoes %}
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="color:var(--tm); font-size:.8rem;">Correções</span>
+                    <span style="color:#34d399; font-size:.8rem;"><i class="fas fa-circle" style="font-size:.5rem;"></i> Aplicadas</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
 {% endblock %}

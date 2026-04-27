@@ -1,41 +1,39 @@
 {% extends "portfolio/base.html" %}
+{% load static %}
 {% block nav_makingof %}active{% endblock %}
 
 {% block content %}
-<div class="page-header">
+
+<div class="page-header reveal">
     <div>
         <h2>Making <span class="text-accent">Of</span></h2>
-        <p>Acompanhamento da evolução do projeto e decisões do modelo de dados.</p>
+        <p>Processo de desenvolvimento do Portfólio Académico.</p>
     </div>
 </div>
 
-<div class="timeline" style="position: relative; padding: 20px 0;">
-    <div style="position: absolute; left: 30px; top: 0; bottom: 0; width: 2px; background: var(--bd);"></div>
-
-    {% for m in makingofs %}
-    <div class="timeline-item" style="position: relative; margin-bottom: 30px; padding-left: 70px;">
-        <div style="position: absolute; left: 21px; top: 10px; width: 20px; height: 20px; border-radius: 50%; background: var(--pri-l); border: 4px solid var(--sf); box-shadow: 0 0 10px var(--pri);"></div>
-        
-        <div class="card shadow-sm h-100" style="border-left: 4px solid var(--pri-l);">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h3 style="font-size: 1.1rem; color: var(--acc); margin: 0;">{{ m.get_entidade_display }}</h3>
-                    <span class="badge bg-dark text-muted">{{ m.data|date:"d/m/Y" }}</span>
-                </div>
-                <p style="font-size: 0.9rem; color: var(--ts);">{{ m.descricao|truncatechars:150 }}</p>
-                <a href="{% url 'makingof_detail' m.id %}" class="btn-ghost btn-sm">
-                    <i class="fas fa-search-plus me-1"></i> Ver detalhes e correções
-                </a>
-            </div>
-        </div>
+<div class="reveal" style="background:var(--sf); border:1px solid var(--bd); border-radius:var(--rl); padding:1.75rem 2rem; margin-bottom:2rem;">
+    <div style="display:flex; align-items:center; gap:.75rem; margin-bottom:1.25rem;">
+        <span style="width:40px; height:40px; border-radius:10px; background:rgba(37,99,235,.15); display:grid; place-items:center; flex-shrink:0;">
+            <i class="fas fa-info-circle" style="color:var(--pri-l);"></i>
+        </span>
+        <h3 style="font-size:1.1rem; margin:0;">O que é o Making Of?</h3>
     </div>
-    {% endfor %}
+    <p style="color:var(--ts); font-size:.925rem; line-height:1.8; margin-bottom:1rem;">
+        O <strong style="color:var(--tp);">Making Of</strong> documenta todo o processo de desenvolvimento deste portfólio académico, 
+        desde as decisões iniciais de modelação de dados até às correções e melhorias aplicadas ao longo do tempo.
+    </p>
+    <p style="color:var(--ts); font-size:.925rem; line-height:1.8; margin-bottom:1.5rem;">
+        O trabalho de <strong style="color:var(--tp);">Programação Web</strong> teve como objetivo a modelação e desenvolvimento de uma aplicação 
+        académica que representa o percurso formativo de um estudante do <strong style="color:var(--acc);">DEISI</strong>, incluindo 
+        unidades curriculares, projetos realizados, tecnologias utilizadas, competências adquiridas, formações complementares e TFCs. 
+        A aplicação serve não só como ferramenta de organização pessoal, mas também como recurso de apresentação em contextos profissionais.
+    </p>
+
+    {% if makingof_doc %}
+    <a href="{{ makingof_doc.url }}" download class="btn-primary-custom" style="font-size:.875rem;">
+        <i class="fas fa-download"></i>Download do Documento Completo
+    </a>
+    {% endif %}
 </div>
 
-{% if not makingofs %}
-<div class="empty-state">
-    <i class="fas fa-tools"></i>
-    <p>Ainda não registou os momentos do desenvolvimento no Admin.</p>
-</div>
-{% endif %}
 {% endblock %}

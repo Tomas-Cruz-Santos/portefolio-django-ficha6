@@ -46,9 +46,12 @@ def formacoes_view(request):
     return render(request, 'portfolio/formacoes.html', {'formacoes': formacoes})
 
 def makingof_view(request):
-    # Ordenamos por data para mostrar a evolução cronológica do trabalho
     makingofs = MakingOf.objects.all().order_by('data')
-    return render(request, 'portfolio/makingof.html', {'makingofs': makingofs})
+    doc = MakingOf.objects.filter(documento__isnull=False).first()
+    return render(request, 'portfolio/makingof.html', {
+        'makingofs': makingofs,
+        'makingof_doc': doc.documento if doc else None,
+    })
 
 
 

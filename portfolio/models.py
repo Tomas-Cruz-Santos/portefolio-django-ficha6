@@ -190,6 +190,7 @@ class MakingOf(models.Model):
     erros = models.TextField(blank=True)
     correcoes = models.TextField(blank=True)
     fotos = models.ImageField(upload_to="makingof/", blank=True, null=True)
+    documento = models.FileField(upload_to="makingof/docs/", blank=True, null=True)
 
     def __str__(self):
         return f"[{self.get_entidade_display()}] {self.data}"
