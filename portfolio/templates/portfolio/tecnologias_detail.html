@@ -1,23 +1,115 @@
 {% extends "portfolio/base.html" %}
 
+{% block breadcrumbs %}
+<div class="breadcrumb-bar">
+    <div class="container">
+        <nav class="breadcrumb">
+            <span class="breadcrumb-item"><a href="{% url 'tecnologias' %}"><i class="fas fa-microchip me-1"></i>Tecnologias</a></span>
+            <span class="breadcrumb-item active">{{ tecnologia.nome }}</span>
+        </nav>
+    </div>
+</div>
+{% endblock %}
+
 {% block content %}
-<h2>{{ tecnologia.nome }}</h2>
+<div class="page-header">
+    <div>
+        <h2>{{ tecnologia.nome }}</h2>
+        {% if tecnologia.tipo %}<p>{{ tecnologia.tipo }}{% if tecnologia.categoria %} · {{ tecnologia.categoria }}{% endif %}</p>{% endif %}
+    </div>
+    {% if user.is_authenticated %}
+    <div style="display:flex;gap:.5rem;">
+        <a href="{% url 'tecnologia_edit' tecnologia.id %}" class="btn-ghost"><i class="fas fa-pen"></i>Editar</a>
+        <a href="{% url 'tecnologia_delete' tecnologia.id %}"
+           style="display:inline-flex;align-items:center;gap:.45rem;background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:.6rem 1.2rem;font-size:.875rem;text-decoration:none;">
+            <i class="fas fa-trash"></i>Eliminar
+        </a>
+    </div>
+    {% endif %}
+</div>
 
-<p><strong>Tipo:</strong> {{ tecnologia.tipo }}</p>
-<p><strong>Categoria:</strong> {{ tecnologia.categoria }}</p>
+<div class="row g-4">
+    <!-- Coluna esquerda -->
+    <div class="col-lg-4">
+        <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:2rem;text-align:center;margin-bottom:1.25rem;">
+            {% if tecnologia.logo %}
+                <img src="{{ tecnologia.logo.url }}" alt="{{ tecnologia.nome }}" style="width:80px;height:80px;object-fit:contain;margin:0 auto 1.25rem;display:block;">
+            {% else %}
+                <div style="width:80px;height:80px;border-radius:20px;background:linear-gradient(135deg,var(--pri),var(--acc));display:grid;place-items:center;margin:0 auto 1.25rem;box-shadow:0 8px 25px var(--pri-g);">
+                    <i class="fas fa-microchip" style="color:#fff;font-size:1.8rem;"></i>
+                </div>
+            {% endif %}
+            <h3 style="font-size:1.2rem;margin-bottom:.35rem;">{{ tecnologia.nome }}</h3>
+            {% if tecnologia.categoria %}<span class="badge-tech">{{ tecnologia.categoria }}</span>{% endif %}
+        </div>
 
-{% if tecnologia.logo %}
-    <img src="{{ tecnologia.logo.url }}" width="150">
-{% endif %}
+        <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:1.25rem;margin-bottom:1.25rem;">
+            <div style="font-family:var(--fd);font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--tm);margin-bottom:1rem;">Informações</div>
+            {% if tecnologia.tipo %}
+            <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--bd);font-size:.875rem;">
+                <span style="color:var(--ts);">Tipo</span>
+                <span style="color:var(--tp);font-weight:500;">{{ tecnologia.tipo }}</span>
+            </div>
+            {% endif %}
+            {% if tecnologia.categoria %}
+            <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--bd);font-size:.875rem;">
+                <span style="color:var(--ts);">Categoria</span>
+                <span style="color:var(--tp);font-weight:500;">{{ tecnologia.categoria }}</span>
+            </div>
+            {% endif %}
+            {% if tecnologia.preferencia %}
+            <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--bd);font-size:.875rem;">
+                <span style="color:var(--ts);">Preferência</span>
+                <span style="color:var(--tp);font-weight:500;">{{ tecnologia.preferencia }}</span>
+            </div>
+            {% endif %}
+            <div style="display:flex;justify-content:space-between;padding:.5rem 0;font-size:.875rem;">
+                <span style="color:var(--ts);">Projetos</span>
+                <span style="color:var(--tp);font-weight:500;">{{ tecnologia.projetos.count }}</span>
+            </div>
+        </div>
 
-{% if tecnologia.url %}
-    <a href="{{ tecnologia.url }}">Website</a>
-{% endif %}
+        <div style="display:flex;flex-direction:column;gap:.6rem;">
+            {% if tecnologia.url %}
+            <a href="{{ tecnologia.url }}" target="_blank" rel="noopener" class="btn-primary-custom" style="justify-content:center;">
+                <i class="fas fa-external-link-alt"></i>Website Oficial
+            </a>
+            {% endif %}
+            <a href="{% url 'tecnologias' %}" class="btn-ghost" style="justify-content:center;">
+                <i class="fas fa-arrow-left"></i>Voltar às Tecnologias
+            </a>
+        </div>
+    </div>
 
-<h3>Projetos</h3>
-<ul>
-    {% for p in tecnologia.projetos.all %}
-        <li>{{ p.nome }}</li>
-    {% endfor %}
-</ul>
+    <!-- Coluna direita — Projetos -->
+    <div class="col-lg-8">
+        <div style="font-family:var(--fd);font-weight:700;font-size:1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:.5rem;">
+            <i class="fas fa-code-branch" style="color:var(--pri-l);"></i>Projetos com esta tecnologia
+            <span style="font-size:.8rem;color:var(--ts);font-weight:400;">({{ tecnologia.projetos.count }})</span>
+        </div>
+
+        {% if tecnologia.projetos.all %}
+        <div style="display:flex;flex-direction:column;gap:.6rem;">
+            {% for p in tecnologia.projetos.all %}
+            <a href="{% url 'projetos_detail' p.id %}"
+               style="display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;background:var(--sf);border:1px solid var(--bd);border-radius:8px;text-decoration:none;transition:var(--tr);"
+               onmouseover="this.style.borderColor='rgba(37,99,235,.4)'"
+               onmouseout="this.style.borderColor='rgba(255,255,255,.07)'">
+                <i class="fas fa-code-branch" style="color:var(--acc);flex-shrink:0;"></i>
+                <div style="flex:1;">
+                    <div style="font-weight:600;color:var(--tp);font-size:.875rem;">{{ p.nome }}</div>
+                    {% if p.uc %}<div style="font-size:.75rem;color:var(--ts);">{{ p.uc.nome }}</div>{% endif %}
+                </div>
+                <i class="fas fa-chevron-right" style="color:var(--tm);font-size:.75rem;"></i>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state" style="padding:2rem;">
+            <i class="fas fa-code-branch"></i>
+            <p>Nenhum projeto associado.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
