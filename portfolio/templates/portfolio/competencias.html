@@ -1,15 +1,59 @@
 {% extends "portfolio/base.html" %}
 
 {% block content %}
-<h2>Competências</h2>
+<div class="page-header">
+    <div>
+        <h2>Competências <span class="text-accent">Adquiridas</span></h2>
+        <p>Competências desenvolvidas ao longo do percurso académico.</p>
+    </div>
+    {% if user.is_authenticated %}
+    <a href="{% url 'competencia_create' %}" class="btn-primary-custom" style="font-size:.8rem;padding:.5rem 1rem;">
+        <i class="fas fa-plus"></i>Nova Competência
+    </a>
+    {% endif %}
+</div>
 
-<ul>
+{% if competencias %}
+<div style="display:flex;flex-direction:column;gap:.75rem;">
     {% for c in competencias %}
-        <li>
-            <a href="{% url 'competencia_detail' c.id %}">
-                {{ c.nome }}
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;transition:var(--tr);"
+         onmouseover="this.style.borderColor='rgba(37,99,235,.4)'"
+         onmouseout="this.style.borderColor='rgba(255,255,255,.07)'">
+        <div style="display:flex;align-items:center;gap:1rem;flex:1;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(139,92,246,.15);display:grid;place-items:center;flex-shrink:0;">
+                <i class="fas fa-star" style="color:var(--acc2);font-size:.9rem;"></i>
+            </div>
+            <div style="flex:1;">
+                <div style="font-family:var(--fd);font-weight:700;font-size:.95rem;color:var(--tp);margin-bottom:.3rem;">{{ c.nome }}</div>
+                <div style="display:flex;align-items:center;gap:.5rem;">
+                    {% for i in "12345" %}
+                    <i class="fas fa-circle" style="font-size:.4rem;color:{% if forloop.counter <= c.nivel %}var(--pri-l){% else %}var(--bd){% endif %};"></i>
+                    {% endfor %}
+                    {% if c.tipo %}<span style="font-size:.75rem;color:var(--ts);margin-left:.25rem;">· {{ c.tipo }}</span>{% endif %}
+                </div>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.5rem;">
+            <a href="{% url 'competencias_detail' c.id %}" class="btn-ghost" style="font-size:.8rem;padding:.4rem .9rem;">
+                <i class="fas fa-eye"></i>Ver
             </a>
-        </li>
+            {% if user.is_authenticated %}
+            <a href="{% url 'competencia_edit' c.id %}" class="btn-ghost" style="font-size:.8rem;padding:.4rem .9rem;">
+                <i class="fas fa-pen"></i>Editar
+            </a>
+            <a href="{% url 'competencia_delete' c.id %}"
+               style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:.4rem .9rem;font-size:.8rem;text-decoration:none;">
+                <i class="fas fa-trash"></i>Eliminar
+            </a>
+            {% endif %}
+        </div>
+    </div>
     {% endfor %}
-</ul>
+</div>
+{% else %}
+<div class="empty-state">
+    <i class="fas fa-star"></i>
+    <p>Nenhuma competência registada.</p>
+</div>
+{% endif %}
 {% endblock %}

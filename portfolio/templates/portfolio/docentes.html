@@ -12,10 +12,7 @@
         transition:var(--tr); height:100%;
     }
     .docente-card:hover { border-color:rgba(37,99,235,.4); transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,.3),var(--glow); color:var(--tp); }
-    .docente-avatar {
-        width:64px; height:64px; border-radius:50%; object-fit:cover;
-        border:2px solid rgba(37,99,235,.3); flex-shrink:0;
-    }
+    .docente-avatar { width:64px; height:64px; border-radius:50%; object-fit:cover; border:2px solid rgba(37,99,235,.3); flex-shrink:0; }
     .docente-avatar-placeholder {
         width:64px; height:64px; border-radius:50%;
         background:linear-gradient(135deg,var(--pri),var(--acc));
@@ -33,9 +30,16 @@
         <h2>Docentes <span class="text-accent">Académicos</span></h2>
         <p>Lista de docentes do percurso académico.</p>
     </div>
-    <span style="font-family:var(--fd);font-size:.85rem;color:var(--ts);">
-        <i class="fas fa-chalkboard-teacher me-1" style="color:var(--pri-l);"></i>{{ docentes|length }} docente{{ docentes|length|pluralize:"s" }}
-    </span>
+    <div style="display:flex; align-items:center; gap:.75rem;">
+        <span style="font-family:var(--fd);font-size:.85rem;color:var(--ts);">
+            <i class="fas fa-chalkboard-teacher me-1" style="color:var(--pri-l);"></i>{{ docentes|length }} docente{{ docentes|length|pluralize:"s" }}
+        </span>
+        {% if user.is_authenticated %}
+        <a href="{% url 'docente_create' %}" class="btn-primary-custom" style="font-size:.8rem;padding:.5rem 1rem;">
+            <i class="fas fa-plus"></i>Novo Docente
+        </a>
+        {% endif %}
+    </div>
 </div>
 
 <input type="text" id="searchInput" placeholder="Pesquisar docente..."
@@ -46,17 +50,33 @@
 {% if docentes %}
 <div id="docentesList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;">
     {% for d in docentes %}
-    <a href="{% url 'docentes_detail' d.id %}" class="docente-card">
-        {% if d.foto %}
-            <img src="{{ d.foto.url }}" alt="{{ d.nome }}" class="docente-avatar">
-        {% else %}
-            <div class="docente-avatar-placeholder">{{ d.nome|first|upper }}</div>
+    <div style="position:relative;">
+        <a href="{% url 'docentes_detail' d.id %}" class="docente-card">
+            {% if d.foto %}
+                <img src="{{ d.foto.url }}" alt="{{ d.nome }}" class="docente-avatar">
+            {% else %}
+                <div class="docente-avatar-placeholder">{{ d.nome|first|upper }}</div>
+            {% endif %}
+            <div class="docente-name">{{ d.nome }}</div>
+            {% if d.area_especializacao %}
+            <div class="docente-area"><i class="fas fa-tag me-1"></i>{{ d.area_especializacao }}</div>
+            {% endif %}
+        </a>
+        {% if user.is_authenticated %}
+        <div style="position:absolute;top:.5rem;right:.5rem;display:flex;gap:.3rem;">
+            <a href="{% url 'docente_edit' d.id %}" 
+               style="width:28px;height:28px;background:rgba(37,99,235,.2);border:1px solid rgba(37,99,235,.3);border-radius:6px;display:grid;place-items:center;color:var(--pri-l);font-size:.7rem;text-decoration:none;transition:var(--tr);"
+               title="Editar">
+                <i class="fas fa-pen"></i>
+            </a>
+            <a href="{% url 'docente_delete' d.id %}"
+               style="width:28px;height:28px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:6px;display:grid;place-items:center;color:#f87171;font-size:.7rem;text-decoration:none;transition:var(--tr);"
+               title="Eliminar">
+                <i class="fas fa-trash"></i>
+            </a>
+        </div>
         {% endif %}
-        <div class="docente-name">{{ d.nome }}</div>
-        {% if d.area_especializacao %}
-        <div class="docente-area"><i class="fas fa-tag me-1"></i>{{ d.area_especializacao }}</div>
-        {% endif %}
-    </a>
+    </div>
     {% endfor %}
 </div>
 {% else %}

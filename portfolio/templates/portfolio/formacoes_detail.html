@@ -1,19 +1,85 @@
 {% extends "portfolio/base.html" %}
 
+{% block breadcrumbs %}
+<div class="breadcrumb-bar">
+    <div class="container">
+        <nav class="breadcrumb">
+            <span class="breadcrumb-item"><a href="{% url 'formacoes' %}"><i class="fas fa-certificate me-1"></i>Formações</a></span>
+            <span class="breadcrumb-item active">{{ formacao.nome }}</span>
+        </nav>
+    </div>
+</div>
+{% endblock %}
+
 {% block content %}
-<h2>{{ formacao.nome }}</h2>
+<div class="page-header reveal">
+    <div>
+        <h2>{{ formacao.nome }}</h2>
+        {% if formacao.instituicao %}<p>{{ formacao.instituicao }}</p>{% endif %}
+    </div>
+    <div style="display:flex;gap:.5rem;">
+        {% if user.is_authenticated %}
+        <a href="{% url 'formacao_edit' formacao.id %}" class="btn-ghost">
+            <i class="fas fa-pen"></i>Editar
+        </a>
+        <a href="{% url 'formacao_delete' formacao.id %}"
+           style="display:inline-flex;align-items:center;gap:.45rem;background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:.6rem 1.2rem;font-size:.875rem;text-decoration:none;">
+            <i class="fas fa-trash"></i>Eliminar
+        </a>
+        {% endif %}
+        <a href="{% url 'formacoes' %}" class="btn-ghost"><i class="fas fa-arrow-left"></i>Voltar</a>
+    </div>
+</div>
 
-<p><strong>Instituição:</strong> {{ formacao.instituicao }}</p>
-<p><strong>Carga horária:</strong> {{ formacao.carga_horaria }}</p>
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;margin-bottom:1rem;">
+            <div style="font-family:var(--fd);font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--tm);margin-bottom:1rem;">Informações</div>
+            <div style="display:flex;flex-direction:column;gap:.75rem;">
+                {% if formacao.instituicao %}
+                <div style="display:flex;justify-content:space-between;font-size:.875rem;">
+                    <span style="color:var(--ts);">Instituição</span>
+                    <span style="color:var(--tp);font-weight:500;">{{ formacao.instituicao }}</span>
+                </div>
+                {% endif %}
+                {% if formacao.carga_horaria %}
+                <div style="display:flex;justify-content:space-between;font-size:.875rem;">
+                    <span style="color:var(--ts);">Duração</span>
+                    <span style="color:var(--tp);font-weight:500;">{{ formacao.carga_horaria }}h</span>
+                </div>
+                {% endif %}
+                {% if formacao.data_inicio %}
+                <div style="display:flex;justify-content:space-between;font-size:.875rem;">
+                    <span style="color:var(--ts);">Início</span>
+                    <span style="color:var(--tp);font-weight:500;">{{ formacao.data_inicio|date:"d/m/Y" }}</span>
+                </div>
+                {% endif %}
+                {% if formacao.data_fim %}
+                <div style="display:flex;justify-content:space-between;font-size:.875rem;">
+                    <span style="color:var(--ts);">Fim</span>
+                    <span style="color:var(--tp);font-weight:500;">{{ formacao.data_fim|date:"d/m/Y" }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% if formacao.certificado %}
+        <a href="{{ formacao.certificado.url }}" target="_blank" class="btn-primary-custom" style="width:100%;justify-content:center;">
+            <i class="fas fa-file-pdf"></i>Ver Certificado
+        </a>
+        {% endif %}
+    </div>
 
-{% if formacao.certificado %}
-    <a href="{{ formacao.certificado.url }}">Ver certificado</a>
-{% endif %}
-
-<h3>Tecnologias</h3>
-<ul>
-    {% for t in formacao.tecnologias.all %}
-        <li>{{ t.nome }}</li>
-    {% endfor %}
-</ul>
+    <div class="col-lg-8">
+        {% if formacao.tecnologias.all %}
+        <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;">
+            <div style="font-family:var(--fd);font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--tm);margin-bottom:1rem;">Tecnologias</div>
+            <div style="display:flex;flex-wrap:wrap;gap:.5rem;">
+                {% for t in formacao.tecnologias.all %}
+                <span class="badge-tech">{{ t.nome }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

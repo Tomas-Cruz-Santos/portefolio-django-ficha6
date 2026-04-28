@@ -1,19 +1,96 @@
 {% extends "portfolio/base.html" %}
+{% block nav_licenciaturas %}active{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumb-bar">
+    <div class="container">
+        <nav class="breadcrumb">
+            <span class="breadcrumb-item"><a href="{% url 'licenciaturas' %}"><i class="fas fa-university me-1"></i>Licenciaturas</a></span>
+            <span class="breadcrumb-item active">{{ licenciatura.nome }}</span>
+        </nav>
+    </div>
+</div>
+{% endblock %}
 
 {% block content %}
-<h2>{{ licenciatura.nome }}</h2>
+<div class="page-header reveal">
+    <div>
+        <h2>{{ licenciatura.nome }}</h2>
+        {% if licenciatura.regime %}<p>{{ licenciatura.regime }}</p>{% endif %}
+    </div>
+    <div style="display:flex;gap:.5rem;">
+        {% if user.is_authenticated %}
+        <a href="{% url 'licenciatura_edit' licenciatura.id %}" class="btn-ghost">
+            <i class="fas fa-pen"></i>Editar
+        </a>
+        <a href="{% url 'licenciatura_delete' licenciatura.id %}"
+           style="display:inline-flex;align-items:center;gap:.45rem;background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:.6rem 1.2rem;font-size:.875rem;text-decoration:none;transition:var(--tr);">
+            <i class="fas fa-trash"></i>Eliminar
+        </a>
+        {% endif %}
+        <a href="{% url 'licenciaturas' %}" class="btn-ghost">
+            <i class="fas fa-arrow-left"></i>Voltar
+        </a>
+    </div>
+</div>
 
-<p><strong>Regime:</strong> {{ licenciatura.regime }}</p>
-<p><strong>Anos:</strong> {{ licenciatura.ano_inicio }} - {{ licenciatura.ano_fim }}</p>
-<p><strong>ECTS:</strong> {{ licenciatura.ects }}</p>
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;margin-bottom:1rem;">
+            <div style="font-family:var(--fd);font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--tm);margin-bottom:1rem;">Informações</div>
+            <div style="display:flex;flex-direction:column;gap:.75rem;">
+                {% if licenciatura.ano_inicio %}
+                <div style="display:flex;justify-content:space-between;font-size:.875rem;">
+                    <span style="color:var(--ts);">Início</span>
+                    <span style="color:var(--tp);font-weight:500;">{{ licenciatura.ano_inicio }}</span>
+                </div>
+                {% endif %}
+                {% if licenciatura.ano_fim %}
+                <div style="display:flex;justify-content:space-between;font-size:.875rem;">
+                    <span style="color:var(--ts);">Fim</span>
+                    <span style="color:var(--tp);font-weight:500;">{{ licenciatura.ano_fim }}</span>
+                </div>
+                {% endif %}
+                {% if licenciatura.ects %}
+                <div style="display:flex;justify-content:space-between;font-size:.875rem;">
+                    <span style="color:var(--ts);">ECTS</span>
+                    <span style="color:var(--tp);font-weight:500;">{{ licenciatura.ects }}</span>
+                </div>
+                {% endif %}
+                <div style="display:flex;justify-content:space-between;font-size:.875rem;">
+                    <span style="color:var(--ts);">Unid. Curriculares</span>
+                    <span style="color:var(--tp);font-weight:500;">{{ licenciatura.ucs.count }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<p>{{ licenciatura.descricao }}</p>
+    <div class="col-lg-8">
+        {% if licenciatura.descricao %}
+        <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;margin-bottom:1.5rem;">
+            <div style="font-family:var(--fd);font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--tm);margin-bottom:.75rem;">Descrição</div>
+            <p style="color:var(--ts);font-size:.9rem;line-height:1.8;margin:0;">{{ licenciatura.descricao }}</p>
+        </div>
+        {% endif %}
 
-<h3>Unidades Curriculares</h3>
-<ul>
-    {% for uc in licenciatura.ucs.all %}
-        <li>{{ uc.nome }}</li>
-    {% endfor %}
-</ul>
-
+        {% if licenciatura.ucs.all %}
+        <div style="font-family:var(--fd);font-weight:700;font-size:1rem;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;">
+            <i class="fas fa-book-open" style="color:var(--pri-l);"></i>Unidades Curriculares
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.6rem;">
+            {% for uc in licenciatura.ucs.all %}
+            <a href="{% url 'uc_detail' uc.id %}"
+               style="display:flex;align-items:center;gap:.75rem;background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:.7rem 1rem;text-decoration:none;color:var(--ts);font-size:.875rem;transition:var(--tr);"
+               onmouseover="this.style.borderColor='rgba(37,99,235,.4)';this.style.color='var(--tp)'"
+               onmouseout="this.style.borderColor='rgba(255,255,255,.07)';this.style.color='var(--ts)'">
+                <i class="fas fa-book-open" style="color:var(--acc);flex-shrink:0;"></i>
+                <span style="flex:1;font-weight:500;">{{ uc.nome }}</span>
+                <span style="font-size:.75rem;color:var(--tm);">{{ uc.ano_curricular }}º Ano · S{{ uc.semestre }}</span>
+                <i class="fas fa-chevron-right" style="color:var(--tm);font-size:.7rem;"></i>
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

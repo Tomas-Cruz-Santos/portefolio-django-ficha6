@@ -28,15 +28,12 @@
     .info-value { color:var(--tp); font-weight:500; }
     .tec-chip { display:inline-flex; align-items:center; gap:.4rem; background:var(--sf2); border:1px solid var(--bd); border-radius:8px; padding:.45rem .9rem; font-size:.8rem; color:var(--tp); font-weight:500; transition:var(--tr); }
     .tec-chip:hover { border-color:rgba(37,99,235,.4); background:rgba(37,99,235,.1); color:var(--pri-l); }
-    .tec-chip img { width:16px; height:16px; object-fit:contain; }
     .section-title { font-family:var(--fd); font-weight:700; font-size:1rem; color:var(--tp); margin-bottom:1rem; display:flex; align-items:center; gap:.5rem; }
     .section-title i { color:var(--pri-l); }
 </style>
 {% endblock %}
 
 {% block content %}
-
-<!-- HERO com imagem ou placeholder -->
 <div class="detail-hero">
     {% if projeto.foto %}
         <img src="{{ projeto.foto.url }}" alt="{{ projeto.nome }}">
@@ -55,11 +52,7 @@
 </div>
 
 <div class="row g-4">
-
-    <!-- Coluna principal -->
     <div class="col-lg-8">
-
-        <!-- Descrição -->
         {% if projeto.descricao %}
         <div style="margin-bottom:2rem;">
             <div class="section-title"><i class="fas fa-align-left"></i>Descrição</div>
@@ -67,14 +60,13 @@
         </div>
         {% endif %}
 
-        <!-- Tecnologias -->
         {% if projeto.tecnologias.all %}
         <div style="margin-bottom:2rem;">
             <div class="section-title"><i class="fas fa-microchip"></i>Tecnologias</div>
             <div style="display:flex;flex-wrap:wrap;gap:.5rem;">
                 {% for t in projeto.tecnologias.all %}
                 <span class="tec-chip">
-                    {% if t.logo %}<img src="{{ t.logo.url }}" alt="{{ t.nome }}">{% else %}<i class="fas fa-circle" style="font-size:.4rem;color:var(--pri-l);"></i>{% endif %}
+                    {% if t.logo %}<img src="{{ t.logo.url }}" alt="{{ t.nome }}" style="width:16px;height:16px;object-fit:contain;">{% else %}<i class="fas fa-circle" style="font-size:.4rem;color:var(--pri-l);"></i>{% endif %}
                     {{ t.nome }}
                     {% if t.tipo %}<span style="color:var(--tm);font-size:.7rem;">· {{ t.tipo }}</span>{% endif %}
                 </span>
@@ -82,61 +74,42 @@
             </div>
         </div>
         {% endif %}
-
-
-
     </div>
 
-    <!-- Coluna lateral -->
     <div class="col-lg-4">
-
-        <!-- Informações rápidas -->
         <div class="info-card" style="margin-bottom:1.25rem;">
             <div class="section-title" style="margin-bottom:.75rem;"><i class="fas fa-info-circle"></i>Informações</div>
-
             {% if projeto.data_inicio %}
-            <div class="info-row">
-                <i class="fas fa-calendar-alt"></i>
-                <span class="info-label">Início</span>
-                <span class="info-value">{{ projeto.data_inicio|date:"d/m/Y" }}</span>
-            </div>
+            <div class="info-row"><i class="fas fa-calendar-alt"></i><span class="info-label">Início</span><span class="info-value">{{ projeto.data_inicio|date:"d/m/Y" }}</span></div>
             {% endif %}
-
             {% if projeto.data_fim %}
-            <div class="info-row">
-                <i class="fas fa-calendar-check"></i>
-                <span class="info-label">Fim</span>
-                <span class="info-value">{{ projeto.data_fim|date:"d/m/Y" }}</span>
-            </div>
+            <div class="info-row"><i class="fas fa-calendar-check"></i><span class="info-label">Fim</span><span class="info-value">{{ projeto.data_fim|date:"d/m/Y" }}</span></div>
             {% endif %}
-
             {% if projeto.uc %}
-            <div class="info-row">
-                <i class="fas fa-book-open"></i>
-                <span class="info-label">UC</span>
-                <span class="info-value">{{ projeto.uc.nome }}</span>
-            </div>
+            <div class="info-row"><i class="fas fa-book-open"></i><span class="info-label">UC</span><span class="info-value">{{ projeto.uc.nome }}</span></div>
             {% endif %}
-
-            <div class="info-row">
-                <i class="fas fa-microchip"></i>
-                <span class="info-label">Tecnologias</span>
-                <span class="info-value">{{ projeto.tecnologias.count }}</span>
-            </div>
+            <div class="info-row"><i class="fas fa-microchip"></i><span class="info-label">Tecnologias</span><span class="info-value">{{ projeto.tecnologias.count }}</span></div>
         </div>
 
-        <!-- Botões de ação -->
         <div style="display:flex;flex-direction:column;gap:.6rem;">
             {% if projeto.link_github %}
             <a href="{{ projeto.link_github }}" target="_blank" rel="noopener" class="btn-primary-custom" style="justify-content:center;">
                 <i class="fab fa-github"></i>Ver no GitHub
             </a>
             {% endif %}
+            {% if user.is_authenticated %}
+            <a href="{% url 'projeto_edit' projeto.id %}" class="btn-ghost" style="justify-content:center;">
+                <i class="fas fa-pen"></i>Editar
+            </a>
+            <a href="{% url 'projeto_delete' projeto.id %}"
+               style="justify-content:center;display:inline-flex;align-items:center;gap:.45rem;background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:.6rem 1.2rem;font-size:.875rem;text-decoration:none;">
+                <i class="fas fa-trash"></i>Eliminar
+            </a>
+            {% endif %}
             <a href="{% url 'projetos' %}" class="btn-ghost" style="justify-content:center;">
-                <i class="fas fa-arrow-left"></i>Voltar aos Projetos
+                <i class="fas fa-arrow-left"></i>Voltar
             </a>
         </div>
-
     </div>
 </div>
 {% endblock %}

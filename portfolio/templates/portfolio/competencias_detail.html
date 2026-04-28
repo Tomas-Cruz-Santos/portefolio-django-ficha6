@@ -1,15 +1,79 @@
 {% extends "portfolio/base.html" %}
 
-{% block content %}
-<h2>Competências</h2>
+{% block breadcrumbs %}
+<div class="breadcrumb-bar">
+    <div class="container">
+        <nav class="breadcrumb">
+            <span class="breadcrumb-item"><a href="{% url 'competencias' %}"><i class="fas fa-star me-1"></i>Competências</a></span>
+            <span class="breadcrumb-item active">{{ competencia.nome }}</span>
+        </nav>
+    </div>
+</div>
+{% endblock %}
 
-<ul>
-    {% for c in competencias %}
-        <li>
-            <a href="{% url 'competencia_detail' c.id %}">
-                {{ c.nome }}
-            </a>
-        </li>
-    {% endfor %}
-</ul>
+{% block content %}
+<div class="page-header reveal">
+    <div>
+        <h2>{{ competencia.nome }}</h2>
+        {% if competencia.tipo %}<p>{{ competencia.tipo }}</p>{% endif %}
+    </div>
+    <div style="display:flex;gap:.5rem;">
+        {% if user.is_authenticated %}
+        <a href="{% url 'competencia_edit' competencia.id %}" class="btn-ghost">
+            <i class="fas fa-pen"></i>Editar
+        </a>
+        <a href="{% url 'competencia_delete' competencia.id %}"
+           style="display:inline-flex;align-items:center;gap:.45rem;background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:.6rem 1.2rem;font-size:.875rem;text-decoration:none;">
+            <i class="fas fa-trash"></i>Eliminar
+        </a>
+        {% endif %}
+        <a href="{% url 'competencias' %}" class="btn-ghost"><i class="fas fa-arrow-left"></i>Voltar</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;margin-bottom:1rem;">
+            <div style="font-family:var(--fd);font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--tm);margin-bottom:1rem;">Informações</div>
+            <div style="display:flex;flex-direction:column;gap:.75rem;">
+                {% if competencia.tipo %}
+                <div style="display:flex;justify-content:space-between;font-size:.875rem;">
+                    <span style="color:var(--ts);">Tipo</span>
+                    <span style="color:var(--tp);font-weight:500;">{{ competencia.tipo }}</span>
+                </div>
+                {% endif %}
+                {% if competencia.nivel %}
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:.875rem;">
+                    <span style="color:var(--ts);">Nível</span>
+                    <div style="display:flex;gap:.3rem;">
+                        {% for i in "12345" %}
+                        <i class="fas fa-circle" style="font-size:.5rem;color:{% if forloop.counter <= competencia.nivel %}var(--pri-l){% else %}var(--bd){% endif %};"></i>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        {% if competencia.descricao %}
+        <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;margin-bottom:1.5rem;">
+            <div style="font-family:var(--fd);font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--tm);margin-bottom:.75rem;">Descrição</div>
+            <p style="color:var(--ts);font-size:.9rem;line-height:1.8;margin:0;">{{ competencia.descricao }}</p>
+        </div>
+        {% endif %}
+
+        {% if competencia.tecnologias.all %}
+        <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;">
+            <div style="font-family:var(--fd);font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--tm);margin-bottom:1rem;">Tecnologias Relacionadas</div>
+            <div style="display:flex;flex-wrap:wrap;gap:.5rem;">
+                {% for t in competencia.tecnologias.all %}
+                <span class="badge-tech">{{ t.nome }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

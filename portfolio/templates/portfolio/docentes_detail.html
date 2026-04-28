@@ -14,11 +14,7 @@
 
 {% block extra_css %}
 <style>
-    .profile-avatar {
-        width:120px; height:120px; border-radius:50%; object-fit:cover;
-        border:3px solid rgba(37,99,235,.4);
-        box-shadow:0 0 30px rgba(37,99,235,.2);
-    }
+    .profile-avatar { width:120px; height:120px; border-radius:50%; object-fit:cover; border:3px solid rgba(37,99,235,.4); box-shadow:0 0 30px rgba(37,99,235,.2); }
     .profile-avatar-placeholder {
         width:120px; height:120px; border-radius:50%;
         background:linear-gradient(135deg,var(--pri),var(--acc));
@@ -62,7 +58,6 @@
             {% endif %}
         </div>
 
-        <!-- Informações -->
         <div class="info-card" style="margin-bottom:1.25rem;">
             <div class="section-title"><i class="fas fa-info-circle"></i>Informações</div>
             {% if docente.area_especializacao %}
@@ -79,11 +74,18 @@
             </div>
         </div>
 
-        <!-- Botões -->
         <div style="display:flex;flex-direction:column;gap:.6rem;">
             {% if docente.linkedin %}
             <a href="{{ docente.linkedin }}" target="_blank" rel="noopener" class="btn-primary-custom" style="justify-content:center;">
                 <i class="fab fa-linkedin-in"></i>Ver LinkedIn
+            </a>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <a href="{% url 'docente_edit' docente.id %}" class="btn-ghost" style="justify-content:center;">
+                <i class="fas fa-pen"></i>Editar
+            </a>
+            <a href="{% url 'docente_delete' docente.id %}" style="justify-content:center;background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:.6rem 1.2rem;font-weight:500;font-size:.875rem;display:inline-flex;align-items:center;gap:.45rem;text-decoration:none;transition:var(--tr);">
+                <i class="fas fa-trash"></i>Eliminar
             </a>
             {% endif %}
             <a href="{% url 'docentes' %}" class="btn-ghost" style="justify-content:center;">

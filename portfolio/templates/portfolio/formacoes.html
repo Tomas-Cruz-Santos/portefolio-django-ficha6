@@ -1,15 +1,65 @@
 {% extends "portfolio/base.html" %}
 
 {% block content %}
-<h2>Formações</h2>
+<div class="page-header">
+    <div>
+        <h2>Formações <span class="text-accent">Complementares</span></h2>
+        <p>Certificados e cursos extracurriculares.</p>
+    </div>
+    {% if user.is_authenticated %}
+    <a href="{% url 'formacao_create' %}" class="btn-primary-custom" style="font-size:.8rem;padding:.5rem 1rem;">
+        <i class="fas fa-plus"></i>Nova Formação
+    </a>
+    {% endif %}
+</div>
 
-<ul>
+{% if formacoes %}
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;">
     {% for f in formacoes %}
-        <li>
-            <a href="{% url 'formacoes_detail' f.id %}">
-                {{ f.nome }}
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;display:flex;flex-direction:column;gap:.75rem;transition:var(--tr);position:relative;"
+         onmouseover="this.style.borderColor='rgba(37,99,235,.4)';this.style.transform='translateY(-3px)'"
+         onmouseout="this.style.borderColor='rgba(255,255,255,.07)';this.style.transform=''">
+        <div style="display:flex;align-items:flex-start;gap:.75rem;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(6,182,212,.15);display:grid;place-items:center;flex-shrink:0;">
+                <i class="fas fa-certificate" style="color:var(--acc);"></i>
+            </div>
+            <div>
+                <div style="font-family:var(--fd);font-weight:700;font-size:.95rem;color:var(--tp);">{{ f.nome }}</div>
+                {% if f.instituicao %}<div style="font-size:.75rem;color:var(--ts);margin-top:.2rem;">{{ f.instituicao }}</div>{% endif %}
+            </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:.5rem;font-size:.75rem;color:var(--ts);">
+            {% if f.carga_horaria %}<span><i class="fas fa-clock me-1" style="color:var(--pri-l);"></i>{{ f.carga_horaria }}h</span>{% endif %}
+            {% if f.data_inicio %}<span><i class="fas fa-calendar me-1" style="color:var(--pri-l);"></i>{{ f.data_inicio|date:"Y" }}</span>{% endif %}
+        </div>
+        {% if f.tecnologias.all %}
+        <div style="display:flex;flex-wrap:wrap;gap:.3rem;">
+            {% for t in f.tecnologias.all|slice:":3" %}
+            <span class="badge-tech" style="font-size:.7rem;">{{ t.nome }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div style="display:flex;gap:.5rem;margin-top:auto;padding-top:.75rem;border-top:1px solid var(--bd);">
+            <a href="{% url 'formacoes_detail' f.id %}" class="btn-ghost" style="font-size:.8rem;padding:.4rem .9rem;flex:1;justify-content:center;">
+                <i class="fas fa-eye"></i>Ver
             </a>
-        </li>
+            {% if user.is_authenticated %}
+            <a href="{% url 'formacao_edit' f.id %}" class="btn-ghost" style="font-size:.8rem;padding:.4rem .9rem;">
+                <i class="fas fa-pen"></i>
+            </a>
+            <a href="{% url 'formacao_delete' f.id %}"
+               style="display:inline-flex;align-items:center;background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:.4rem .75rem;font-size:.8rem;text-decoration:none;">
+                <i class="fas fa-trash"></i>
+            </a>
+            {% endif %}
+        </div>
+    </div>
     {% endfor %}
-</ul>
+</div>
+{% else %}
+<div class="empty-state">
+    <i class="fas fa-certificate"></i>
+    <p>Nenhuma formação registada.</p>
+</div>
+{% endif %}
 {% endblock %}
