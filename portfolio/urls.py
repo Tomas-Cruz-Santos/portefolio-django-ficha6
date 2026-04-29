@@ -36,16 +36,6 @@ urlpatterns = [
     path('licenciaturas/<int:lic_id>/editar/', views.licenciatura_edit, name='licenciatura_edit'),
     path('licenciaturas/<int:lic_id>/eliminar/', views.licenciatura_delete, name='licenciatura_delete'),
 
-    # CRUD — DOCENTES
-    path('docentes/criar/', views.docente_create, name='docente_create'),
-    path('docentes/<int:doc_id>/editar/', views.docente_edit, name='docente_edit'),
-    path('docentes/<int:doc_id>/eliminar/', views.docente_delete, name='docente_delete'),
-
-    # CRUD — UCS
-    path('ucs/criar/', views.uc_create, name='uc_create'),
-    path('uc/<int:uc_id>/editar/', views.uc_edit, name='uc_edit'),
-    path('uc/<int:uc_id>/eliminar/', views.uc_delete, name='uc_delete'),
-
     # CRUD — TECNOLOGIAS
     path('tecnologias/criar/', views.tecnologia_create, name='tecnologia_create'),
     path('tecnologias/<int:tec_id>/editar/', views.tecnologia_edit, name='tecnologia_edit'),
@@ -55,11 +45,6 @@ urlpatterns = [
     path('projetos/criar/', views.projeto_create, name='projeto_create'),
     path('projetos/<int:proj_id>/editar/', views.projeto_edit, name='projeto_edit'),
     path('projetos/<int:proj_id>/eliminar/', views.projeto_delete, name='projeto_delete'),
-
-    # CRUD — TFCS
-    path('tfcs/criar/', views.tfc_create, name='tfc_create'),
-    path('tfcs/<int:tfc_id>/editar/', views.tfc_edit, name='tfc_edit'),
-    path('tfcs/<int:tfc_id>/eliminar/', views.tfc_delete, name='tfc_delete'),
 
     # CRUD — COMPETENCIAS
     path('competencias/criar/', views.competencia_create, name='competencia_create'),
