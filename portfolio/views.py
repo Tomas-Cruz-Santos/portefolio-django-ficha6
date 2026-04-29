@@ -123,127 +123,120 @@ def _crud_delete(request, instance, redirect_url, success_msg):
 
 
 # ── LICENCIATURAS CRUD ──
-@login_required
 def licenciatura_create(request):
     return _crud_create(request, LicenciaturaForm, 'portfolio/crud_form.html', 'licenciaturas', 'Licenciatura criada!')
 
-@login_required
+
 def licenciatura_edit(request, lic_id):
     return _crud_edit(request, LicenciaturaForm, get_object_or_404(Licenciatura, id=lic_id), 'portfolio/crud_form.html', 'licenciaturas', 'Licenciatura atualizada!')
 
-@login_required
+
 def licenciatura_delete(request, lic_id):
     return _crud_delete(request, get_object_or_404(Licenciatura, id=lic_id), 'licenciaturas', 'Licenciatura eliminada!')
 
 
 # ── DOCENTES CRUD ──
-@login_required
 def docente_create(request):
     return _crud_create(request, DocenteForm, 'portfolio/crud_form.html', 'docentes', 'Docente criado!')
 
-@login_required
+
 def docente_edit(request, doc_id):
     return _crud_edit(request, DocenteForm, get_object_or_404(Docente, id=doc_id), 'portfolio/crud_form.html', 'docentes', 'Docente atualizado!')
 
-@login_required
+
 def docente_delete(request, doc_id):
     return _crud_delete(request, get_object_or_404(Docente, id=doc_id), 'docentes', 'Docente eliminado!')
 
 
 # ── UCS CRUD ──
-@login_required
 def uc_create(request):
     return _crud_create(request, UnidadeCurricularForm, 'portfolio/crud_form.html', 'ucs', 'UC criada!')
 
-@login_required
+
 def uc_edit(request, uc_id):
     return _crud_edit(request, UnidadeCurricularForm, get_object_or_404(UnidadeCurricular, id=uc_id), 'portfolio/crud_form.html', 'ucs', 'UC atualizada!')
 
-@login_required
+
 def uc_delete(request, uc_id):
     return _crud_delete(request, get_object_or_404(UnidadeCurricular, id=uc_id), 'ucs', 'UC eliminada!')
 
 
 # ── TECNOLOGIAS CRUD ──
-@login_required
 def tecnologia_create(request):
     return _crud_create(request, TecnologiaForm, 'portfolio/crud_form.html', 'tecnologias', 'Tecnologia criada!')
 
-@login_required
+
 def tecnologia_edit(request, tec_id):
     return _crud_edit(request, TecnologiaForm, get_object_or_404(Tecnologia, id=tec_id), 'portfolio/crud_form.html', 'tecnologias', 'Tecnologia atualizada!')
 
-@login_required
+
 def tecnologia_delete(request, tec_id):
     return _crud_delete(request, get_object_or_404(Tecnologia, id=tec_id), 'tecnologias', 'Tecnologia eliminada!')
 
 
 # ── PROJETOS CRUD ──
-@login_required
 def projeto_create(request):
     return _crud_create(request, ProjetoForm, 'portfolio/crud_form.html', 'projetos', 'Projeto criado!')
 
-@login_required
+
 def projeto_edit(request, proj_id):
     return _crud_edit(request, ProjetoForm, get_object_or_404(Projeto, id=proj_id), 'portfolio/crud_form.html', 'projetos', 'Projeto atualizado!')
 
-@login_required
+
 def projeto_delete(request, proj_id):
     return _crud_delete(request, get_object_or_404(Projeto, id=proj_id), 'projetos', 'Projeto eliminado!')
 
 
 # ── TFCS CRUD ──
-@login_required
 def tfc_create(request):
     return _crud_create(request, TFCForm, 'portfolio/crud_form.html', 'tfcs', 'TFC criado!')
 
-@login_required
+
 def tfc_edit(request, tfc_id):
     return _crud_edit(request, TFCForm, get_object_or_404(TFC, id=tfc_id), 'portfolio/crud_form.html', 'tfcs', 'TFC atualizado!')
 
-@login_required
+
 def tfc_delete(request, tfc_id):
     return _crud_delete(request, get_object_or_404(TFC, id=tfc_id), 'tfcs', 'TFC eliminado!')
 
 
 # ── COMPETENCIAS CRUD ──
-@login_required
+
 def competencia_create(request):
     return _crud_create(request, CompetenciaForm, 'portfolio/crud_form.html', 'competencias', 'Competência criada!')
 
-@login_required
+
 def competencia_edit(request, comp_id):
     return _crud_edit(request, CompetenciaForm, get_object_or_404(Competencia, id=comp_id), 'portfolio/crud_form.html', 'competencias', 'Competência atualizada!')
 
-@login_required
+
 def competencia_delete(request, comp_id):
     return _crud_delete(request, get_object_or_404(Competencia, id=comp_id), 'competencias', 'Competência eliminada!')
 
 
 # ── FORMACOES CRUD ──
-@login_required
 def formacao_create(request):
     return _crud_create(request, FormacaoForm, 'portfolio/crud_form.html', 'formacoes', 'Formação criada!')
 
-@login_required
+
 def formacao_edit(request, form_id):
     return _crud_edit(request, FormacaoForm, get_object_or_404(Formacao, id=form_id), 'portfolio/crud_form.html', 'formacoes', 'Formação atualizada!')
 
-@login_required
+
 def formacao_delete(request, form_id):
     return _crud_delete(request, get_object_or_404(Formacao, id=form_id), 'formacoes', 'Formação eliminada!')
 
 
 # ── MAKINGOF CRUD ──
-@login_required
+
 def makingof_create(request):
     return _crud_create(request, MakingOfForm, 'portfolio/crud_form.html', 'makingof', 'Registo criado!')
 
-@login_required
+
 def makingof_edit(request, makingof_id):
     return _crud_edit(request, MakingOfForm, get_object_or_404(MakingOf, id=makingof_id), 'portfolio/crud_form.html', 'makingof', 'Registo atualizado!')
 
-@login_required
+
 def makingof_delete(request, makingof_id):
     return _crud_delete(request, get_object_or_404(MakingOf, id=makingof_id), 'makingof', 'Registo eliminado!')
 
