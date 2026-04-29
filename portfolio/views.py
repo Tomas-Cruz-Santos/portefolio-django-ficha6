@@ -201,7 +201,6 @@ def tfc_delete(request, tfc_id):
 
 
 # ── COMPETENCIAS CRUD ──
-
 def competencia_create(request):
     return _crud_create(request, CompetenciaForm, 'portfolio/crud_form.html', 'competencias', 'Competência criada!')
 
@@ -228,7 +227,6 @@ def formacao_delete(request, form_id):
 
 
 # ── MAKINGOF CRUD ──
-
 def makingof_create(request):
     return _crud_create(request, MakingOfForm, 'portfolio/crud_form.html', 'makingof', 'Registo criado!')
 
