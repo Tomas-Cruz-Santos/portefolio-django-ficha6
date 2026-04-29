@@ -34,11 +34,6 @@
         <span style="font-family:var(--fd);font-size:.85rem;color:var(--ts);">
             <i class="fas fa-chalkboard-teacher me-1" style="color:var(--pri-l);"></i>{{ docentes|length }} docente{{ docentes|length|pluralize:"s" }}
         </span>
-        {% if user.is_authenticated %}
-        <a href="{% url 'docente_create' %}" class="btn-primary-custom" style="font-size:.8rem;padding:.5rem 1rem;">
-            <i class="fas fa-plus"></i>Novo Docente
-        </a>
-        {% endif %}
     </div>
 </div>
 
@@ -62,20 +57,6 @@
             <div class="docente-area"><i class="fas fa-tag me-1"></i>{{ d.area_especializacao }}</div>
             {% endif %}
         </a>
-        {% if user.is_authenticated %}
-        <div style="position:absolute;top:.5rem;right:.5rem;display:flex;gap:.3rem;">
-            <a href="{% url 'docente_edit' d.id %}" 
-               style="width:28px;height:28px;background:rgba(37,99,235,.2);border:1px solid rgba(37,99,235,.3);border-radius:6px;display:grid;place-items:center;color:var(--pri-l);font-size:.7rem;text-decoration:none;transition:var(--tr);"
-               title="Editar">
-                <i class="fas fa-pen"></i>
-            </a>
-            <a href="{% url 'docente_delete' d.id %}"
-               style="width:28px;height:28px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:6px;display:grid;place-items:center;color:#f87171;font-size:.7rem;text-decoration:none;transition:var(--tr);"
-               title="Eliminar">
-                <i class="fas fa-trash"></i>
-            </a>
-        </div>
-        {% endif %}
     </div>
     {% endfor %}
 </div>
