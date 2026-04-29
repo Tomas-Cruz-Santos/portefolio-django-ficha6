@@ -1,0 +1,236 @@
+{% extends "portfolio/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="page-header reveal">
+    <div>
+        <h2>Sobre a <span class="text-accent">Aplicação</span></h2>
+        <p>Aspectos técnicos, arquitetura e tecnologias utilizadas.</p>
+    </div>
+</div>
+
+<!-- 1. MVT -->
+<div id="mvt" class="reveal" style="margin-bottom:3rem;">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;">
+        <span style="width:40px;height:40px;border-radius:10px;background:rgba(37,99,235,.15);display:grid;place-items:center;">
+            <i class="fas fa-sitemap" style="color:var(--pri-l);"></i>
+        </span>
+        <h2 style="font-size:1.4rem;margin:0;">1. Arquitetura MVT do Django</h2>
+    </div>
+    <div class="row g-4 mb-4">
+        <div class="col-lg-5">
+            <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;height:100%;">
+                <div style="font-family:var(--fd);font-weight:700;font-size:.8rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem;">Desenho em Papel</div>
+                <!-- Substitua pelo caminho da sua foto -->
+                <div style="background:var(--sf2);border:1px dashed rgba(255,255,255,.15);border-radius:12px;height:240px;display:grid;place-items:center;color:var(--tm);text-align:center;">
+                    <div><i class="fas fa-image" style="font-size:2rem;opacity:.3;display:block;margin-bottom:.5rem;"></i>Insira a foto do seu desenho MVT</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;height:100%;">
+                <div style="font-family:var(--fd);font-weight:700;font-size:.8rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem;">Componentes</div>
+                <div style="display:flex;flex-direction:column;gap:.75rem;">
+                    <div style="padding:.85rem 1rem;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);border-radius:10px;">
+                        <div style="font-family:var(--fd);font-weight:700;color:var(--pri-l);margin-bottom:.3rem;"><i class="fas fa-database me-2"></i>Model</div>
+                        <p style="color:var(--ts);font-size:.82rem;line-height:1.6;margin:0;">Define a estrutura dos dados em <code>models.py</code>. Cada classe corresponde a uma tabela SQL gerida pelo ORM do Django, que evita escrever SQL manualmente.</p>
+                    </div>
+                    <div style="padding:.85rem 1rem;background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.2);border-radius:10px;">
+                        <div style="font-family:var(--fd);font-weight:700;color:var(--acc);margin-bottom:.3rem;"><i class="fas fa-code me-2"></i>View</div>
+                        <p style="color:var(--ts);font-size:.82rem;line-height:1.6;margin:0;">Contém a lógica de negócio em <code>views.py</code>. Recebe pedidos HTTP, consulta os Models, e devolve uma resposta com o Template renderizado.</p>
+                    </div>
+                    <div style="padding:.85rem 1rem;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);border-radius:10px;">
+                        <div style="font-family:var(--fd);font-weight:700;color:var(--acc2);margin-bottom:.3rem;"><i class="fas fa-palette me-2"></i>Template</div>
+                        <p style="color:var(--ts);font-size:.82rem;line-height:1.6;margin:0;">Ficheiros HTML com a linguagem de template Django. Apresentam os dados ao utilizador usando <code>{% verbatim %}{{ variavel }}{% endverbatim %}</code> e tags como <code>{% verbatim %}{% for %}{% endverbatim %}.</code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fluxo -->
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;margin-bottom:1.5rem;">
+        <div style="font-family:var(--fd);font-weight:700;font-size:.8rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem;">Fluxo de Informação</div>
+        <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.4rem;font-size:.82rem;">
+            <span style="background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.3);border-radius:8px;padding:.35rem .8rem;color:var(--pri-l);font-weight:600;">Browser</span>
+            <i class="fas fa-arrow-right" style="color:var(--tm);font-size:.7rem;"></i>
+            <span style="background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:8px;padding:.35rem .8rem;color:var(--ts);">URLs</span>
+            <i class="fas fa-arrow-right" style="color:var(--tm);font-size:.7rem;"></i>
+            <span style="background:rgba(6,182,212,.15);border:1px solid rgba(6,182,212,.3);border-radius:8px;padding:.35rem .8rem;color:var(--acc);font-weight:600;">View</span>
+            <i class="fas fa-arrow-right" style="color:var(--tm);font-size:.7rem;"></i>
+            <span style="background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.3);border-radius:8px;padding:.35rem .8rem;color:var(--pri-l);font-weight:600;">Model</span>
+            <i class="fas fa-arrows-alt-h" style="color:var(--tm);font-size:.7rem;"></i>
+            <span style="background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:8px;padding:.35rem .8rem;color:var(--ts);">Base de Dados</span>
+            <i class="fas fa-arrow-right" style="color:var(--tm);font-size:.7rem;"></i>
+            <span style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);border-radius:8px;padding:.35rem .8rem;color:var(--acc2);font-weight:600;">Template</span>
+            <i class="fas fa-arrow-right" style="color:var(--tm);font-size:.7rem;"></i>
+            <span style="background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.3);border-radius:8px;padding:.35rem .8rem;color:var(--pri-l);font-weight:600;">Browser</span>
+        </div>
+    </div>
+    <!-- Vídeo -->
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;">
+        <div style="padding:1rem 1.5rem;border-bottom:1px solid var(--bd);">
+            <span style="font-family:var(--fd);font-weight:700;font-size:.8rem;color:var(--ts);text-transform:uppercase;letter-spacing:.1em;">
+                <i class="fas fa-video me-2" style="color:var(--acc);"></i>Vídeo Tutorial — Formulário de Novo Projeto
+            </span>
+        </div>
+        <!-- Substitua pelo iframe do seu vídeo -->
+        <div style="background:var(--sf2);height:360px;display:grid;place-items:center;color:var(--tm);text-align:center;">
+            <div>
+                <i class="fas fa-video" style="font-size:2rem;opacity:.3;display:block;margin-bottom:.75rem;"></i>
+                Substitua por: <code>&lt;iframe src="URL" width="100%" height="360" frameborder="0"&gt;&lt;/iframe&gt;</code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 2. MODELAÇÃO -->
+<div id="modelacao" class="reveal" style="margin-bottom:3rem;">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;">
+        <span style="width:40px;height:40px;border-radius:10px;background:rgba(6,182,212,.15);display:grid;place-items:center;">
+            <i class="fas fa-database" style="color:var(--acc);"></i>
+        </span>
+        <h2 style="font-size:1.4rem;margin:0;">2. Modelação</h2>
+    </div>
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;margin-bottom:1.5rem;">
+        <div style="font-family:var(--fd);font-weight:700;font-size:.8rem;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem;">Diagrama Entidade-Relação</div>
+        <img src="/media/diagrama.png" alt="Diagrama ER" style="width:100%;border-radius:12px;display:block;">
+    </div>
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;">
+        <div style="padding:1rem 1.5rem;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-family:var(--fd);font-weight:700;font-size:.8rem;color:var(--ts);text-transform:uppercase;letter-spacing:.1em;"><i class="fab fa-python me-2" style="color:var(--acc);"></i>models.py</span>
+            <span class="badge-tech" style="font-size:.7rem;">Django ORM</span>
+        </div>
+        <pre style="margin:0;padding:1.5rem;overflow-x:auto;font-size:.78rem;line-height:1.7;color:#a5f3fc;background:transparent;"><code>class Licenciatura(models.Model):
+    nome = models.CharField(max_length=200)
+    ano_inicio = models.IntegerField()
+    descricao = models.TextField(blank=True)
+
+class Docente(models.Model):
+    nome = models.CharField(max_length=200)
+    area_especializacao = models.CharField(max_length=200, blank=True)
+    foto = models.ImageField(upload_to="docentes/", blank=True, null=True)
+
+class UnidadeCurricular(models.Model):
+    nome = models.CharField(max_length=200)
+    semestre = models.IntegerField()
+    licenciatura = models.ForeignKey(Licenciatura, on_delete=models.CASCADE)
+    docentes = models.ManyToManyField(Docente, blank=True)
+
+class Tecnologia(models.Model):
+    nome = models.CharField(max_length=100)
+    descricao = models.TextField(blank=True)
+    logo = models.ImageField(upload_to="tecnologias/", blank=True, null=True)
+
+class Projeto(models.Model):
+    nome = models.CharField(max_length=200)
+    uc = models.ForeignKey(UnidadeCurricular, on_delete=models.CASCADE)
+    tecnologias = models.ManyToManyField(Tecnologia, blank=True)
+
+class MakingOf(models.Model):
+    entidade = models.CharField(max_length=30, choices=ENTIDADE_CHOICES)
+    data = models.DateField(auto_now_add=True)
+    descricao = models.TextField(blank=True)
+    erros = models.TextField(blank=True)
+    correcoes = models.TextField(blank=True)</code></pre>
+    </div>
+</div>
+
+<!-- 3. TECNOLOGIAS -->
+<div id="tecnologias" class="reveal" style="margin-bottom:3rem;">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;">
+        <span style="width:40px;height:40px;border-radius:10px;background:rgba(139,92,246,.15);display:grid;place-items:center;">
+            <i class="fas fa-microchip" style="color:var(--acc2);"></i>
+        </span>
+        <h2 style="font-size:1.4rem;margin:0;">3. Tecnologias Utilizadas</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.75rem;">
+        {% for t in tecnologias %}
+        <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.25rem;">
+            <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem;">
+                {% if t.logo %}
+                <img src="{{ t.logo.url }}" alt="{{ t.nome }}" style="width:24px;height:24px;object-fit:contain;">
+                {% else %}
+                <div style="width:24px;height:24px;border-radius:6px;background:rgba(37,99,235,.15);display:grid;place-items:center;">
+                    <i class="fas fa-code" style="color:var(--pri-l);font-size:.6rem;"></i>
+                </div>
+                {% endif %}
+                <span style="font-family:var(--fd);font-weight:700;color:var(--tp);font-size:.875rem;">{{ t.nome }}</span>
+                {% if t.tipo %}<span class="badge-tech" style="font-size:.65rem;margin-left:auto;">{{ t.tipo }}</span>{% endif %}
+            </div>
+            {% if t.descricao %}<p style="color:var(--ts);font-size:.8rem;line-height:1.6;margin:0;">{{ t.descricao }}</p>{% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- 4. ESTRUTURA -->
+<div id="estrutura" class="reveal" style="margin-bottom:3rem;">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;">
+        <span style="width:40px;height:40px;border-radius:10px;background:rgba(37,99,235,.15);display:grid;place-items:center;">
+            <i class="fas fa-map" style="color:var(--pri-l);"></i>
+        </span>
+        <h2 style="font-size:1.4rem;margin:0;">4. Estrutura de Navegação</h2>
+    </div>
+       <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:1.5rem;">
+    <div style="font-family:var(--fd);font-weight:700;font-size:1rem;color:var(--tp);margin-bottom:1.25rem;">Mapa da Aplicação</div>
+    <div style="display:flex;flex-direction:column;gap:.6rem;">
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/</code><span style="color:var(--ts);">Página inicial</span></div>
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/licenciaturas/</code><span style="color:var(--ts);">Lista de licenciaturas</span></div>
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/licenciaturas/id/</code><span style="color:var(--ts);">Detalhe da licenciatura</span></div>
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/docentes/</code><span style="color:var(--ts);">Lista de docentes</span></div>
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/docentes/id/</code><span style="color:var(--ts);">Detalhe do docente</span></div>
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/ucs/</code><span style="color:var(--ts);">Lista de unidades curriculares</span></div>
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/uc/id/</code><span style="color:var(--ts);">Detalhe da UC</span></div>
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/projetos/</code><span style="color:var(--ts);">Lista de projetos</span></div>
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/projetos/id/</code><span style="color:var(--ts);">Detalhe do projeto</span></div>
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/tecnologias/</code><span style="color:var(--ts);">Lista de tecnologias</span></div>
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/tfcs/</code><span style="color:var(--ts);">Lista de TFCs</span></div>
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/competencias/</code><span style="color:var(--ts);">Lista de competências</span></div>
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/formacoes/</code><span style="color:var(--ts);">Lista de formações</span></div>
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/sobre/</code><span style="color:var(--ts);">Sobre a aplicação</span></div>
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/makingof/</code><span style="color:var(--ts);">Making Of</span></div>
+        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem;"><code style="background:rgba(37,99,235,.15);color:var(--pri-l);border-radius:6px;padding:.2rem .6rem;font-size:.78rem;">portfolio/makingof/id/</code><span style="color:var(--ts);">Detalhe do Making Of</span></div>
+    </div>
+</div>
+</div>
+
+<!-- 5. GITHUB -->
+<div id="github" class="reveal" style="margin-bottom:3rem;">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;">
+        <span style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.06);display:grid;place-items:center;">
+            <i class="fab fa-github" style="color:var(--tp);"></i>
+        </span>
+        <h2 style="font-size:1.4rem;margin:0;">5. Repositório GitHub</h2>
+    </div>
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;">
+        <a href="https://github.com/Tomas-Cruz-Santos" target="_blank" rel="noopener" class="btn-primary-custom" style="margin-bottom:1.25rem;">
+            <i class="fab fa-github"></i>Ver Repositório no GitHub
+        </a>
+        <p style="color:var(--ts);font-size:.9rem;line-height:1.8;margin-top:1rem;">
+            O <strong style="color:var(--tp);">Git</strong> foi utilizado para controlo de versões ao longo do desenvolvimento, com commits regulares que documentam a evolução do código e permitem reverter para versões anteriores em caso de erro.
+        </p>
+        <p style="color:var(--ts);font-size:.9rem;line-height:1.8;margin-top:.75rem;">
+            O <strong style="color:var(--tp);">GitHub</strong> permitiu manter o código seguro na cloud, acessível a partir do GitHub CodeSpaces. As principais vantagens são: rastreabilidade completa de alterações, colaboração facilitada, e integração com ferramentas de desenvolvimento remoto.
+        </p>
+    </div>
+</div>
+
+<!-- 6. MAKING OF -->
+<div id="makingof" class="reveal" style="margin-bottom:2rem;">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;">
+        <span style="width:40px;height:40px;border-radius:10px;background:rgba(139,92,246,.15);display:grid;place-items:center;">
+            <i class="fas fa-film" style="color:var(--acc2);"></i>
+        </span>
+        <h2 style="font-size:1.4rem;margin:0;">6. Making Of</h2>
+    </div>
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;">
+        <p style="color:var(--ts);font-size:.9rem;line-height:1.8;margin-bottom:1.25rem;">
+            O Making Of documenta o processo de desenvolvimento desta aplicação — decisões tomadas, erros encontrados e correções aplicadas ao longo de cada semana de trabalho.
+        </p>
+        <a href="{% url 'makingof' %}" class="btn-primary-custom" style="font-size:.875rem;">
+            <i class="fas fa-arrow-right"></i>Ver Making Of Completo
+        </a>
+    </div>
+</div>
+
+{% endblock %}

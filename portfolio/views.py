@@ -246,3 +246,8 @@ def makingof_edit(request, makingof_id):
 @login_required
 def makingof_delete(request, makingof_id):
     return _crud_delete(request, get_object_or_404(MakingOf, id=makingof_id), 'makingof', 'Registo eliminado!')
+
+def sobre_view(request):
+    return render(request, 'portfolio/sobre.html', {
+        'tecnologias': Tecnologia.objects.all(),
+    })

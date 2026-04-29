@@ -75,4 +75,6 @@ urlpatterns = [
     path('makingof/criar/', views.makingof_create, name='makingof_create'),
     path('makingof/<int:makingof_id>/editar/', views.makingof_edit, name='makingof_edit'),
     path('makingof/<int:makingof_id>/eliminar/', views.makingof_delete, name='makingof_delete'),
+    path('sobre/', views.sobre_view, name='sobre'),
+
 ]
