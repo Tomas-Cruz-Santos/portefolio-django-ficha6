@@ -27,6 +27,15 @@ class TecnologiaForm(forms.ModelForm):
 
 
 class ProjetoForm(forms.ModelForm):
+    data_inicio = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'type': 'date'}),
+    )
+    data_fim = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'type': 'date'}),
+    )
+
     class Meta:
         model = Projeto
         fields = '__all__'
@@ -45,6 +54,15 @@ class CompetenciaForm(forms.ModelForm):
 
 
 class FormacaoForm(forms.ModelForm):
+    data_inicio = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'type': 'date'}),
+    )
+    data_fim = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'type': 'date'}),
+    )
+
     class Meta:
         model = Formacao
         fields = '__all__'
