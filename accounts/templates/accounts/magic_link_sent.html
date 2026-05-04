@@ -1,0 +1,23 @@
+{% extends "portfolio/base.html" %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div style="min-height:60vh;display:flex;align-items:center;justify-content:center;">
+    <div style="width:100%;max-width:480px;text-align:center;">
+        <div style="background:var(--sf);border:1px solid rgba(6,182,212,.3);border-radius:var(--rl);padding:2.5rem;">
+            <div style="width:56px;height:56px;background:rgba(6,182,212,.15);border-radius:14px;display:grid;place-items:center;margin:0 auto 1.5rem;">
+                <i class="fas fa-magic" style="color:var(--acc);font-size:1.4rem;"></i>
+            </div>
+            <h2 style="font-size:1.3rem;margin-bottom:.75rem;">Link mágico gerado!</h2>
+            <p style="color:var(--ts);font-size:.875rem;margin-bottom:1.5rem;">
+                Em produção este link seria enviado para <strong style="color:var(--tp);">{{ email }}</strong>.<br>
+                Em desenvolvimento clique diretamente no link abaixo:
+            </p>
+            <a href="{{ magic_url }}" class="btn-primary-custom" style="justify-content:center;width:100%;margin-bottom:1rem;">
+                <i class="fas fa-sign-in-alt"></i>Entrar com link mágico
+            </a>
+            <p style="color:var(--tm);font-size:.75rem;">Este link expira em 15 minutos.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

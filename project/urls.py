@@ -8,7 +8,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("escola/", include("escola.urls")),
     path("portfolio/", include("portfolio.urls")),
-    path("", lambda request: redirect('/portfolio/')),  # ← redireciona para a home
+    path("accounts/", include("accounts.urls")),
+    path("artigos/", include("artigos.urls")),
+    path("", lambda request: redirect('/portfolio/')),
 ]
 
 if settings.DEBUG:

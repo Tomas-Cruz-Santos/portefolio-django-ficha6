@@ -1,0 +1,68 @@
+{% extends "portfolio/base.html" %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div style="min-height:60vh;display:flex;align-items:center;justify-content:center;">
+    <div style="width:100%;max-width:420px;">
+        <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:2.5rem;">
+            <div style="text-align:center;margin-bottom:2rem;">
+                <div style="width:52px;height:52px;background:linear-gradient(135deg,var(--pri),var(--acc));border-radius:14px;display:grid;place-items:center;margin:0 auto 1rem;">
+                    <i class="fas fa-lock" style="color:#fff;font-size:1.2rem;"></i>
+                </div>
+                <h2 style="font-size:1.4rem;margin-bottom:.25rem;">Entrar</h2>
+                <p style="color:var(--ts);font-size:.875rem;">Acesso ao portfólio</p>
+            </div>
+
+            {% if messages %}
+            {% for message in messages %}
+            <div style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:.75rem 1rem;margin-bottom:1rem;color:#f87171;font-size:.875rem;">
+                <i class="fas fa-exclamation-circle me-2"></i>{{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <form method="post" style="display:flex;flex-direction:column;gap:1rem;">
+                {% csrf_token %}
+                <div>
+                    <label style="display:block;color:var(--ts);font-size:.8rem;font-weight:500;margin-bottom:.4rem;">Utilizador</label>
+                    <input type="text" name="username" required autofocus
+                           style="width:100%;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:.7rem 1rem;color:var(--tp);font-size:.9rem;outline:none;transition:border-color .2s;"
+                           onfocus="this.style.borderColor='var(--pri-l)'" onblur="this.style.borderColor='var(--bd)'">
+                </div>
+                <div>
+                    <label style="display:block;color:var(--ts);font-size:.8rem;font-weight:500;margin-bottom:.4rem;">Password</label>
+                    <input type="password" name="password" required
+                           style="width:100%;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:.7rem 1rem;color:var(--tp);font-size:.9rem;outline:none;transition:border-color .2s;"
+                           onfocus="this.style.borderColor='var(--pri-l)'" onblur="this.style.borderColor='var(--bd)'">
+                </div>
+                <button type="submit" name="login_submit" class="btn-primary-custom" style="width:100%;justify-content:center;margin-top:.25rem;">
+                    <i class="fas fa-sign-in-alt"></i>Entrar
+                </button>
+            </form>
+
+            <div style="display:flex;align-items:center;gap:1rem;margin:1.5rem 0;">
+                <div style="flex:1;height:1px;background:var(--bd);"></div>
+                <span style="color:var(--tm);font-size:.75rem;">ou</span>
+                <div style="flex:1;height:1px;background:var(--bd);"></div>
+            </div>
+
+            <form method="post" action="{% url 'magic_link_request' %}" style="display:flex;flex-direction:column;gap:.75rem;">
+                {% csrf_token %}
+                <div>
+                    <label style="display:block;color:var(--ts);font-size:.8rem;font-weight:500;margin-bottom:.4rem;">Entrar com link mágico</label>
+                    <input type="email" name="email" placeholder="o-seu@email.com" required
+                           style="width:100%;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:.7rem 1rem;color:var(--tp);font-size:.9rem;outline:none;transition:border-color .2s;"
+                           onfocus="this.style.borderColor='var(--acc)'" onblur="this.style.borderColor='var(--bd)'">
+                </div>
+                <button type="submit" class="btn-ghost" style="width:100%;justify-content:center;">
+                    <i class="fas fa-magic"></i>Enviar link mágico
+                </button>
+            </form>
+
+            <p style="text-align:center;margin-top:1.5rem;font-size:.8rem;color:var(--tm);">
+                Não tem conta? <a href="{% url 'register' %}" style="color:var(--pri-l);">Registar</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
