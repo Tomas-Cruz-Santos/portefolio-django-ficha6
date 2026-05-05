@@ -6,7 +6,7 @@
         <h2>Formações <span class="text-accent">Complementares</span></h2>
         <p>Certificados e cursos extracurriculares.</p>
     </div>
-    {% if user.is_authenticated %}
+   {% if is_gestor %}
     <a href="{% url 'formacao_create' %}" class="btn-primary-custom" style="font-size:.8rem;padding:.5rem 1rem;">
         <i class="fas fa-plus"></i>Nova Formação
     </a>
@@ -43,7 +43,7 @@
             <a href="{% url 'formacoes_detail' f.id %}" class="btn-ghost" style="font-size:.8rem;padding:.4rem .9rem;flex:1;justify-content:center;">
                 <i class="fas fa-eye"></i>Ver
             </a>
-            {% if user.is_authenticated %}
+           {% if is_gestor %}
             <a href="{% url 'formacao_edit' f.id %}" class="btn-ghost" style="font-size:.8rem;padding:.4rem .9rem;">
                 <i class="fas fa-pen"></i>
             </a>

@@ -26,7 +26,7 @@
         <span style="font-family:var(--fd);font-size:.85rem;color:var(--ts);">
             <i class="fas fa-microchip me-1" style="color:var(--pri-l);"></i>{{ tecnologias|length }} tecnologia{{ tecnologias|length|pluralize:"s" }}
         </span>
-        {% if user.is_authenticated %}
+        {% if is_gestor %}
         <a href="{% url 'tecnologia_create' %}" class="btn-primary-custom" style="font-size:.8rem;padding:.5rem 1rem;">
             <i class="fas fa-plus"></i>Nova Tecnologia
         </a>
@@ -55,7 +55,7 @@
             {% if t.tipo %}<div class="tec-tipo"><i class="fas fa-tag me-1"></i>{{ t.tipo }}</div>{% endif %}
             {% if t.categoria %}<span class="badge-tech" style="font-size:.68rem;">{{ t.categoria }}</span>{% endif %}
         </a>
-        {% if user.is_authenticated %}
+        {% if is_gestor %}
         <div style="position:absolute;top:.5rem;right:.5rem;display:flex;gap:.3rem;">
             <a href="{% url 'tecnologia_edit' t.id %}"
                style="width:28px;height:28px;background:rgba(37,99,235,.2);border:1px solid rgba(37,99,235,.3);border-radius:6px;display:grid;place-items:center;color:var(--pri-l);font-size:.7rem;text-decoration:none;"

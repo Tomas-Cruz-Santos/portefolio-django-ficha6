@@ -1,0 +1,42 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<div class="page-header reveal">
+    <div><h2>{{ action }} <span class="text-accent">Artigo</span></h2></div>
+    <a href="javascript:history.back()" class="btn-ghost"><i class="fas fa-arrow-left"></i>Voltar</a>
+</div>
+<div style="max-width:720px;">
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:2rem;">
+        <form method="post" enctype="multipart/form-data" style="display:flex;flex-direction:column;gap:1.25rem;">
+            {% csrf_token %}
+            {% for field in form %}
+            <div>
+                <label style="display:block;color:var(--ts);font-size:.8rem;font-weight:600;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em;">
+                    {{ field.label }}{% if field.field.required %} <span style="color:#f87171;">*</span>{% endif %}
+                </label>
+                {{ field }}
+                {% for error in field.errors %}
+                <p style="color:#f87171;font-size:.75rem;margin-top:.3rem;"><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <div style="display:flex;gap:.75rem;padding-top:1rem;border-top:1px solid var(--bd);">
+                <button type="submit" class="btn-primary-custom"><i class="fas fa-save"></i>Guardar</button>
+                <a href="javascript:history.back()" class="btn-ghost">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    input[type=text], input[type=url], textarea {
+        width:100%;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;
+        padding:.65rem 1rem;color:var(--tp);font-size:.9rem;font-family:var(--fb);outline:none;transition:border-color .2s;
+    }
+    input:focus, textarea:focus { border-color:var(--pri-l); }
+    textarea { resize:vertical;min-height:150px; }
+    input[type=file] { color:var(--ts);font-size:.85rem; }
+</style>
+{% endblock %}

@@ -97,7 +97,7 @@
                 <i class="fab fa-github"></i>Ver no GitHub
             </a>
             {% endif %}
-            {% if user.is_authenticated %}
+            {% if is_gestor %}
             <a href="{% url 'projeto_edit' projeto.id %}" class="btn-ghost" style="justify-content:center;">
                 <i class="fas fa-pen"></i>Editar
             </a>

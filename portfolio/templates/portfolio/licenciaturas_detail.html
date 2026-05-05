@@ -19,7 +19,7 @@
         {% if licenciatura.regime %}<p>{{ licenciatura.regime }}</p>{% endif %}
     </div>
     <div style="display:flex;gap:.5rem;">
-        {% if user.is_authenticated %}
+        {% if is_gestor %}
         <a href="{% url 'licenciatura_edit' licenciatura.id %}" class="btn-ghost">
             <i class="fas fa-pen"></i>Editar
         </a>

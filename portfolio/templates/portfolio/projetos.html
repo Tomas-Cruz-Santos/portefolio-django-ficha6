@@ -11,7 +11,7 @@
         <span style="font-family:var(--fd);font-size:.85rem;color:var(--ts);">
             <i class="fas fa-layer-group me-1" style="color:var(--pri-l);"></i>{{ projetos|length }} projeto{{ projetos|length|pluralize:"s" }}
         </span>
-        {% if user.is_authenticated %}
+        {% if is_gestor %}
         <a href="{% url 'projeto_create' %}" class="btn-primary-custom" style="font-size:.8rem;padding:.5rem 1rem;">
             <i class="fas fa-plus"></i>Novo Projeto
         </a>
@@ -63,7 +63,7 @@
                 </div>
             </div>
         </a>
-        {% if user.is_authenticated %}
+       {% if is_gestor %}
         <div style="position:absolute;top:.6rem;right:.6rem;display:flex;gap:.3rem;z-index:10;">
             <a href="{% url 'projeto_edit' p.id %}"
                style="width:28px;height:28px;background:rgba(37,99,235,.2);border:1px solid rgba(37,99,235,.3);border-radius:6px;display:grid;place-items:center;color:var(--pri-l);font-size:.7rem;text-decoration:none;"

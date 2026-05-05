@@ -1,0 +1,115 @@
+{% extends "portfolio/base.html" %}
+
+{% block breadcrumbs %}
+<div class="breadcrumb-bar">
+    <div class="container">
+        <nav class="breadcrumb">
+            <span class="breadcrumb-item"><a href="{% url 'artigos' %}">Artigos</a></span>
+            <span class="breadcrumb-item active">{{ artigo.titulo }}</span>
+        </nav>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;margin-bottom:1.5rem;">
+            {% if artigo.foto %}
+            <img src="{{ artigo.foto.url }}" alt="{{ artigo.titulo }}" style="width:100%;height:280px;object-fit:cover;">
+            {% endif %}
+            <div style="padding:2rem;">
+                <h2 style="font-size:1.6rem;margin-bottom:.75rem;">{{ artigo.titulo }}</h2>
+                <div style="display:flex;align-items:center;gap:1rem;font-size:.8rem;color:var(--ts);margin-bottom:1.5rem;">
+                    <span><i class="fas fa-user me-1" style="color:var(--pri-l);"></i>{{ artigo.autor.username }}</span>
+                    <span><i class="fas fa-calendar me-1" style="color:var(--pri-l);"></i>{{ artigo.data_criacao|date:"d/m/Y" }}</span>
+                    {% if artigo.link_externo %}
+                    <a href="{{ artigo.link_externo }}" target="_blank" style="color:var(--acc);"><i class="fas fa-external-link-alt me-1"></i>Link externo</a>
+                    {% endif %}
+                </div>
+                <div style="color:var(--ts);font-size:.925rem;line-height:1.9;">{{ artigo.texto|linebreaks }}</div>
+            </div>
+        </div>
+
+        <!-- Like -->
+        <div style="margin-bottom:1.5rem;">
+            {% if user.is_authenticated %}
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="like_submit"
+                        style="background:{% if user in artigo.likes.all %}rgba(239,68,68,.2){% else %}rgba(255,255,255,.05){% endif %};border:1px solid {% if user in artigo.likes.all %}rgba(239,68,68,.4){% else %}var(--bd){% endif %};border-radius:10px;padding:.6rem 1.25rem;color:{% if user in artigo.likes.all %}#f87171{% else %}var(--ts){% endif %};cursor:pointer;font-size:.875rem;display:inline-flex;align-items:center;gap:.5rem;">
+                    <i class="fas fa-heart"></i>{{ artigo.likes.count }} gosto{{ artigo.likes.count|pluralize:"s" }}
+                </button>
+            </form>
+            {% else %}
+            <span style="font-size:.875rem;color:var(--ts);"><i class="fas fa-heart me-1" style="color:#f87171;"></i>{{ artigo.likes.count }} gosto{{ artigo.likes.count|pluralize:"s" }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Comentários -->
+        <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;">
+            <div style="font-family:var(--fd);font-weight:700;font-size:1rem;margin-bottom:1.25rem;">
+                <i class="fas fa-comments me-2" style="color:var(--acc);"></i>Comentários ({{ comentarios.count }})
+            </div>
+            {% for c in comentarios %}
+            <div style="padding:.85rem 1rem;background:var(--sf2);border-radius:10px;margin-bottom:.75rem;">
+                <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem;font-size:.8rem;">
+                    <span style="font-weight:600;color:var(--pri-l);">{{ c.autor.username }}</span>
+                    <span style="color:var(--tm);">· {{ c.data|date:"d/m/Y H:i" }}</span>
+                </div>
+                <p style="color:var(--ts);font-size:.875rem;margin:0;line-height:1.6;">{{ c.texto }}</p>
+            </div>
+            {% empty %}
+            <p style="color:var(--tm);font-size:.875rem;">Seja o primeiro a comentar.</p>
+            {% endfor %}
+
+            {% if user.is_authenticated %}
+            <form method="post" style="margin-top:1rem;">
+                {% csrf_token %}
+                {{ form.texto }}
+                <button type="submit" name="comentario_submit" class="btn-primary-custom" style="margin-top:.75rem;font-size:.85rem;">
+                    <i class="fas fa-paper-plane"></i>Comentar
+                </button>
+            </form>
+            {% else %}
+            <p style="color:var(--tm);font-size:.85rem;margin-top:1rem;">
+                <a href="{% url 'login' %}" style="color:var(--pri-l);">Inicie sessão</a> para comentar.
+            </p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;margin-bottom:1rem;">
+            <div style="font-family:var(--fd);font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--tm);margin-bottom:1rem;">Autor</div>
+            <div style="display:flex;align-items:center;gap:.75rem;">
+                <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--pri),var(--acc));display:grid;place-items:center;font-family:var(--fd);font-weight:800;color:#fff;">
+                    {{ artigo.autor.username|first|upper }}
+                </div>
+                <span style="font-weight:600;color:var(--tp);">{{ artigo.autor.username }}</span>
+            </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;">
+            {% if user == artigo.autor %}
+            <a href="{% url 'artigo_edit' artigo.id %}" class="btn-ghost" style="justify-content:center;">
+                <i class="fas fa-pen"></i>Editar artigo
+            </a>
+            <a href="{% url 'artigo_delete' artigo.id %}"
+               style="display:inline-flex;align-items:center;justify-content:center;gap:.45rem;background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:.6rem 1.2rem;font-size:.875rem;text-decoration:none;">
+                <i class="fas fa-trash"></i>Eliminar artigo
+            </a>
+            {% endif %}
+            <a href="{% url 'artigos' %}" class="btn-ghost" style="justify-content:center;">
+                <i class="fas fa-arrow-left"></i>Voltar
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    textarea { width:100%;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:.7rem 1rem;color:var(--tp);font-size:.875rem;font-family:var(--fb);outline:none;resize:vertical; }
+    textarea:focus { border-color:var(--pri-l); }
+</style>
+{% endblock %}

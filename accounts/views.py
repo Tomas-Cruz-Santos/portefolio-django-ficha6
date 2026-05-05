@@ -43,6 +43,7 @@ def magic_link_request(request):
             token = secrets.token_urlsafe(32)
             MagicLinkToken.objects.create(user=user, token=token)
             magic_url = request.build_absolute_uri(f'/accounts/magic/{token}/')
+            print(f'\n🔗 MAGIC LINK: {magic_url}\n')  # aparece no terminal
             return render(request, 'accounts/magic_link_sent.html', {'magic_url': magic_url, 'email': email})
         except User.DoesNotExist:
             messages.error(request, 'Email não encontrado.')

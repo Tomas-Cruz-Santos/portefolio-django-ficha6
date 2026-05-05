@@ -1,0 +1,24 @@
+{% extends "portfolio/base.html" %}
+{% block content %}
+<div style="min-height:50vh;display:flex;align-items:center;justify-content:center;">
+    <div style="max-width:460px;width:100%;text-align:center;">
+        <div style="background:var(--sf);border:1px solid rgba(239,68,68,.3);border-radius:var(--rl);padding:2.5rem;">
+            <div style="width:56px;height:56px;background:rgba(239,68,68,.12);border-radius:14px;display:grid;place-items:center;margin:0 auto 1.5rem;">
+                <i class="fas fa-trash-alt" style="color:#f87171;font-size:1.4rem;"></i>
+            </div>
+            <h2 style="font-size:1.3rem;margin-bottom:.75rem;">Eliminar artigo</h2>
+            <p style="color:var(--ts);font-size:.9rem;margin-bottom:2rem;">
+                Tem a certeza que quer eliminar <strong style="color:var(--tp);">{{ obj.titulo }}</strong>?<br>
+                <span style="color:#f87171;font-size:.8rem;">Esta ação não pode ser revertida.</span>
+            </p>
+            <form method="post" style="display:flex;gap:.75rem;justify-content:center;">
+                {% csrf_token %}
+                <button type="submit" style="background:linear-gradient(135deg,#ef4444,#f87171);color:#fff;border:none;border-radius:10px;padding:.65rem 1.4rem;font-weight:600;font-size:.875rem;cursor:pointer;display:inline-flex;align-items:center;gap:.45rem;">
+                    <i class="fas fa-trash-alt"></i>Eliminar
+                </button>
+                <a href="javascript:history.back()" class="btn-ghost">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

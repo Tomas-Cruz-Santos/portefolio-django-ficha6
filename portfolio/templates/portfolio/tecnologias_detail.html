@@ -17,7 +17,7 @@
         <h2>{{ tecnologia.nome }}</h2>
         {% if tecnologia.tipo %}<p>{{ tecnologia.tipo }}{% if tecnologia.categoria %} · {{ tecnologia.categoria }}{% endif %}</p>{% endif %}
     </div>
-    {% if user.is_authenticated %}
+    {% if is_gestor %}
     <div style="display:flex;gap:.5rem;">
         <a href="{% url 'tecnologia_edit' tecnologia.id %}" class="btn-ghost"><i class="fas fa-pen"></i>Editar</a>
         <a href="{% url 'tecnologia_delete' tecnologia.id %}"

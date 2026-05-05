@@ -18,7 +18,7 @@
         {% if competencia.tipo %}<p>{{ competencia.tipo }}</p>{% endif %}
     </div>
     <div style="display:flex;gap:.5rem;">
-        {% if user.is_authenticated %}
+       {% if is_gestor %}
         <a href="{% url 'competencia_edit' competencia.id %}" class="btn-ghost">
             <i class="fas fa-pen"></i>Editar
         </a>
