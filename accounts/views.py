@@ -55,7 +55,9 @@ def magic_link_verify(request, token):
         t = MagicLinkToken.objects.get(token=token, used=False, created_at__gte=expiry)
         t.used = True
         t.save()
-        login(request, t.user)
+        user = t.user
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
+        login(request, user)
         return redirect('home')
     except MagicLinkToken.DoesNotExist:
         messages.error(request, 'Link inválido ou expirado.')

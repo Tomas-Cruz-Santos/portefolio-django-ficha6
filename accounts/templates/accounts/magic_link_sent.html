@@ -11,17 +11,10 @@
             <h2 style="font-size:1.3rem;margin-bottom:.75rem;">Link mágico gerado!</h2>
             <p style="color:var(--ts);font-size:.875rem;margin-bottom:1.5rem;">
                 Em produção este link seria enviado para <strong style="color:var(--tp);">{{ email }}</strong>.<br>
-                Em desenvolvimento clique diretamente no link abaixo:
+                Aceda ao link no terminal:
             </p>
-            <a href="{{ magic_url }}" class="btn-primary-custom" style="justify-content:center;width:100%;margin-bottom:1rem;">
-                <i class="fas fa-sign-in-alt"></i>Entrar com link mágico
-            </a>
             <p style="color:var(--tm);font-size:.75rem;">Este link expira em 15 minutos.</p>
         </div>
-        <div style="margin-top:1rem;padding:.75rem;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;text-align:left;">
-    <p style="font-size:.7rem;color:var(--tm);margin-bottom:.3rem;">URL gerado (apenas visível em desenvolvimento):</p>
-    <p style="font-size:.72rem;color:var(--pri-l);word-break:break-all;font-family:'Courier New',monospace;">{{ magic_url }}</p>
-</div>
     </div>
 </div>
 {% endblock %}
