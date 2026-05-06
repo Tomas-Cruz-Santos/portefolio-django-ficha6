@@ -63,9 +63,6 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="{% url 'artigos' %}"><i class="fas fa-newspaper"></i>Artigos</a></li>
-                        {% if is_autor %}
-                        <li><a class="dropdown-item" href="{% url 'artigo_create' %}"><i class="fas fa-plus"></i>Novo Artigo</a></li>
-                        {% endif %}
                         {% if is_gestor %}
                         <li><a class="dropdown-item" href="/admin/"><i class="fas fa-cog"></i>Admin</a></li>
                         {% endif %}
