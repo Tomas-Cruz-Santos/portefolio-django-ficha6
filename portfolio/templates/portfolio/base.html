@@ -8,8 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-    </style>
     <link rel="stylesheet" href="{% static 'portfolio/styles.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
@@ -29,33 +27,35 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+
+                <!-- Navegação principal -->
                 <li class="nav-item"><a class="nav-link {% block nav_licenciaturas %}{% endblock %}" href="{% url 'licenciaturas' %}"><i class="fas fa-university me-1 fa-xs opacity-50"></i>Licenciaturas</a></li>
                 <li class="nav-item"><a class="nav-link {% block nav_docentes %}{% endblock %}" href="{% url 'docentes' %}"><i class="fas fa-chalkboard-teacher me-1 fa-xs opacity-50"></i>Docentes</a></li>
                 <li class="nav-item"><a class="nav-link {% block nav_ucs %}{% endblock %}" href="{% url 'ucs' %}"><i class="fas fa-book-open me-1 fa-xs opacity-50"></i>Unidades Curriculares</a></li>
                 <li class="nav-item"><a class="nav-link {% block nav_projetos %}{% endblock %}" href="{% url 'projetos' %}"><i class="fas fa-code-branch me-1 fa-xs opacity-50"></i>Projetos</a></li>
+                <li class="nav-item"><a class="nav-link {% block nav_tfcs %}{% endblock %}" href="{% url 'tfcs' %}"><i class="fas fa-file-alt me-1 fa-xs opacity-50"></i>TFCs</a></li>
+
+                <!-- Dropdown Mais -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-ellipsis-h me-1 fa-xs opacity-50"></i>Mais
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                       <li><a class="dropdown-item" href="{% url 'tfcs' %}"><i class="fas fa-file-alt"></i>TFCs</a></li>
-                       <li><a class="dropdown-item" href="{% url 'makingof' %}"><i class="fas fa-film"></i>Making Of</a></li>
-                       <li><hr class="dropdown-divider"></li>
-                       <li><a class="dropdown-item" href="{% url 'formacoes' %}"><i class="fas fa-certificate"></i>Formações</a></li>
-                       <li><a class="dropdown-item" href="{% url 'competencias' %}"><i class="fas fa-star"></i>Competências</a></li>
-                       <li><a class="dropdown-item" href="{% url 'tecnologias' %}"><i class="fas fa-microchip"></i>Tecnologias</a></li>
-                       <li><a class="dropdown-item" href="{% url 'sobre' %}"><i class="fas fa-info-circle"></i>Sobre a App</a></li>
+                        <li><a class="dropdown-item" href="{% url 'makingof' %}"><i class="fas fa-film"></i>Making Of</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'formacoes' %}"><i class="fas fa-certificate"></i>Formações</a></li>
+                        <li><a class="dropdown-item" href="{% url 'competencias' %}"><i class="fas fa-star"></i>Competências</a></li>
+                        <li><a class="dropdown-item" href="{% url 'tecnologias' %}"><i class="fas fa-microchip"></i>Tecnologias</a></li>
+                        <li><a class="dropdown-item" href="{% url 'sobre' %}"><i class="fas fa-info-circle"></i>Sobre a App</a></li>
                     </ul>
                 </li>
-                <li class="nav-item d-none d-lg-block"><span style="width:1px;height:20px;background:var(--bd);display:block;margin:0 .5rem;"></span></li>
-                <li class="nav-item">
-                    <button id="search-trigger" class="btn-ghost" style="border-radius:10px;padding:.4rem .85rem;">
-                        <i class="fas fa-search fa-xs"></i>
-                        <span class="d-none d-xl-inline" style="font-size:.8rem;color:var(--tm);margin-left:.5rem;">Pesquisar...</span>
-                        <kbd class="d-none d-xl-inline" style="font-size:.65rem;background:var(--sf2);color:var(--tm);border:1px solid var(--bd);border-radius:4px;padding:1px 5px;margin-left:.4rem;">⌘K</kbd>
-                    </button>
+
+                <!-- Separador -->
+                <li class="nav-item d-none d-lg-block">
+                    <span style="width:1px;height:20px;background:var(--bd);display:block;margin:0 .5rem;"></span>
                 </li>
-                <li class="nav-item d-none d-lg-block"><span style="width:1px;height:20px;background:var(--bd);display:block;margin:0 .5rem;"></span></li>
+
+                <!-- Utilizador -->
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
@@ -65,6 +65,9 @@
                         <li><a class="dropdown-item" href="{% url 'artigos' %}"><i class="fas fa-newspaper"></i>Artigos</a></li>
                         {% if is_autor %}
                         <li><a class="dropdown-item" href="{% url 'artigo_create' %}"><i class="fas fa-plus"></i>Novo Artigo</a></li>
+                        {% endif %}
+                        {% if is_gestor %}
+                        <li><a class="dropdown-item" href="/admin/"><i class="fas fa-cog"></i>Admin</a></li>
                         {% endif %}
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i>Sair</a></li>
@@ -77,6 +80,7 @@
                     </a>
                 </li>
                 {% endif %}
+
             </ul>
         </div>
     </div>
@@ -179,7 +183,6 @@
     document.querySelectorAll('.toast-msg').forEach((t,i)=>setTimeout(()=>{ t.style.transition='opacity .4s ease,transform .4s ease'; t.style.opacity='0'; t.style.transform='translateX(30px)'; setTimeout(()=>t.remove(),400); },4000+i*400));
     const obs=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} }),{threshold:.12});
     document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-    document.addEventListener('keydown',e=>{ if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();document.getElementById('search-trigger')?.click();} });
     const path=window.location.pathname;
     document.querySelectorAll('.nav-link:not(.dropdown-toggle)').forEach(l=>{ if(l.getAttribute('href')===path) l.classList.add('active'); });
     document.querySelectorAll('main ul li a').forEach(l=>{ if(!l.dataset.initial) l.dataset.initial=l.textContent.trim().charAt(0).toUpperCase(); });

@@ -67,20 +67,15 @@ def magic_link_request(request):
                 user=user,
                 token=str(uuid.uuid4()),
             )
-            link = request.build_absolute_uri(f'/accounts/magic-link/verify/{token.token}/')
-
-            if settings.DEBUG:
-                print(f'\n{"=" * 60}\nMAGIC LINK:\n{link}\n{"=" * 60}\n', flush=True, file=sys.stderr)
-                messages.success(request, 'Link gerado! Copia o URL da consola do servidor.')
-            else:
-                from django.core.mail import EmailMessage
-                EmailMessage(
-                    subject='O teu link de acesso',
-                    body=f'Clica aqui para entrar:\n\n{link}\n\nExpira em 15 minutos.',
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    to=[email],
-                ).send()
-                messages.success(request, 'Link enviado! Verifica o teu email.')
+           
+            magic_url = f'/accounts/magic/{token.token}/'
+            print(f'\n{"="*60}\nMAGIC LINK: {magic_url}\n{"="*60}\n', flush=True, file=sys.stderr)
+            
+            # Mostra a página com o link clicável
+            return render(request, 'accounts/magic_link_sent.html', {
+                'magic_url': magic_url,
+                'email': email,
+            })
 
     return redirect('login')
 
@@ -102,8 +97,5 @@ def magic_link_verify(request, token):
 
     magic.used = True
     magic.save()
-
-    user = magic.user
-    user.backend = 'django.contrib.auth.backends.ModelBackend'
-    login(request, user)
-    return redirect('artigos')
+    login(request, magic.user, backend='django.contrib.auth.backends.ModelBackend')
+    return redirect('home')  # ← muda para home
