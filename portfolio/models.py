@@ -1,8 +1,8 @@
 from django.db import models
 
 class Licenciatura(models.Model):
-    nome = models.CharField(max_length=200)
-    regime = models.CharField(max_length=100, blank=True)
+    nome = models.TextField(max_length=200)
+    regime = models.TextField(max_length=100, blank=True)
     ano_inicio = models.IntegerField()
     ano_fim = models.IntegerField(null=True, blank=True)
     ects = models.IntegerField(null=True, blank=True)
@@ -16,8 +16,8 @@ class Licenciatura(models.Model):
 
 
 class Docente(models.Model):
-    nome = models.CharField(max_length=200)
-    area_especializacao = models.CharField(max_length=200, blank=True)
+    nome = models.TextField(max_length=200)
+    area_especializacao = models.TextField(max_length=200, blank=True)
     linkedin = models.URLField(blank=True)
     foto = models.ImageField(upload_to="docentes/", blank=True, null=True)
 
@@ -30,7 +30,7 @@ class Docente(models.Model):
 
 
 class UnidadeCurricular(models.Model):
-    nome = models.CharField(max_length=200)
+    nome = models.TextField(max_length=200)
     apresentacao = models.TextField(blank=True)
     semestre = models.IntegerField()
     ano_curricular = models.IntegerField()
@@ -50,7 +50,7 @@ class UnidadeCurricular(models.Model):
     programa = models.TextField(blank=True)
     metodologia = models.TextField(blank=True)
     bibliografia = models.TextField(blank=True)
-    natureza = models.CharField(max_length=50, blank=True)
+    natureza = models.TextField(max_length=50, blank=True)
 
     def __str__(self):  
         return self.nome
@@ -60,9 +60,9 @@ class UnidadeCurricular(models.Model):
         ordering = ["ano_curricular", "semestre", "nome"]
 
 class Tecnologia(models.Model):
-    nome = models.CharField(max_length=100)
-    tipo = models.CharField(max_length=100, blank=True)
-    categoria = models.CharField(max_length=100, blank=True)
+    nome = models.TextField(max_length=100)
+    tipo = models.TextField(max_length=100, blank=True)
+    categoria = models.TextField(max_length=100, blank=True)
     logo = models.ImageField(upload_to="tecnologias/", blank=True, null=True)
     url = models.URLField(blank=True)
     preferencia = models.IntegerField(null=True, blank=True)  
@@ -75,7 +75,7 @@ class Tecnologia(models.Model):
 
 
 class Projeto(models.Model):
-    nome = models.CharField(max_length=200)
+    nome = models.TextField(max_length=200)
     data_inicio = models.DateField(null=True, blank=True)
     data_fim = models.DateField(null=True, blank=True)
     link_github = models.URLField(blank=True)
@@ -99,10 +99,10 @@ class Projeto(models.Model):
 
 
 class Competencia(models.Model):
-    nome = models.CharField(max_length=100)
+    nome = models.TextField(max_length=100)
     nivel = models.IntegerField()
     descricao = models.TextField(blank=True)
-    tipo = models.CharField(max_length=50, blank=True)
+    tipo = models.TextField(max_length=50, blank=True)
 
     tecnologias = models.ManyToManyField(
         Tecnologia, blank=True, related_name="competencias"
@@ -116,10 +116,10 @@ class Competencia(models.Model):
 
 
 class Formacao(models.Model):
-    nome = models.CharField(max_length=200)
+    nome = models.TextField(max_length=200)
     certificado = models.FileField(upload_to="certificados/", blank=True, null=True)
     carga_horaria = models.IntegerField(null=True, blank=True)
-    instituicao = models.CharField(max_length=200, blank=True)
+    instituicao = models.TextField(max_length=200, blank=True)
     data_inicio = models.DateField(null=True, blank=True)
     data_fim = models.DateField(null=True, blank=True)
 
@@ -143,15 +143,15 @@ class TFC(models.Model):
         (5, "Perfeito"),
     ]
 
-    titulo = models.CharField(max_length=300)
-    autor = models.CharField(max_length=200, blank=True)
-    curso = models.CharField(max_length=200, blank=True)
+    titulo = models.TextField(max_length=300)
+    autor = models.TextField(max_length=200, blank=True)
+    curso = models.TextField(max_length=200, blank=True)
     resumo = models.TextField(blank=True)
     rating = models.IntegerField(choices=CLASSIFICACAO_CHOICES, null=True, blank=True)
     orientador =  models.ManyToManyField(Docente, blank=True)
     email = models.EmailField(blank=True)
-    palavras_chave = models.CharField(max_length=300, null=True, blank=True)
-    areas = models.CharField(max_length=300, null=True, blank=True)
+    palavras_chave = models.TextField(max_length=300, null=True, blank=True)
+    areas = models.TextField(max_length=300, null=True, blank=True)
     imagem = models.ImageField(upload_to="tfcs/", blank=True, null=True)
 
     tecnologias = models.ManyToManyField(
@@ -183,7 +183,7 @@ class MakingOf(models.Model):
         ("formacao", "Formação"),
     ]
 
-    entidade = models.CharField(max_length=30, choices=ENTIDADE_CHOICES)
+    entidade = models.TextField(max_length=30, choices=ENTIDADE_CHOICES)
     data = models.DateField(auto_now_add=True)
     descricao = models.TextField(blank=True)
     erros = models.TextField(blank=True)
