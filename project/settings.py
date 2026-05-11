@@ -10,18 +10,18 @@ DEBUG = True
 ALLOWED_HOSTS = ['fuzzy-winner-x5xwjg9wx6pj266j4-8000.app.github.dev', 'localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
+   "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "cloudinary_storage",     
     "django.contrib.staticfiles",
+    "cloudinary",              
     "portfolio",
     "escola",
     "accounts",
     "artigos",
-    'cloudinary',
-    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -31,7 +31,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware", 
 ]
 
 ROOT_URLCONF = "project.urls"
